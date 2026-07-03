@@ -266,38 +266,6 @@ section{padding:96px 6vw}
 }
 .aic-bottom-card:hover{background:var(--black3)}
 
-/* ─── APPLY (FOR STARTUPS) ──────────────────────────────── */
-#apply{background:#fff;scroll-margin-top:68px}
-.apply-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
-.apply-card{
-  display:flex;flex-direction:column;
-  border:1px solid var(--gray2);border-radius:16px;
-  padding:34px 30px;background:#fff;
-  transition:border-color .25s,box-shadow .25s,transform .25s;
-}
-.apply-card:hover{border-color:var(--black);box-shadow:0 10px 30px rgba(0,0,0,.08);transform:translateY(-3px)}
-.apply-stage{
-  display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
-  font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
-  color:var(--gray5);margin-bottom:18px;
-}
-.apply-stage .num{
-  display:inline-flex;align-items:center;justify-content:center;
-  width:24px;height:24px;border-radius:50%;
-  background:var(--black);color:#fff;font-size:11px;font-weight:800;letter-spacing:0;
-}
-.apply-card h3{font-size:18px;font-weight:800;color:var(--black);line-height:1.25;margin-bottom:12px}
-.apply-card p{font-size:14px;color:var(--gray5);line-height:1.7;margin-bottom:26px}
-.apply-btn{
-  margin-top:auto;align-self:flex-start;
-  background:var(--black);color:#fff;
-  padding:12px 24px;border-radius:7px;
-  font-size:13px;font-weight:700;letter-spacing:.2px;
-  display:inline-flex;align-items:center;gap:8px;
-  transition:transform .2s,background .2s;
-}
-.apply-btn:hover{background:var(--gray6);transform:translateY(-2px)}
-
 /* ─── MENTORS ───────────────────────────────────────────── */
 #mentors{background:var(--black)}
 .mentors-header{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:56px}
@@ -480,7 +448,7 @@ section{padding:96px 6vw}
   display:flex;align-items:center;justify-content:center;
   font-size:22px;font-weight:800;color:var(--black);letter-spacing:.5px;
 }
-.fablab-logo span{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.fablab-logo .fablab-initials{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:0;pointer-events:none}
 .fablab-logo img{position:relative;z-index:1;width:100%;height:100%;object-fit:contain;padding:8px;background:#fff;display:block}
 .fablab-name{font-size:22px;font-weight:800;color:#fff;letter-spacing:-.5px;margin-bottom:4px}
 .fablab-tagline{font-size:13px;font-style:italic;color:rgba(255,255,255,.55);margin-bottom:7px}
@@ -570,7 +538,6 @@ footer{background:#000;padding:60px 6vw 28px}
   .tig-grid,.loc-grid{grid-template-columns:1fr;gap:36px}
   .loc-map{height:300px}
   .aic-grid{grid-template-columns:1fr}
-  .apply-grid{grid-template-columns:1fr}
   .aic-bottom{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
   .tig-facts{grid-template-columns:1fr 1fr}
@@ -626,6 +593,7 @@ footer{background:#000;padding:60px 6vw 28px}
     <a href="#aic">About AIC</a>
     <a href="#location">Location</a>
     <a href="#mentors">Ecosystem Enablers</a>
+    <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
     <a href="#careers">Careers</a>
     <a href="#partners">Partners</a>
   </div>
@@ -657,7 +625,7 @@ footer{background:#000;padding:60px 6vw 28px}
     </p>
 
     <div class="hero-btns">
-      <a href="#apply" class="hero-btn primary">For Startups</a>
+      <a href="https://forms.gle/RvQRoidpwkkXRLcn7" target="_blank" rel="noopener" class="hero-btn primary">For Startups</a>
       <a href="#careers" class="hero-btn ghost">We're Hiring</a>
     </div>
   </div>
@@ -773,36 +741,6 @@ footer{background:#000;padding:60px 6vw 28px}
   </div>
 </section>
 
-<!-- ── APPLY / FOR STARTUPS ─────────────────────────────────── -->
-<section id="apply">
-  <div class="sec-tag dark rev">For Startups</div>
-  <h2 class="sec-h dark-text rev">Apply to AIC Techno</h2>
-  <p class="sec-p dark-text rev">Whatever stage you're at, there's a way in. Choose the track that fits where your startup is today — and apply through the form for that stage.</p>
-
-  <div class="apply-grid">
-    <div class="apply-card rev">
-      <div class="apply-stage"><span class="num">1</span> Pre-Incubation</div>
-      <h3>Idea / Pre-Incubation Stage</h3>
-      <p>For students or founders with an idea, looking to validate it, form a team, or build the first prototype.</p>
-      <a href="https://forms.gle/pVnKUPgfkyxPjhpTA" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
-    </div>
-
-    <div class="apply-card rev" style="transition-delay:.08s">
-      <div class="apply-stage"><span class="num">2</span> Incubation</div>
-      <h3>Prototype / Incubation Stage</h3>
-      <p>For startups with a working prototype, looking for mentoring, product development, first customers, and seed readiness.</p>
-      <a href="https://forms.gle/GERw6k6WYNAMcdZ87" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
-    </div>
-
-    <div class="apply-card rev" style="transition-delay:.16s">
-      <div class="apply-stage"><span class="num">3</span> Scale-Up</div>
-      <h3>Growth / Scale-Up Stage</h3>
-      <p>For startups ready to expand, raise funds, build partnerships, enter new markets, or scale operations.</p>
-      <a href="https://forms.gle/GxNbFg71CtuiNA9p7" target="_blank" rel="noopener" class="apply-btn">Apply Now</a>
-    </div>
-  </div>
-</section>
-
 <!-- ── MENTORS ───────────────────────────────────────────────── -->
 <section id="mentors">
   <div class="mentors-header">
@@ -860,6 +798,26 @@ footer{background:#000;padding:60px 6vw 28px}
       <div class="mentor-role">Vertical Head, Emerging Technology</div>
       <p class="mentor-bio">Technologist and serial entrepreneur — a "specialist generalist" and startup mentor helping founders turn ideas into scalable technology ventures.</p>
       <a class="mentor-linkedin" href="https://www.linkedin.com/in/skanndtyagi/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar"><span class="mentor-initials">DC</span><img src="assets/dickie-currer-ganguli.jpeg" alt="Dickie Currer-Ganguli" loading="lazy" onerror="this.remove()"></div>
+      <div class="mentor-name">Dickie Currer-Ganguli</div>
+      <div class="mentor-role">Lead, Global Partnerships</div>
+      <p class="mentor-bio">Co-Founder of APAC Innovation Hub and Hype Man Media — Mentor, Investor and Board Advisor with a global keynote presence. Specialist in building and connecting startup ecosystems across international markets.</p>
+      <a class="mentor-linkedin" href="https://www.linkedin.com/in/dickiecurrer" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
+        LinkedIn
+      </a>
+    </div>
+    <div class="mentor-card">
+      <div class="mentor-avatar"><span class="mentor-initials">PC</span><img src="assets/puja-currer-ganguli.jpeg" alt="Puja Currer-Ganguli" loading="lazy" onerror="this.remove()"></div>
+      <div class="mentor-name">Puja Currer-Ganguli</div>
+      <div class="mentor-role">Lead, Innovation Programs</div>
+      <p class="mentor-bio">Co-Founder of APAC Innovation Hub and Hype Man Media — sustainability and innovation strategist working across global markets. Specialist in designing and delivering high-impact innovation programs.</p>
+      <a class="mentor-linkedin" href="https://www.linkedin.com/in/puja-currer-ganguli" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
         LinkedIn
       </a>
@@ -1109,7 +1067,7 @@ footer{background:#000;padding:60px 6vw 28px}
   <div class="partners-section-label rev">Fab Lab Partner</div>
   <div class="fablab-feature rev">
     <div class="fablab-head">
-      <div class="fablab-logo"><span>RC</span><img src="assets/recraft-logo.png" alt="Re-Craft Atelier Foundation logo" loading="lazy" onerror="this.remove()"></div>
+      <div class="fablab-logo"><span class="fablab-initials">RC</span><img src="assets/recraft-logo.png" alt="Re-Craft Atelier Foundation logo" loading="lazy" onerror="this.remove()"></div>
       <div>
         <div class="fablab-name">Re-Craft Atelier Foundation</div>
         <div class="fablab-tagline">"Where hands learn, hearts belong and communities thrive."</div>
@@ -1137,7 +1095,6 @@ footer{background:#000;padding:60px 6vw 28px}
     </div>
     <div class="fablab-contact-row">
       <a class="fablab-contact" href="mailto:director@recraftatelier.org">✉ director@recraftatelier.org</a>
-      <a class="fablab-contact" href="tel:+919748829836">☎ +91 97488 29836</a>
     </div>
   </div>
 
@@ -1158,7 +1115,7 @@ footer{background:#000;padding:60px 6vw 28px}
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-brand-name">
-        <img src="assets/footerlogo.png" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre" style="height:64px;width:auto;object-fit:contain">
+        <img src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre" style="height:64px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:6px">
       </div>
       <p>Center for Innovation &amp; Entrepreneurship. A Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
       <div class="footer-aim-line">Supported by <strong>&nbsp;Atal Innovation Mission, NITI Aayog&nbsp;</strong></div>
@@ -1170,6 +1127,7 @@ footer{background:#000;padding:60px 6vw 28px}
       <a href="#aic">About AIC</a>
       <a href="#location">Location</a>
       <a href="#mentors">Ecosystem Enablers</a>
+      <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
       <a href="#careers">Careers</a>
       <a href="#partners">Partners</a>
     </div>
