@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Back2Bengal | AIC Techno Innovation and Incubation Council</title>
+<meta name="description" content="Back2Bengal is an AIC Techno Innovation and Incubation Council initiative connecting the global Bengali diaspora back to Bengal's startups, innovators and social impact ventures.">
+<link rel="icon" type="image/png" href="assets/footerlogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #000000;
+    --black2: #0D0D0D;
+    --black3: #141414;
+    --black4: #1A1A1A;
+    --white: #FFFFFF;
+    --gray1: #F5F5F5;
+    --gray2: #EEEEEE;
+    --gray3: #CCCCCC;
+    --gray4: #999999;
+    --gray5: #555555;
+    --gray6: #333333;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  a { text-decoration: none; color: inherit; }
+  img { max-width: 100%; }
+
+  /* ---------- NAV (matches site-wide nav) ---------- */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6vw;
+    height: 68px;
+    background: var(--white);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.08);
+    transition: background 0.3s, box-shadow 0.3s;
+  }
+  nav.scrolled { background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); box-shadow: 0 1px 12px rgba(0,0,0,0.08); }
+  .aic-logo-img { display: block; height: 46px; width: auto; max-width: 320px; object-fit: contain; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: rgba(0,0,0,0.6); transition: color 0.2s; }
+  .nav-links a:hover { color: var(--black); }
+  .nav-links a.current { color: var(--black); font-weight: 700; }
+  .nav-cta { padding: 9px 20px; background: var(--black); color: var(--white); border-radius: 5px; font-size: 13px; font-weight: 700; transition: background 0.2s, color 0.2s; display: inline-block; }
+  .nav-cta:hover { background: var(--gray6); color: var(--white); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: transform 0.25s, opacity 0.2s; }
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    .nav-links {
+      display: flex; flex-direction: column; position: fixed; top: 68px; left: 0; right: 0;
+      background: rgba(255,255,255,0.98); backdrop-filter: blur(16px);
+      padding: 24px 6vw; gap: 22px; border-bottom: 1px solid rgba(0,0,0,0.08);
+      transform: translateY(-130%); transition: transform 0.3s; z-index: 99;
+    }
+    .nav-links.open { transform: translateY(0); }
+    .nav-links a { font-size: 15px; color: rgba(0,0,0,0.8); }
+    .aic-logo-img { height: 44px; }
+  }
+
+  /* ---------- SECTION SYSTEM ---------- */
+  section { padding: 96px 6vw; }
+  .container { max-width: 1180px; margin: 0 auto; }
+
+  .sec-tag { display: inline-flex; align-items: center; gap: 7px; font-size: 10px; font-weight: 800; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 16px; }
+  .sec-tag.dark { color: var(--gray5); }
+  .sec-tag.dark::before { content: ""; width: 18px; height: 1px; background: var(--gray5); }
+  .sec-tag.light { color: rgba(255,255,255,0.3); }
+  .sec-tag.light::before { content: ""; width: 18px; height: 1px; background: rgba(255,255,255,0.25); }
+
+  .sec-h { font-size: clamp(30px, 3.8vw, 50px); font-weight: 900; line-height: 1.05; letter-spacing: -1.8px; max-width: 640px; }
+  .sec-h.dark-text { color: var(--black); }
+  .sec-h.light-text { color: var(--white); }
+  .sec-h em { font-style: normal; color: var(--gray4); }
+  .sec-h.light-text em { color: rgba(255,255,255,0.4); }
+
+  .sec-lead { font-size: 16px; color: var(--gray5); line-height: 1.75; max-width: 560px; margin-top: 20px; }
+  .sec-lead.light { color: rgba(255,255,255,0.4); }
+
+  /* ---------- HERO ---------- */
+  .hero { position: relative; min-height: 100vh; display: flex; align-items: center; background: var(--black); overflow: hidden; }
+  .hero-bg { position: absolute; inset: 0; z-index: 1; overflow: hidden; pointer-events: none; }
+  .hero-bg img { width: 100%; height: 100%; object-fit: cover; opacity: 0.35; }
+  .hero-overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(115deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 60%, rgba(0,0,0,0.55) 100%); }
+  .hero-dim { position: absolute; inset: 0; z-index: 1; background: rgba(0,0,0,0.35); }
+  .hero-content { position: relative; z-index: 2; padding: 96px 6vw 6vh; max-width: 900px; text-align: center; margin: 0 auto; }
+  .hero-h1 { font-size: clamp(44px, 7.5vw, 110px); font-weight: 900; line-height: 0.93; letter-spacing: -3.5px; color: var(--white); margin: 0 0 24px; max-width: 14ch; margin-left: auto; margin-right: auto; text-wrap: balance; overflow-wrap: break-word; hyphens: auto; }
+  .hero-h1 em { font-style: normal; color: rgba(255,255,255,0.35); }
+  .hero-sub { font-size: 16px; color: rgba(255,255,255,0.4); line-height: 1.75; max-width: 560px; font-weight: 400; margin: 0 auto; }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 38px; }
+  .hero-btn { padding: 14px 30px; border-radius: 7px; font-size: 14px; font-weight: 700; letter-spacing: 0.2px; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s; cursor: pointer; border: none; }
+  .hero-btn.primary { background: var(--white); color: var(--black); }
+  .hero-btn.primary:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); }
+  .hero-btn.ghost { background: transparent; color: var(--white); border: 1px solid rgba(255,255,255,0.3); }
+  .hero-btn.ghost:hover { border-color: var(--white); background: rgba(255,255,255,0.08); }
+  .hero-btn.dark { background: var(--black); color: var(--white); }
+  .hero-btn.dark:hover { background: var(--gray6); transform: translateY(-2px); }
+
+  .hero-right-tag { position: absolute; right: 6vw; bottom: 5vh; z-index: 2; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 7px 12px; font-size: 10px; color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.03); }
+  .chip strong { color: rgba(255,255,255,0.75); font-weight: 700; }
+  @media (max-width: 900px) { .hero-right-tag { display: none; } }
+
+  /* ---------- WHY SECTION ---------- */
+  .why-section { background: var(--white); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; align-items: start; margin-top: 56px; }
+  .why-points { list-style: none; }
+  .why-points li { display: flex; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--gray2); font-size: 14px; color: var(--gray6); line-height: 1.65; }
+  .why-points li:first-child { border-top: 1px solid var(--gray2); }
+  .why-num { font-size: 22px; font-weight: 900; letter-spacing: -1px; color: var(--black); line-height: 1; min-width: 34px; padding-top: 2px; }
+
+  .icon-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .icon-card { background: var(--white); border: 1px solid var(--gray2); border-radius: 12px; padding: 26px 22px; transition: background 0.2s, border-color 0.2s, transform 0.2s; }
+  .icon-card:hover { background: var(--gray1); border-color: var(--gray3); transform: translateY(-3px); }
+  .icon-wrap { width: 42px; height: 42px; border-radius: 10px; background: var(--black); display: flex; align-items: center; justify-content: center; margin-bottom: 14px; }
+  .icon-wrap svg { width: 19px; height: 19px; stroke: var(--white); fill: none; }
+  .icon-card h3 { font-size: 12px; font-weight: 800; letter-spacing: 0.3px; text-transform: uppercase; margin-bottom: 8px; color: var(--black); }
+  .icon-card p { font-size: 13px; color: var(--gray5); line-height: 1.55; }
+
+  @media (max-width: 900px) {
+    .why-grid { grid-template-columns: 1fr; gap: 40px; }
+    .icon-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 600px) {
+    .icon-grid { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- IMPACT / STATS (dark variant of tig-stats-block) ---------- */
+  .impact-section { background: var(--black); text-align: center; }
+  .impact-section .container { display: flex; flex-direction: column; align-items: center; }
+  .impact-section .sec-h { margin: 0 auto; }
+  .impact-section .sec-lead { margin: 20px auto 56px; }
+
+  .stats-block { width: 100%; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .stats-row:last-child { border-bottom: none; }
+  .stats-cell { padding: 40px 28px; border-right: 1px solid rgba(255,255,255,0.08); transition: background 0.2s; }
+  .stats-cell:last-child { border-right: none; }
+  .stats-cell:hover { background: rgba(255,255,255,0.03); }
+  .stats-cell .n { font-size: 44px; font-weight: 900; color: var(--white); line-height: 1; letter-spacing: -2.2px; margin-bottom: 8px; display: block; }
+  .stats-cell .n .hi { color: rgba(255,255,255,0.4); }
+  .stats-cell .l { font-size: 11px; color: rgba(255,255,255,0.45); font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; display: block; }
+
+  @media (max-width: 900px) { .stats-row { grid-template-columns: repeat(2, 1fr); } .stats-cell:nth-child(2) { border-right: none; } }
+  @media (max-width: 600px) { .stats-row { grid-template-columns: 1fr; } .stats-cell { border-right: none !important; } }
+
+  /* ---------- FORM ---------- */
+  .form-section { background: var(--gray1); }
+  .form-section .sec-lead { margin-bottom: 48px; }
+  .form-card { background: var(--white); border: 1px solid var(--gray2); border-radius: 16px; padding: 48px; max-width: 900px; margin: 0 auto; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 22px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--black); }
+  .field label .req { color: var(--gray4); }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="url"], select, textarea {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    padding: 14px 16px;
+    border: 1.5px solid var(--gray3);
+    border-radius: 6px;
+    background: var(--white);
+    color: var(--black);
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--black); box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
+  textarea { resize: vertical; min-height: 120px; }
+  .field-full { grid-column: 1 / -1; }
+  .group-label { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--black); margin-bottom: 12px; display: block; }
+  .group-label .hint { font-weight: 400; text-transform: none; color: var(--gray5); letter-spacing: 0; font-size: 12px; }
+  .cb-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 22px; }
+  .cb-item { display: flex; align-items: center; gap: 10px; padding: 11px 14px; border: 1.5px solid var(--gray3); border-radius: 6px; cursor: pointer; transition: border-color 0.2s, background 0.2s; font-size: 13px; color: var(--gray6); }
+  .cb-item:hover { border-color: var(--black); background: var(--gray1); }
+  .cb-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--black); cursor: pointer; flex-shrink: 0; }
+  .consent { display: flex; align-items: flex-start; gap: 10px; background: var(--gray1); border-radius: 6px; padding: 16px 18px; margin-bottom: 28px; font-size: 13px; color: var(--gray6); line-height: 1.5; }
+  .consent input { margin-top: 3px; accent-color: var(--black); flex-shrink: 0; }
+  .form-submit { text-align: center; }
+  .form-submit .hero-btn { width: 100%; max-width: 320px; justify-content: center; }
+
+  @media (max-width: 900px) {
+    .form-row { grid-template-columns: 1fr; }
+    .cb-group { grid-template-columns: 1fr; }
+    .form-card { padding: 32px 24px; }
+  }
+
+  /* ---------- CLOSING CTA ---------- */
+  .closing { background: var(--white); text-align: center; }
+  .closing .sec-h { max-width: 700px; margin: 0 auto 20px; }
+  .closing .sec-lead { max-width: 600px; margin: 0 auto 40px; }
+
+  /* ---------- FOOTER (matches site-wide footer) ---------- */
+  footer { background: var(--black); padding: 60px 6vw 28px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .footer-brand-name { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .footer-brand-name img { height: 40px; width: auto; background: #fff; border-radius: 6px; padding: 6px; object-fit: contain; }
+  .footer-brand p { font-size: 12px; color: rgba(255,255,255,0.28); line-height: 1.8; max-width: 270px; }
+  .footer-aim-line { display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 7px 12px; margin-top: 14px; font-size: 10px; color: rgba(255,255,255,0.3); }
+  .footer-aim-line strong { color: rgba(255,255,255,0.65); }
+  .footer-col h5 { font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--white); margin-bottom: 18px; }
+  .footer-col a { display: block; font-size: 12px; color: rgba(255,255,255,0.3); margin-bottom: 10px; transition: color 0.2s; }
+  .footer-col a:hover { color: rgba(255,255,255,0.8); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 24px; }
+  .footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.25); max-width: 640px; line-height: 1.6; }
+  .footer-social { display: flex; gap: 14px; }
+  .footer-social a { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,0.5); }
+  .footer-social a:hover { color: var(--white); border-color: rgba(255,255,255,0.3); }
+
+  @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) {
+    section { padding: 64px 5vw; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero-content { padding: 80px 6vw 4vh; }
+    .hero-h1 { letter-spacing: -2px; }
+  }
+  @media (max-width: 480px) {
+    .aic-logo-img { height: 34px; max-width: 58vw; }
+    .hero-h1 { letter-spacing: -1.5px; max-width: 18ch; }
+    .hero-btns { width: 100%; }
+    .hero-btn { flex: 1 1 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+  <nav id="siteNav">
+    <a href="https://aic-techno.com/"><img class="aic-logo-img" src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council"></a>
+    <div class="nav-links" id="navLinks">
+      <a href="https://aic-techno.com/#tig">About TIG</a>
+      <a href="https://aic-techno.com/#aic">About AIC</a>
+      <a href="https://aic-techno.com/#location">Location</a>
+      <a href="https://aic-techno.com/#mentors">Ecosystem Enablers</a>
+      <a href="https://aic-techno.com/back2bengal" class="current">Back2Bengal</a>
+      <a href="https://aic-techno.com/#careers">Careers</a>
+      <a href="https://aic-techno.com/#partners">Partners</a>
+    </div>
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"><img src="assets/west-bengal.jpg" alt="West Bengal"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-dim"></div>
+    <div class="hero-content">
+      <div class="sec-tag light">AIC Techno Innovation &amp; Incubation Council</div>
+      <h1 class="hero-h1">Back <em>2</em> Bengal</h1>
+      <p class="hero-sub">No matter where life has taken you, Bengal remains a part of your story. Help build the next chapter by supporting startups, innovators, and social impact initiatives shaping Bengal's future.</p>
+      <div class="hero-btns">
+        <a href="#interest-form" class="hero-btn primary">Express Your Interest</a>
+        <a href="#why" class="hero-btn ghost">Learn More</a>
+      </div>
+    </div>
+    <div class="hero-right-tag">
+      <div class="chip"><strong>NITI Aayog</strong>&nbsp;· Atal Innovation Mission</div>
+      <div class="chip"><strong>Techno India University</strong>&nbsp;· Kolkata</div>
+    </div>
+  </section>
+
+  <!-- WHY SECTION -->
+  <section class="why-section" id="why">
+    <div class="container">
+      <div class="sec-tag dark">Why Back 2 Bengal?</div>
+      <h2 class="sec-h dark-text">A Bridge Between Roots &amp; <em>Rising</em></h2>
+      <p class="sec-lead">Bengal's legacy is extraordinary. Its future is even more promising. And you, wherever you are, can be part of writing it.</p>
+
+      <div class="why-grid">
+        <ol class="why-points">
+          <li><span class="why-num">01</span><span>Bengal has produced some of India's greatest thinkers, entrepreneurs, artists, scientists, and leaders. A legacy that continues to inspire generations.</span></li>
+          <li><span class="why-num">02</span><span>Thousands of Bengalis now live and work across India and the world, carrying their roots while building remarkable careers and enterprises.</span></li>
+          <li><span class="why-num">03</span><span>This initiative creates a meaningful bridge for them to reconnect, contributing capital, expertise, and collaboration to Bengal's next era of growth.</span></li>
+        </ol>
+
+        <div class="icon-grid">
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 8-8"/><path d="M17 7h4v4"/></svg></div>
+            <h3>Startup Investments</h3>
+            <p>Fund the next wave of Bengal-based founders and ventures.</p>
+          </div>
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg></div>
+            <h3>Mentorship &amp; Advisory</h3>
+            <p>Share your expertise to guide emerging entrepreneurs.</p>
+          </div>
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+            <h3>Social Impact</h3>
+            <p>Back initiatives that improve lives across Bengal.</p>
+          </div>
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9l10-5 10 5-10 5-10-5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5"/></svg></div>
+            <h3>Education &amp; Skills</h3>
+            <p>Empower the next generation through learning opportunities.</p>
+          </div>
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.9 6.3 6.9.7-5.2 4.6 1.6 6.7L12 16.9l-6.2 3.4 1.6-6.7L2.2 9l6.9-.7L12 2z"/></svg></div>
+            <h3>Cultural Preservation</h3>
+            <p>Protect and celebrate Bengal's timeless creative heritage.</p>
+          </div>
+          <div class="icon-card">
+            <div class="icon-wrap"><svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="9" r="3"/><circle cx="17" cy="9" r="3"/><path d="M2 21c0-3.3 2.7-6 6-6s6 2.7 6 6"/><path d="M11 21c0-3.3 2.7-6 6-6s5 2.7 5 6"/></svg></div>
+            <h3>Community Initiatives</h3>
+            <p>Strengthen the fabric of Bengali communities everywhere.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- IMPACT / NUMBERS -->
+  <section class="impact-section">
+    <div class="container">
+      <div class="sec-tag light">Impact</div>
+      <h2 class="sec-h light-text">The Numbers We're Building <em>Towards</em></h2>
+      <p class="sec-lead light">Every initiative starts with a first step. These are the milestones we're committed to reaching, together.</p>
+
+      <div class="stats-block">
+        <div class="stats-row">
+          <div class="stats-cell"><span class="n">50<span class="hi">+</span></span><span class="l">Startups Supported</span></div>
+          <div class="stats-cell"><span class="n">500<span class="hi">+</span></span><span class="l">Entrepreneurs Impacted</span></div>
+          <div class="stats-cell"><span class="n">25<span class="hi">+</span></span><span class="l">Communities Reached</span></div>
+          <div class="stats-cell"><span class="n">₹10Cr<span class="hi">+</span></span><span class="l">Funds Mobilized</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <section class="form-section" id="interest-form">
+    <div class="container">
+      <div class="sec-tag dark">Join the Movement</div>
+      <h2 class="sec-h dark-text">Express Your <em>Interest</em></h2>
+      <p class="sec-lead">Tell us who you are and how you'd like to contribute. Our team will reach out to explore opportunities that align with your goals.</p>
+
+      <form class="form-card" onsubmit="return false;">
+        <div class="form-row">
+          <div class="field">
+            <label>Full Name <span class="req">*</span></label>
+            <input type="text" placeholder="Rajiv Chatterjee" required>
+          </div>
+          <div class="field">
+            <label>Email Address <span class="req">*</span></label>
+            <input type="email" placeholder="rajiv@example.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Phone Number</label>
+            <input type="tel" placeholder="+91 98765 43210">
+          </div>
+          <div class="field">
+            <label>Current City <span class="req">*</span></label>
+            <input type="text" placeholder="Mumbai" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Current Country <span class="req">*</span></label>
+            <input type="text" placeholder="India" required>
+          </div>
+          <div class="field">
+            <label>Organization / Company</label>
+            <input type="text" placeholder="Acme Ventures">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field field-full">
+            <label>LinkedIn Profile</label>
+            <input type="url" placeholder="https://linkedin.com/in/yourname">
+          </div>
+        </div>
+
+        <label class="group-label">Area of Interest <span class="req">*</span> <span class="hint">(select all that apply)</span></label>
+        <div class="cb-group">
+          <label class="cb-item"><input type="checkbox"> Startup Investment</label>
+          <label class="cb-item"><input type="checkbox"> Angel Investing</label>
+          <label class="cb-item"><input type="checkbox"> Venture Capital</label>
+          <label class="cb-item"><input type="checkbox"> Mentorship</label>
+          <label class="cb-item"><input type="checkbox"> Social Impact</label>
+          <label class="cb-item"><input type="checkbox"> Education</label>
+          <label class="cb-item"><input type="checkbox"> Cultural Projects</label>
+          <label class="cb-item"><input type="checkbox"> Community Development</label>
+          <label class="cb-item"><input type="checkbox"> Partnerships</label>
+          <label class="cb-item"><input type="checkbox"> Other</label>
+        </div>
+
+        <div class="form-row">
+          <div class="field field-full">
+            <label>Approximate Contribution Capacity</label>
+            <select>
+              <option value="">Select a range</option>
+              <option>Under ₹1 Lakh</option>
+              <option>₹1 - 5 Lakh</option>
+              <option>₹5 - 25 Lakh</option>
+              <option>₹25 Lakh - 1 Cr</option>
+              <option>₹1 Cr+</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field field-full" style="margin-bottom: 22px;">
+          <label>Message / How would you like to contribute?</label>
+          <textarea placeholder="Share your vision, background, and the kind of impact you want to create for Bengal..."></textarea>
+        </div>
+
+        <label class="consent">
+          <input type="checkbox">
+          I would like to be contacted by the AIC Techno team regarding opportunities to contribute to Bengal's growth.
+        </label>
+
+        <div class="form-submit">
+          <button type="submit" class="hero-btn dark">Join Back 2 Bengal &rarr;</button>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- CLOSING CTA -->
+  <section class="closing">
+    <div class="container">
+      <h2 class="sec-h dark-text" style="margin-left:auto;margin-right:auto;">Bengal Gave Us So Much. <em>Let's Build Its Future Together.</em></h2>
+      <p class="sec-lead" style="margin-left:auto;margin-right:auto;">Every contribution, whether capital, expertise, mentorship, or collaboration, helps create opportunities for the next generation of Bengalis.</p>
+      <a href="#interest-form" class="hero-btn dark">Become a Contributor &rarr;</a>
+    </div>
+  </section>
+
+  <!-- FOOTER (site-wide) -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-name">
+          <img src="assets/logo.jpeg" alt="AIC Techno">
+        </div>
+        <p>Center for Innovation &amp; Entrepreneurship. A Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+        <div class="footer-aim-line"><strong>Supported by</strong>&nbsp;Atal Innovation Mission, NITI Aayog</div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="https://aic-techno.com/#tig">About Techno India Group</a>
+        <a href="https://aic-techno.com/#aic">About AIC</a>
+        <a href="https://aic-techno.com/#location">Location</a>
+        <a href="https://aic-techno.com/#mentors">Ecosystem Enablers</a>
+        <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
+        <a href="https://aic-techno.com/#careers">Careers</a>
+        <a href="https://aic-techno.com/#partners">Partners</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@aic-techno.com">contact@aic-techno.com</a>
+      </div>
+      <div class="footer-col">
+        <h5>Links</h5>
+        <a href="https://aim.gov.in" target="_blank" rel="noopener">AIM Website</a>
+        <a href="https://startupindia.gov.in" target="_blank" rel="noopener">Startup India</a>
+        <a href="https://technoindiauniversity.ac.in" target="_blank" rel="noopener">Techno India University</a>
+        <a href="https://aic-techno.com/#">Privacy Policy</a>
+        <a href="https://aic-techno.com/#">Grievance</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AIC Techno Innovation and Incubation Council — Center for Innovation &amp; Entrepreneurship, a Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="X">𝕏</a>
+        <a href="#" aria-label="Instagram">ig</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('siteNav');
+    const ham = document.getElementById('ham');
+    const navLinks = document.getElementById('navLinks');
+
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 10) { nav.classList.add('scrolled'); }
+      else { nav.classList.remove('scrolled'); }
+    });
+
+    ham.addEventListener('click', function () {
+      ham.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    });
+
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        ham.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
