@@ -1,0 +1,4 @@
+.ftpquota
+cgi-bin/
+.well-known/
+.DS_Store
