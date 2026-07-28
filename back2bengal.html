@@ -46,6 +46,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 28px;
     padding: 0 6vw;
     height: 68px;
     background: var(--white);
@@ -54,7 +55,13 @@
   }
   nav.scrolled { background: rgba(255,255,255,0.96); backdrop-filter: blur(16px); box-shadow: 0 1px 12px rgba(0,0,0,0.08); }
   .aic-logo-img { display: block; height: 46px; width: auto; max-width: 320px; object-fit: contain; }
-  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .aic-logo-lockup { display: flex; align-items: center; gap: 12px; min-width: 0; flex-shrink: 1; }
+  .aic-logo-text { display: flex; flex-direction: column; justify-content: center; line-height: 1.25; white-space: nowrap; }
+  /* Hide logo text in the tight zone where desktop menu is still visible */
+  @media (max-width: 1150px) and (min-width: 901px) { .aic-logo-text { display: none; } }
+  .aic-logo-text .t1 { font-size: 14px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; color: var(--black); }
+  .aic-logo-text .t2 { font-size: 11px; font-weight: 500; color: var(--gray5); }
+  .nav-links { display: flex; align-items: center; gap: 30px; margin-left: auto; }
   .nav-links a { font-size: 13px; font-weight: 500; color: rgba(0,0,0,0.6); transition: color 0.2s; }
   .nav-links a:hover { color: var(--black); }
   .nav-links a.current { color: var(--black); font-weight: 700; }
@@ -236,6 +243,7 @@
   }
   @media (max-width: 480px) {
     .aic-logo-img { height: 34px; max-width: 58vw; }
+    .aic-logo-text { display: none; }
     .hero-h1 { letter-spacing: -1.5px; max-width: 18ch; }
     .hero-btns { width: 100%; }
     .hero-btn { flex: 1 1 100%; justify-content: center; }
@@ -245,7 +253,7 @@
 <body>
 
   <nav id="siteNav">
-    <a href="https://aic-techno.com/"><img class="aic-logo-img" src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council"></a>
+    <a href="https://aic-techno.com/" class="aic-logo-lockup"><img class="aic-logo-img" src="assets/aim_niti_techno_800x200.png" alt="AIC Techno Innovation and Incubation Council"><span class="aic-logo-text"><span class="t1">Atal Incubation Centre</span><span class="t2">Techno Innovation &amp; Incubation Council</span></span></a>
     <div class="nav-links" id="navLinks">
       <a href="https://aic-techno.com/#tig">About TIG</a>
       <a href="https://aic-techno.com/#aic">About AIC</a>
@@ -353,86 +361,9 @@
       <h2 class="sec-h dark-text">Express Your <em>Interest</em></h2>
       <p class="sec-lead">Tell us who you are and how you'd like to contribute. Our team will reach out to explore opportunities that align with your goals.</p>
 
-      <form class="form-card" onsubmit="return false;">
-        <div class="form-row">
-          <div class="field">
-            <label>Full Name <span class="req">*</span></label>
-            <input type="text" placeholder="Rajiv Chatterjee" required>
-          </div>
-          <div class="field">
-            <label>Email Address <span class="req">*</span></label>
-            <input type="email" placeholder="rajiv@example.com" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label>Phone Number</label>
-            <input type="tel" placeholder="+91 98765 43210">
-          </div>
-          <div class="field">
-            <label>Current City <span class="req">*</span></label>
-            <input type="text" placeholder="Mumbai" required>
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field">
-            <label>Current Country <span class="req">*</span></label>
-            <input type="text" placeholder="India" required>
-          </div>
-          <div class="field">
-            <label>Organization / Company</label>
-            <input type="text" placeholder="Acme Ventures">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="field field-full">
-            <label>LinkedIn Profile</label>
-            <input type="url" placeholder="https://linkedin.com/in/yourname">
-          </div>
-        </div>
-
-        <label class="group-label">Area of Interest <span class="req">*</span> <span class="hint">(select all that apply)</span></label>
-        <div class="cb-group">
-          <label class="cb-item"><input type="checkbox"> Startup Investment</label>
-          <label class="cb-item"><input type="checkbox"> Angel Investing</label>
-          <label class="cb-item"><input type="checkbox"> Venture Capital</label>
-          <label class="cb-item"><input type="checkbox"> Mentorship</label>
-          <label class="cb-item"><input type="checkbox"> Social Impact</label>
-          <label class="cb-item"><input type="checkbox"> Education</label>
-          <label class="cb-item"><input type="checkbox"> Cultural Projects</label>
-          <label class="cb-item"><input type="checkbox"> Community Development</label>
-          <label class="cb-item"><input type="checkbox"> Partnerships</label>
-          <label class="cb-item"><input type="checkbox"> Other</label>
-        </div>
-
-        <div class="form-row">
-          <div class="field field-full">
-            <label>Approximate Contribution Capacity</label>
-            <select>
-              <option value="">Select a range</option>
-              <option>Under ₹1 Lakh</option>
-              <option>₹1 - 5 Lakh</option>
-              <option>₹5 - 25 Lakh</option>
-              <option>₹25 Lakh - 1 Cr</option>
-              <option>₹1 Cr+</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="field field-full" style="margin-bottom: 22px;">
-          <label>Message / How would you like to contribute?</label>
-          <textarea placeholder="Share your vision, background, and the kind of impact you want to create for Bengal..."></textarea>
-        </div>
-
-        <label class="consent">
-          <input type="checkbox">
-          I would like to be contacted by the AIC Techno team regarding opportunities to contribute to Bengal's growth.
-        </label>
-
-        <div class="form-submit">
-          <button type="submit" class="hero-btn dark">Join Back 2 Bengal &rarr;</button>
-        </div>
-      </form>
+      <div style="display:flex;justify-content:center;">
+        <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdxQYpjJo37PrvlhdwX3g9mmdRKWl1Vvc9yz2ahsc8Vw4vv2Q/viewform?embedded=true" width="700" height="520" frameborder="0" marginheight="0" marginwidth="0" style="max-width:100%;">Loading…</iframe>
+      </div>
     </div>
   </section>
 
