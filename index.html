@@ -31,13 +31,19 @@ a{text-decoration:none;color:inherit}
 ::-webkit-scrollbar-thumb{background:var(--gray4)}
 
 /* ─── LOGO IMG ──────────────────────────────────────────── */
-.aic-logo-img{display:block;height:46px;width:auto;max-width:320px;object-fit:contain}
+.aic-logo-img{display:block;height:62px;width:auto;max-width:440px;object-fit:contain}
+.aic-logo-lockup{display:flex;align-items:center;gap:12px;min-width:0;flex-shrink:1}
+.aic-logo-text{display:flex;flex-direction:column;justify-content:center;line-height:1.25;white-space:nowrap}
+.aic-logo-text .t1{font-size:17px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--black)}
+.aic-logo-text .t2{font-size:12.5px;font-weight:500;color:var(--gray5)}
+/* Hide logo text in the tight zone where desktop menu is still visible */
+@media(max-width:1150px) and (min-width:901px){.aic-logo-text{display:none}}
 
 /* ─── NAV ──────────────────────────────────────────────── */
 nav{
   position:fixed;top:0;left:0;right:0;z-index:100;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 6vw;height:68px;
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  padding:0 6vw;height:84px;
   background:#fff;
   box-shadow:0 1px 0 rgba(0,0,0,.08);
   transition:background .3s,box-shadow .3s;
@@ -47,8 +53,17 @@ nav.scrolled{
   backdrop-filter:blur(16px);
   box-shadow:0 1px 12px rgba(0,0,0,.08);
 }
-.nav-links{display:flex;gap:30px}
-.nav-links a{font-size:13px;font-weight:500;color:rgba(0,0,0,.6);transition:color .2s}
+.nav-links{
+  display:flex;flex-direction:column;margin-left:auto;
+  position:fixed;top:84px;left:0;right:0;
+  background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
+  padding:24px 6vw;gap:22px;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  transform:translateY(-130%);transition:transform .3s ease;
+  z-index:99;
+}
+.nav-links.open{transform:translateY(0)}
+.nav-links a{font-size:15px;font-weight:500;color:rgba(0,0,0,.8);transition:color .2s}
 .nav-links a:hover{color:#000}
 .nav-cta{
   padding:9px 20px;background:#000;color:#fff;
@@ -56,7 +71,7 @@ nav.scrolled{
   transition:background .2s,color .2s;display:inline-block;
 }
 .nav-cta:hover{background:var(--gray6);color:#fff}
-.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
 .hamburger span{width:22px;height:2px;background:#000;border-radius:2px;transition:transform .25s ease,opacity .2s ease}
 .hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
 .hamburger.active span:nth-child(2){opacity:0}
@@ -67,7 +82,7 @@ nav.scrolled{
   position:relative;height:100vh;height:100dvh;min-height:600px;
   display:flex;align-items:center;justify-content:center;
   background:#000;overflow:hidden;
-  padding-top:68px;
+  padding-top:84px;
 }
 #c{position:absolute;inset:0;width:100%;height:100%}
 .hero-overlay{
@@ -267,10 +282,93 @@ section{padding:96px 6vw}
 }
 .aic-bottom-card:hover{background:var(--black3)}
 
+/* ─── APPLY (FOR STARTUPS) ──────────────────────────────── */
+#apply{background:#fff;scroll-margin-top:84px}
+.apply-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px}
+.apply-card{
+  display:flex;flex-direction:column;
+  border:1px solid var(--gray2);border-radius:16px;
+  padding:34px 30px;background:#fff;
+  transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.apply-card:hover{border-color:var(--black);box-shadow:0 10px 30px rgba(0,0,0,.08);transform:translateY(-3px)}
+.apply-stage{
+  display:inline-flex;align-items:center;gap:7px;align-self:flex-start;
+  font-size:10px;font-weight:800;letter-spacing:1.6px;text-transform:uppercase;
+  color:var(--gray5);margin-bottom:18px;
+}
+.apply-stage .num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  background:var(--black);color:#fff;font-size:11px;font-weight:800;letter-spacing:0;
+}
+.apply-card h3{font-size:18px;font-weight:800;color:var(--black);line-height:1.25;margin-bottom:12px}
+.apply-card p{font-size:14px;color:var(--gray5);line-height:1.7;margin-bottom:26px}
+.apply-btn{
+  margin-top:auto;align-self:flex-start;
+  background:var(--black);color:#fff;
+  padding:12px 24px;border-radius:7px;
+  font-size:13px;font-weight:700;letter-spacing:.2px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .2s,background .2s;
+}
+.apply-btn:hover{background:var(--gray6);transform:translateY(-2px)}
+
 /* ─── MENTORS ───────────────────────────────────────────── */
 #mentors{background:var(--black)}
 #social-mentors{background:var(--black)}
 #social-mentors .mentor-grid{grid-template-columns:repeat(5,1fr)}
+.board-label{
+  display:flex;align-items:center;gap:14px;
+  font-size:12px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.6);margin:52px 0 26px;
+}
+.board-label:first-of-type{margin-top:8px}
+.board-label::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}
+.board-grid{margin-bottom:0}
+/* Cap extended Mentors grid to 10 visible cards */
+#social-mentors .mentor-grid .mentor-card:nth-child(n+11){display:none}
+.mentors-more{display:flex;justify-content:center;margin-top:36px}
+.mentors-more-btn{
+  display:inline-flex;align-items:center;gap:9px;
+  background:transparent;color:#fff;cursor:pointer;font-family:inherit;
+  border:1px solid rgba(255,255,255,.3);border-radius:8px;
+  padding:13px 26px;font-size:13px;font-weight:700;letter-spacing:.3px;
+  transition:background .2s,border-color .2s,transform .2s;
+}
+.mentors-more-btn:hover{background:rgba(255,255,255,.08);border-color:#fff;transform:translateY(-2px)}
+.mentors-more-btn .count{color:rgba(255,255,255,.45);font-weight:600}
+/* Full-list modal */
+.mentor-modal{
+  position:fixed;inset:0;z-index:1000;
+  display:flex;align-items:center;justify-content:center;padding:4vh 4vw;
+  background:rgba(0,0,0,.72);backdrop-filter:blur(6px);
+  opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease;
+}
+.mentor-modal.open{opacity:1;visibility:visible}
+.mentor-modal-panel{
+  position:relative;width:100%;max-width:1200px;max-height:92vh;
+  background:var(--black2);border:1px solid rgba(255,255,255,.1);
+  border-radius:20px;overflow:hidden;display:flex;flex-direction:column;
+  transform:translateY(16px);transition:transform .3s ease;
+}
+.mentor-modal.open .mentor-modal-panel{transform:none}
+.mentor-modal-head{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:22px 28px;border-bottom:1px solid rgba(255,255,255,.08);flex-shrink:0;
+}
+.mentor-modal-head h3{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.mentor-modal-close{
+  width:36px;height:36px;border-radius:8px;flex-shrink:0;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:#fff;font-size:20px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.mentor-modal-close:hover{background:rgba(255,255,255,.15)}
+.mentor-modal-body{padding:22px 28px 30px;overflow-y:auto}
+.mentor-modal-body .mentor-grid{grid-template-columns:repeat(4,1fr);border-radius:14px}
+@media(max-width:900px){.mentor-modal-body .mentor-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.mentor-modal-body .mentor-grid{grid-template-columns:1fr}}
 .mentors-header{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;margin-bottom:56px}
 .mentor-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border-radius:20px;overflow:hidden}
 .mentor-card{
@@ -526,9 +624,11 @@ footer{background:#000;padding:60px 6vw 28px}
 /* ─── RESPONSIVE ────────────────────────────────────────── */
 @media(max-width:900px){
   .hamburger{display:flex}
+  #hero{height:auto;min-height:100dvh;overflow:visible}
+  .hero-content{padding:56px 6vw 60px}
   .nav-links{
     display:flex;flex-direction:column;
-    position:fixed;top:68px;left:0;right:0;
+    position:fixed;top:84px;left:0;right:0;
     background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
     padding:24px 6vw;gap:22px;
     border-bottom:1px solid rgba(0,0,0,.08);
@@ -537,10 +637,11 @@ footer{background:#000;padding:60px 6vw 28px}
   }
   .nav-links.open{transform:translateY(0)}
   .nav-links a{font-size:15px;color:rgba(0,0,0,.8)}
-  .aic-logo-img{height:44px}
+  .aic-logo-img{height:54px}
   .tig-grid,.loc-grid{grid-template-columns:1fr;gap:36px}
   .loc-map{height:300px}
   .aic-grid{grid-template-columns:1fr}
+  .apply-grid{grid-template-columns:1fr}
   .aic-bottom{grid-template-columns:1fr}
   .footer-grid{grid-template-columns:1fr 1fr}
   .tig-facts{grid-template-columns:1fr 1fr}
@@ -553,8 +654,9 @@ footer{background:#000;padding:60px 6vw 28px}
   .footer-grid{grid-template-columns:1fr}
   .tig-facts{grid-template-columns:1fr 1fr}
   .job-card{flex-direction:column;align-items:flex-start}
-  .hero-content{padding:80px 6vw 4vh}
-  .hero-h1{letter-spacing:-2px}
+  .hero-content{padding:48px 5vw 56px}
+  .hero-title-wrap{margin:26px auto 18px}
+  .hero-h1{letter-spacing:-2px;margin:16px 0}
   .mentor-grid{grid-template-columns:1fr}
   #social-mentors .mentor-grid{grid-template-columns:1fr}
   .mentor-announce{padding:48px 24px}
@@ -563,7 +665,8 @@ footer{background:#000;padding:60px 6vw 28px}
   .fablab-gallery{grid-template-columns:repeat(2,1fr)}
 }
 @media(max-width:480px){
-  .aic-logo-img{height:34px;max-width:58vw}
+  .aic-logo-img{height:44px;max-width:62vw}
+  .aic-logo-text{display:none}
   .hero-h1{letter-spacing:-1.5px;max-width:18ch}
   .hero-btns{width:100%}
   .hero-btn{flex:1 1 100%;justify-content:center}
@@ -591,16 +694,18 @@ footer{background:#000;padding:60px 6vw 28px}
 
 <!-- ── NAV ──────────────────────────────────────────────────── -->
 <nav id="nav">
-  <img src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre, in association with NITI Aayog and Atal Innovation Mission" class="aic-logo-img">
+  <div class="aic-logo-lockup"><img src="assets/aic-main-logo.png" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre, in association with NITI Aayog and Atal Innovation Mission" class="aic-logo-img"><span class="aic-logo-text"><span class="t1">Atal Incubation Centre</span><span class="t2">Techno Innovation &amp; Incubation Council</span></span></div>
 
   <div class="nav-links">
     <a href="#tig">About TIG</a>
     <a href="#aic">About AIC</a>
     <a href="#location">Location</a>
+    <a href="#workspace">Workspace</a>
     <a href="#mentors">Ecosystem Enablers</a>
     <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
     <a href="#careers">Careers</a>
     <a href="#partners">Partners</a>
+    <a href="workspace-booking.html">Book Workspace</a>
   </div>
   <div style="display:flex;align-items:center;gap:10px">
     <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
@@ -630,7 +735,7 @@ footer{background:#000;padding:60px 6vw 28px}
     </p>
 
     <div class="hero-btns">
-      <a href="https://forms.gle/RvQRoidpwkkXRLcn7" target="_blank" rel="noopener" class="hero-btn primary">For Startups</a>
+      <a href="#apply" class="hero-btn primary">For Startups</a>
       <a href="#careers" class="hero-btn ghost">We're Hiring</a>
     </div>
   </div>
@@ -659,14 +764,14 @@ footer{background:#000;padding:60px 6vw 28px}
 
 <!-- ── ABOUT TECHNO INDIA GROUP ─────────────────────────────── -->
 <section id="tig">
-  <div class="sec-tag dark rev">About the Founding Institution</div>
-  <h2 class="sec-h dark-text rev">The Techno India Group</h2>
-  <p class="sec-p dark-text rev">A four-decade legacy of education leadership in Eastern India — the institution behind AIC Techno Innovation and Incubation Council.</p>
+  <div class="sec-tag dark rev" id="tig-section-tag">About the Founding Institution</div>
+  <h2 class="sec-h dark-text rev" id="tig-title">The Techno India Group</h2>
+  <p class="sec-p dark-text rev" id="tig-subtitle">A four-decade legacy of education leadership in Eastern India — the institution behind AIC Techno Innovation and Incubation Council.</p>
 
   <div class="tig-grid">
 
     <!-- Stats block -->
-    <div class="tig-stats-block rev-l">
+    <div class="tig-stats-block rev-l" id="tig-stats-block">
       <div class="tig-stat-row">
         <div class="tig-stat-cell">
           <span class="n">40+</span>
@@ -696,10 +801,10 @@ footer{background:#000;padding:60px 6vw 28px}
 
     <!-- Body text -->
     <div class="rev-r">
-      <p class="sec-p dark-text" style="margin-top:0;max-width:100%">
+      <p class="sec-p dark-text" id="tig-desc1" style="margin-top:0;max-width:100%">
         Techno India Group is one of Eastern India's largest and most respected educational conglomerates, with over four decades of commitment to quality technical education, research and institutional development across West Bengal and Northeast India.
       </p>
-      <p class="sec-p dark-text" style="margin-top:16px;max-width:100%">
+      <p class="sec-p dark-text" id="tig-desc2" style="margin-top:16px;max-width:100%">
         With its flagship Techno India University at the helm, the group spans engineering, management, design, law, and applied sciences — and has now extended its vision to startup incubation through AIC Techno Innovation and Incubation Council, West Bengal's first Atal Incubation Centre.
       </p>
     </div>
@@ -711,11 +816,11 @@ footer{background:#000;padding:60px 6vw 28px}
 
 <!-- ── ABOUT AIC ─────────────────────────────────────────────── -->
 <section id="aic">
-  <div class="sec-tag light rev">What is AIC Techno Innovation and Incubation Council</div>
-  <h2 class="sec-h light-text rev">About the Atal<br>Incubation Centre</h2>
-  <p class="sec-p light-text rev">AIC Techno Innovation and Incubation Council is formally supported by Atal Innovation Mission (AIM), NITI Aayog — a Government of India flagship programme that establishes world-class incubation centres across India to nurture innovative startups into scalable, sustainable enterprises.</p>
+  <div class="sec-tag light rev" id="aic-section-tag">What is AIC Techno Innovation and Incubation Council</div>
+  <h2 class="sec-h light-text rev" id="aic-heading">About the Atal<br>Incubation Centre</h2>
+  <p class="sec-p light-text rev" id="aic-subtitle">AIC Techno Innovation and Incubation Council is formally supported by Atal Innovation Mission (AIM), NITI Aayog — a Government of India flagship programme that establishes world-class incubation centres across India to nurture innovative startups into scalable, sustainable enterprises.</p>
 
-  <div class="aic-grid">
+  <div class="aic-grid" id="aic-cards-grid">
     <div class="aic-card rev">
       <div class="aic-icon">🏛️</div>
       <div class="aic-title">Government-Backed</div>
@@ -746,6 +851,15 @@ footer{background:#000;padding:60px 6vw 28px}
   </div>
 </section>
 
+<!-- ── APPLY / FOR STARTUPS ─────────────────────────────────── -->
+<section id="apply">
+  <div class="sec-tag dark rev">For Startups</div>
+  <h2 class="sec-h dark-text rev">Apply to AIC Techno</h2>
+  <p class="sec-p dark-text rev">Whatever stage you're at, there's a way in. Choose the track that fits where your startup is today — and apply through the form for that stage.</p>
+
+  <div class="apply-grid"></div>
+</section>
+
 <!-- ── MENTORS ───────────────────────────────────────────────── -->
 <section id="mentors">
   <div class="mentors-header">
@@ -756,78 +870,11 @@ footer{background:#000;padding:60px 6vw 28px}
     </div>
   </div>
 
-  <div class="mentor-grid rev">
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">MR</span><img src="assets/meghdut-roychowdhury.jpeg" alt="Meghdut RoyChowdhury" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Meghdut RoyChowdhury</div>
-      <div class="mentor-role">Chief Mentor</div>
-      <p class="mentor-bio">Executive Director &amp; Chief Innovation Officer, Techno India Group — serial entrepreneur and innovation leader mentoring founders on AI, product and scale.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/meghdutroychowdhury/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">PL</span><img src="assets/pauline-laravoire.jpeg" alt="Pauline Laravoire" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Pauline Laravoire</div>
-      <div class="mentor-role">Vertical Head, Social Innovation</div>
-      <p class="mentor-bio">Sustainability Director of Techno India Group and founder of the rebalance institute — driving education for sustainability, social entrepreneurship and systemic change.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/paulinelaravoire/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">BP</span><img src="assets/biplab-pal.jpeg" alt="Dr. Biplab Pal" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Dr. Biplab Pal</div>
-      <div class="mentor-role">Senior Advisor</div>
-      <p class="mentor-bio">IIT Kharagpur-trained Ph.D., UMBC adjunct faculty and deep-tech founder with 25+ U.S. patents — an AI researcher and mentor helping innovators move from idea to product, capital and global market.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/biplab-pal-phd-4ab94b3/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">DC</span><img src="assets/dibya-chatterjee.jpeg" alt="Dibya Chatterjee" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Dibya Chatterjee</div>
-      <div class="mentor-role">Vertical Head, Media &amp; Entertainment</div>
-      <p class="mentor-bio">Writer-director-producer and founder of Handykraft Pictures — writer and co-creator of the acclaimed dark comedy Afsos (Amazon Prime Video), crafting original, genre-blending stories across film and screen.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/dibya-chatterjee-967a3357/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">ST</span><img src="assets/skannd-tyagi.jpeg" alt="Skannd Tyagi" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Skannd Tyagi</div>
-      <div class="mentor-role">Vertical Head, Emerging Technology</div>
-      <p class="mentor-bio">Technologist and serial entrepreneur — a "specialist generalist" and startup mentor helping founders turn ideas into scalable technology ventures.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/skanndtyagi/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">DC</span><img src="assets/dickie-currer-ganguli.jpeg" alt="Dickie Currer-Ganguli" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Dickie Currer-Ganguli</div>
-      <div class="mentor-role">Lead, Global Partnerships</div>
-      <p class="mentor-bio">Co-Founder of APAC Innovation Hub and Hype Man Media — Mentor, Investor and Board Advisor with a global keynote presence. Specialist in building and connecting startup ecosystems across international markets.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/dickiecurrer" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">PC</span><img src="assets/puja-currer-ganguli.jpeg" alt="Puja Currer-Ganguli" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Puja Currer-Ganguli</div>
-      <div class="mentor-role">Lead, Innovation Programs</div>
-      <p class="mentor-bio">Co-Founder of APAC Innovation Hub and Hype Man Media — sustainability and innovation strategist working across global markets. Specialist in designing and delivering high-impact innovation programs.</p>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/puja-currer-ganguli" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-  </div>
+  <h3 class="board-label rev">Advisory Board</h3>
+  <div class="mentor-grid rev board-grid"></div>
+
+  <h3 class="board-label rev">Executive Board</h3>
+  <div class="mentor-grid rev board-grid"></div>
 
 </section>
 
@@ -841,55 +888,28 @@ footer{background:#000;padding:60px 6vw 28px}
     </div>
   </div>
 
-  <div class="mentor-grid rev">
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">SC</span><img src="assets/pfp1.jpeg" alt="Sujata Chatterjee" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Sujata Chatterjee</div>
-      <div class="mentor-role">Founder &amp; MD, Twirl.store</div>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/sujata-chatterjee-03a055162/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">AM</span><img src="assets/pfp2.jpeg" alt="Agni Mitra" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Agni Mitra</div>
-      <div class="mentor-role">Founder &amp; CEO, Amwoodo</div>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/iamagnimitra/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">JM</span><img src="assets/pfp3.jpeg" alt="Jinali Mody" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Jinali Mody</div>
-      <div class="mentor-role">Founder, Banofi Leather</div>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/modyjinali/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">SA</span><img src="assets/pfp4.jpeg" alt="Siddharth Agarwal" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Siddharth Agarwal</div>
-      <div class="mentor-role">Founder, Veditum India Foundation</div>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/agarwalsid/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
-    <div class="mentor-card">
-      <div class="mentor-avatar"><span class="mentor-initials">AS</span><img src="assets/pfp5.jpeg" alt="Aishik Saha" loading="lazy" onerror="this.remove()"></div>
-      <div class="mentor-name">Aishik Saha</div>
-      <div class="mentor-role">Co-founder &amp; Director, Avagam Ventures &amp; Givo</div>
-      <a class="mentor-linkedin" href="https://www.linkedin.com/in/aishiks/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.07 2.07 0 1 1 0-4.14 2.07 2.07 0 0 1 0 4.14zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg>
-        LinkedIn
-      </a>
-    </div>
+  <div class="mentor-grid rev"></div>
+
+  <div class="mentors-more rev">
+    <button type="button" class="mentors-more-btn" id="mentorsMoreBtn" aria-haspopup="dialog">
+      View all mentors <span class="count" id="mentorsMoreCount"></span>
+    </button>
   </div>
 
 </section>
+
+<!-- ── ALL MENTORS MODAL ──────────────────────────────────────── -->
+<div class="mentor-modal" id="mentorModal" role="dialog" aria-modal="true" aria-labelledby="mentorModalTitle">
+  <div class="mentor-modal-panel">
+    <div class="mentor-modal-head">
+      <h3 id="mentorModalTitle">All Mentors</h3>
+      <button type="button" class="mentor-modal-close" id="mentorModalClose" aria-label="Close">&times;</button>
+    </div>
+    <div class="mentor-modal-body">
+      <div class="mentor-grid" id="mentorModalGrid"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ── LOCATION ───────────────────────────────────────────────── -->
 <section id="location">
@@ -925,23 +945,37 @@ footer{background:#000;padding:60px 6vw 28px}
       </p>
       <div class="loc-details">
         <div class="loc-detail rev">
-          <span class="loc-detail-icon">📍</span>
           <div><h4>Address</h4><p>Offbeat CCU, Kolkata, West Bengal</p></div>
         </div>
         <div class="loc-detail rev" style="transition-delay:.08s">
-          <span class="loc-detail-icon">🚇</span>
           <div><h4>Connectivity</h4><p>Well-connected by metro, road and public transport. Accessible from across Kolkata.</p></div>
         </div>
         <div class="loc-detail rev" style="transition-delay:.16s">
-          <span class="loc-detail-icon">🏢</span>
           <div><h4>Infrastructure</h4><p>Modern collaborative workspace with labs, meeting rooms, event space and high-speed internet.</p></div>
         </div>
         <div class="loc-detail rev" style="transition-delay:.24s">
-          <span class="loc-detail-icon">🗓️</span>
           <div><h4>Book a Visit</h4><p>Reach out at <a href="mailto:contact@aic-techno.com" style="color:#000;font-weight:600">contact@aic-techno.com</a> to schedule a tour once operations begin.</p></div>
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ── WORKSPACE BOOKING ──────────────────────────────────────── -->
+<section id="workspace" style="background:var(--black);scroll-margin-top:84px">
+  <div class="sec-tag light rev">Work From AIC Techno</div>
+  <h2 class="sec-h light-text rev">Workspace Booking Details</h2>
+  <p class="sec-p light-text rev">Founders, freelancers and teams can work from Offbeat CCU, Kolkata — choose a flexible day pass, a dedicated desk, a private meeting room, a virtual office or full lab access. Online booking is on the way; here's what will be available.</p>
+
+  <div style="display:inline-flex;align-items:center;gap:10px;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:9px 20px;margin-top:22px;font-size:12px;font-weight:600;color:rgba(255,255,255,.7);letter-spacing:.5px">
+    <span class="cs-dot"></span>Online booking coming soon
+  </div>
+
+  <div class="aic-grid"></div>
+
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:40px">
+    <a href="workspace-booking.html" class="hero-btn primary" style="padding:14px 30px">Book a Workspace →</a>
+    <p style="font-size:13px;color:rgba(255,255,255,.4)">Need a desk sooner? Write to <a href="mailto:contact@aic-techno.com" style="color:rgba(255,255,255,.8);font-weight:600">contact@aic-techno.com</a> and we'll sort it out manually.</p>
   </div>
 </section>
 
@@ -955,151 +989,7 @@ footer{background:#000;padding:60px 6vw 28px}
     <p class="sec-p dark-text rev">We are building a world-class incubation team. If you are passionate about startups, innovation and making Eastern India's entrepreneurship ecosystem stronger — we want to hear from you.</p>
   </div>
 
-  <div class="careers-grid">
-    <div class="job-card rev">
-      <div class="job-left">
-        <div class="job-icon">👤</div>
-        <div>
-          <div class="job-dept">Leadership</div>
-          <div class="job-title">Chief Executive Officer (CEO)</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Leadership</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.06s">
-      <div class="job-left">
-        <div class="job-icon">🧭</div>
-        <div>
-          <div class="job-dept">Leadership</div>
-          <div class="job-title">COO / Head of Incubation</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Operations</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.12s">
-      <div class="job-left">
-        <div class="job-icon">📊</div>
-        <div>
-          <div class="job-dept">Finance &amp; Compliance</div>
-          <div class="job-title">Finance &amp; Compliance Lead</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Finance</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.18s">
-      <div class="job-left">
-        <div class="job-icon">🏗️</div>
-        <div>
-          <div class="job-dept">Programme Management</div>
-          <div class="job-title">Domain Incubation Managers</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Incubation</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.24s">
-      <div class="job-left">
-        <div class="job-icon">📋</div>
-        <div>
-          <div class="job-dept">Programme Management</div>
-          <div class="job-title">Programs / Cohort Manager</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Programmes</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.30s">
-      <div class="job-left">
-        <div class="job-icon">🤝</div>
-        <div>
-          <div class="job-dept">Business Development</div>
-          <div class="job-title">Partnerships &amp; Mentor Lead</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Partnerships</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.36s">
-      <div class="job-left">
-        <div class="job-icon">💰</div>
-        <div>
-          <div class="job-dept">Investment</div>
-          <div class="job-title">Seed / Investment Manager</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Funding</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.42s">
-      <div class="job-left">
-        <div class="job-icon">🔧</div>
-        <div>
-          <div class="job-dept">Operations</div>
-          <div class="job-title">Lab / Makerspace Managers</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Makerspace</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.48s">
-      <div class="job-left">
-        <div class="job-icon">📈</div>
-        <div>
-          <div class="job-dept">Data &amp; Systems</div>
-          <div class="job-title">MIS / Data Specialist</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Data</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.54s">
-      <div class="job-left">
-        <div class="job-icon">📣</div>
-        <div>
-          <div class="job-dept">Marketing</div>
-          <div class="job-title">Marketing &amp; Outreach</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Outreach</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.60s">
-      <div class="job-left">
-        <div class="job-icon">⚖️</div>
-        <div>
-          <div class="job-dept">Legal</div>
-          <div class="job-title">Legal / IP Officer (may be shared)</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Legal / IP</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-
-    <div class="job-card rev" style="transition-delay:.66s">
-      <div class="job-left">
-        <div class="job-icon">🗂️</div>
-        <div>
-          <div class="job-dept">Operations</div>
-          <div class="job-title">Admin &amp; Coordination</div>
-          <div class="job-meta"><span class="job-tag">Full-Time</span><span class="job-tag">Kolkata</span><span class="job-tag">Administration</span></div>
-        </div>
-      </div>
-      <a href="https://forms.gle/bWcwfJvqXJzzwfJ29" target="_blank" rel="noopener" class="job-apply">Apply Now</a>
-    </div>
-  </div>
+  <div class="careers-grid"></div>
   <p style="margin-top:24px;font-size:13px;color:var(--gray4);text-align:center">
     More roles to be posted. Send your expression of interest to <a href="mailto:contact@aic-techno.com" style="color:var(--black);font-weight:600;text-decoration:underline">contact@aic-techno.com</a>
   </p>
@@ -1112,25 +1002,13 @@ footer{background:#000;padding:60px 6vw 28px}
   <p class="partners-sub rev">Organisations, institutions and ecosystem supporters that make AIC Techno Innovation and Incubation Council possible.</p>
 
   <div class="partners-section-label rev">Government &amp; Programme Support</div>
-  <div class="partners-row">
-    <div class="partner-logo featured rev">NITI Aayog</div>
-    <div class="partner-logo featured rev" style="transition-delay:.06s">Atal Innovation Mission</div>
-    <div class="partner-logo rev" style="transition-delay:.12s">DPIIT Startup India</div>
-    <div class="partner-logo rev" style="transition-delay:.18s">MeitY Startup Hub</div>
-    <div class="partner-logo rev" style="transition-delay:.24s">MSME India</div>
-    <div class="partner-logo rev" style="transition-delay:.30s">Govt. of West Bengal</div>
-  </div>
+  <div class="partners-row"></div>
 
   <div class="partners-section-label rev">Institutional Partners</div>
-  <div class="partners-row">
-    <div class="partner-logo featured rev">Techno India University</div>
-    <div class="partner-logo featured rev" style="transition-delay:.06s">Techno India Group</div>
-    <div class="partner-logo rev" style="transition-delay:.12s">Offbeat CCU</div>
-    <div class="partner-logo rev" style="transition-delay:.18s">Startup Bengal</div>
-  </div>
+  <div class="partners-row"></div>
 
   <div class="partners-section-label rev">Fab Lab Partner</div>
-  <div class="fablab-feature rev">
+  <div class="fablab-feature rev" id="fablabFeature">
     <div class="fablab-head">
       <div class="fablab-logo"><span class="fablab-initials">RC</span><img src="assets/recraft-logo.png" alt="Re-Craft Atelier Foundation logo" loading="lazy" onerror="this.remove()"></div>
       <div>
@@ -1164,7 +1042,7 @@ footer{background:#000;padding:60px 6vw 28px}
   </div>
 
   <div class="partners-section-label rev">Learning &amp; Skilling Partner</div>
-  <div class="fablab-feature rev">
+  <div class="fablab-feature rev" id="learningFeature">
     <div class="fablab-head">
       <div class="fablab-logo"><span class="fablab-initials">RB</span><img src="assets/rebalance-logo.png" alt="The Rebalance Institute logo" loading="lazy" onerror="this.remove()"></div>
       <div>
@@ -1197,11 +1075,7 @@ footer{background:#000;padding:60px 6vw 28px}
   </div>
 
   <div class="partners-section-label rev">Technology &amp; Cloud Partners</div>
-  <div class="partners-row">
-    <div class="partner-logo rev">Amazon AWS</div>
-    <div class="partner-logo rev" style="transition-delay:.06s">Microsoft for Startups</div>
-    <div class="partner-logo rev" style="transition-delay:.12s">Google for Startups</div>
-  </div>
+  <div class="partners-row"></div>
 
   <p style="font-size:13px;color:rgba(255,255,255,.3);margin-top:8px">
     Interested in partnering? Write to <a href="mailto:contact@aic-techno.com" style="color:#fff;font-weight:600">contact@aic-techno.com</a>
@@ -1213,7 +1087,7 @@ footer{background:#000;padding:60px 6vw 28px}
   <div class="footer-grid">
     <div class="footer-brand">
       <div class="footer-brand-name">
-        <img src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre" style="height:64px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:6px">
+        <img src="assets/aic-main-logo.png" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre" style="height:64px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:6px">
       </div>
       <p>Center for Innovation &amp; Entrepreneurship. A Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
       <div class="footer-aim-line">Supported by <strong>&nbsp;Atal Innovation Mission, NITI Aayog&nbsp;</strong></div>
@@ -1335,12 +1209,45 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
   navLinks.classList.remove('open');
   ham.classList.remove('active');
 }));
-window.addEventListener('resize',()=>{
-  if(window.innerWidth>900){
+/* Close the menu when clicking outside of it */
+document.addEventListener('click',e=>{
+  if(navLinks.classList.contains('open') && !navLinks.contains(e.target) && !ham.contains(e.target)){
     navLinks.classList.remove('open');
     ham.classList.remove('active');
   }
 });
+
+/* All-mentors modal */
+(function(){
+  const sourceGrid=document.querySelector('#social-mentors .mentor-grid');
+  const btn=document.getElementById('mentorsMoreBtn');
+  const modal=document.getElementById('mentorModal');
+  if(!sourceGrid||!btn||!modal)return;
+  const modalGrid=document.getElementById('mentorModalGrid');
+  const closeBtn=document.getElementById('mentorModalClose');
+  const countEl=document.getElementById('mentorsMoreCount');
+  const total=sourceGrid.querySelectorAll('.mentor-card').length;
+  if(countEl)countEl.textContent='('+total+')';
+  function open(){
+    modalGrid.innerHTML=sourceGrid.innerHTML;   /* clone every card, always current */
+    modal.classList.add('open');
+    document.body.style.overflow='hidden';
+    closeBtn.focus();
+  }
+  function close(){
+    modal.classList.remove('open');
+    document.body.style.overflow='';
+    btn.focus();
+  }
+  btn.addEventListener('click',open);
+  closeBtn.addEventListener('click',close);
+  modal.addEventListener('click',e=>{if(e.target===modal)close()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&modal.classList.contains('open'))close()});
+})();
 </script>
+<!-- Firebase SDK & CMS Live Sync -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="firebase-cms-sync.js"></script>
 </body>
 </html>
