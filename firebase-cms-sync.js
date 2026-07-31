@@ -396,7 +396,60 @@
       console.error("About TIG sync error:", err);
     });
 
-    // ─── 10. ABOUT AIC SECTION (siteContent/aboutAIC) ────────────────────────
+    // ─── 11. GALLERY (gallery collection) ─────────────────────────────────────
+    db.collection("gallery").onSnapshot((snapshot) => {
+      const items = [];
+      snapshot.forEach((doc) => {
+        items.push({ id: doc.id, ...doc.data() });
+      });
+      items.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+      const active = items.filter((g) => g.active !== false && g.imageUrl);
+
+      const grid = document.querySelector("#gallery .gallery-grid");
+      if (grid) {
+        grid.innerHTML = active.length
+          ? active.map(renderGalleryShot).join("")
+          : `<p style="grid-column:1/-1;text-align:center;color:var(--gray5)">Gallery photos coming soon.</p>`;
+        observeElements(grid);
+      }
+    }, (err) => {
+      console.error("Gallery sync error:", err);
+    });
+
+    // ─── 12. NEWS ARTICLES (newsArticles collection) ───────────────────────────
+    db.collection("newsArticles").onSnapshot((snapshot) => {
+      const articles = [];
+      snapshot.forEach((doc) => {
+        articles.push({ id: doc.id, ...doc.data() });
+      });
+      articles.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+
+      const active = articles.filter((n) => n.active !== false && n.title && n.url);
+
+      // Homepage preview (top 3)
+      const homeGrid = document.querySelector("#news .news-grid");
+      if (homeGrid) {
+        const preview = active.slice(0, 3);
+        homeGrid.innerHTML = preview.length
+          ? preview.map(renderNewsCard).join("")
+          : `<p style="grid-column:1/-1;text-align:center;color:var(--gray5)">No news articles yet. Check back soon.</p>`;
+        observeElements(homeGrid);
+      }
+
+      // Full listing page (news.html)
+      const fullGrid = document.getElementById("newsAllGrid");
+      if (fullGrid) {
+        fullGrid.innerHTML = active.length
+          ? active.map(renderNewsCard).join("")
+          : `<p style="grid-column:1/-1;text-align:center;color:var(--gray5)">No news articles yet. Check back soon.</p>`;
+        observeElements(fullGrid);
+      }
+    }, (err) => {
+      console.error("News articles sync error:", err);
+    });
+
+    // ─── 13. ABOUT AIC SECTION (siteContent/aboutAIC) ────────────────────────
     db.collection("siteContent").doc("aboutAIC").onSnapshot((doc) => {
       if (!doc.exists) return;
       const data = doc.data();
@@ -515,6 +568,37 @@
           <a class="fablab-contact" href="mailto:${contactEmail}">✉ ${contactEmail}</a>
         </div>
       ` : ""}
+    `;
+  }
+
+  function renderGalleryShot(g) {
+    const caption = (g.caption || "").replace(/"/g, "&quot;");
+    return `
+      <div class="gallery-shot rev" data-full="${g.imageUrl}" data-caption="${caption}">
+        <img src="${g.imageUrl}" alt="${g.caption || "AIC Techno gallery photo"}" loading="lazy" onerror="this.parentElement.remove()">
+        ${g.caption ? `<div class="gallery-caption">${g.caption}</div>` : ""}
+      </div>
+    `;
+  }
+
+  function renderNewsCard(n) {
+    return `
+      <div class="news-card rev">
+        ${n.imageUrl ? `
+          <div class="news-thumb">
+            <img src="${n.imageUrl}" alt="${n.title || ""}" loading="lazy" onerror="this.parentElement.remove()">
+          </div>
+        ` : ""}
+        <div class="news-body">
+          <div class="news-meta">
+            ${n.source ? `<span class="news-source">${n.source}</span>` : ""}
+            ${n.date ? `<span>${n.date}</span>` : ""}
+          </div>
+          <div class="news-title">${n.title}</div>
+          ${n.excerpt ? `<p class="news-excerpt">${n.excerpt}</p>` : ""}
+          <a class="news-link" href="${n.url}" target="_blank" rel="noopener">Read Article →</a>
+        </div>
+      </div>
     `;
   }
 

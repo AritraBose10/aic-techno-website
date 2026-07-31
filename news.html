@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>News &amp; Media | AIC Techno Innovation and Incubation Council | aic-techno.com</title>
+<meta name="description" content="Coverage, press mentions and highlights featuring AIC Techno Innovation and Incubation Council — West Bengal's first Atal Incubation Centre.">
+<link rel="icon" type="image/png" href="assets/footerlogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:  #000000;
+  --black2: #0D0D0D;
+  --black3: #141414;
+  --black4: #1A1A1A;
+  --white:  #FFFFFF;
+  --gray1:  #F5F5F5;
+  --gray2:  #EEEEEE;
+  --gray3:  #CCCCCC;
+  --gray4:  #999999;
+  --gray5:  #555555;
+  --gray6:  #333333;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{font-family:'Inter',sans-serif;color:var(--black);background:var(--white);overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+a{text-decoration:none;color:inherit}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-track{background:var(--black)}
+::-webkit-scrollbar-thumb{background:var(--gray4)}
+
+/* ─── LOGO IMG ──────────────────────────────────────────── */
+.aic-logo-img{display:block;height:62px;width:auto;max-width:440px;object-fit:contain}
+.aic-logo-lockup{display:flex;align-items:center;gap:12px;min-width:0;flex-shrink:1}
+.aic-logo-text{display:flex;flex-direction:column;justify-content:center;line-height:1.25;white-space:nowrap}
+.aic-logo-text .t1{font-size:17px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--black)}
+.aic-logo-text .t2{font-size:12.5px;font-weight:500;color:var(--gray5)}
+@media(max-width:1150px) and (min-width:901px){.aic-logo-text{display:none}}
+
+/* ─── NAV ──────────────────────────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;gap:28px;
+  padding:0 6vw;height:84px;
+  background:#fff;
+  box-shadow:0 1px 0 rgba(0,0,0,.08);
+  transition:background .3s,box-shadow .3s;
+}
+nav.scrolled{
+  background:rgba(255,255,255,.96);
+  backdrop-filter:blur(16px);
+  box-shadow:0 1px 12px rgba(0,0,0,.08);
+}
+.nav-links{
+  display:flex;flex-direction:column;margin-left:auto;
+  position:fixed;top:84px;left:0;right:0;
+  background:rgba(255,255,255,.98);backdrop-filter:blur(16px);
+  padding:24px 6vw;gap:22px;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  transform:translateY(-130%);transition:transform .3s ease;
+  z-index:99;
+}
+.nav-links.open{transform:translateY(0)}
+.nav-links a{font-size:15px;font-weight:500;color:rgba(0,0,0,.8);transition:color .2s}
+.nav-links a:hover{color:#000}
+.nav-links a.current{color:#000;font-weight:700}
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:#000;border-radius:2px;transition:transform .25s ease,opacity .2s ease}
+.hamburger.active span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.active span:nth-child(2){opacity:0}
+.hamburger.active span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* ─── PAGE HERO BANNER ───────────────────────────────────── */
+#page-hero{
+  position:relative;
+  min-height:300px;
+  display:flex;align-items:flex-end;
+  background:var(--black);
+  padding:140px 6vw 60px;
+  overflow:hidden;
+}
+.page-hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,.85) 0%,rgba(0,0,0,.65) 60%,rgba(0,0,0,.95) 100%);
+}
+.page-hero-content{
+  position:relative;z-index:2;
+  max-width:960px;width:100%;
+}
+
+/* ─── SHARED TYPOGRAPHY ─────────────────────────────────── */
+.sec-tag{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:10px;font-weight:800;letter-spacing:2.5px;
+  text-transform:uppercase;margin-bottom:16px;
+}
+.sec-tag.dark{color:var(--gray5)}
+.sec-tag.dark::before{content:'';width:18px;height:1px;background:var(--gray5)}
+.sec-tag.light{color:rgba(255,255,255,.4)}
+.sec-tag.light::before{content:'';width:18px;height:1px;background:rgba(255,255,255,.3)}
+.sec-h{font-size:clamp(32px,4vw,56px);font-weight:900;line-height:1.08;letter-spacing:-1.8px}
+.sec-h.dark-text{color:var(--black)}
+.sec-h.light-text{color:#fff}
+.sec-p{font-size:16px;line-height:1.8;max-width:640px;margin-top:16px}
+.sec-p.dark-text{color:var(--gray5)}
+
+/* ─── PAGE BODY CONTENT ─────────────────────────────────── */
+#page-body-container{padding:80px 6vw 120px;background:#fff}
+.page-body-inner{max-width:1180px;margin:0 auto}
+
+/* ─── NEWS ──────────────────────────────────────────────── */
+.news-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.news-card{
+  display:flex;flex-direction:column;background:#fff;border:1px solid var(--gray2);
+  border-radius:16px;overflow:hidden;transition:border-color .25s,box-shadow .25s,transform .25s;
+}
+.news-card:hover{border-color:var(--black);box-shadow:0 10px 30px rgba(0,0,0,.08);transform:translateY(-3px)}
+.news-thumb{aspect-ratio:16/9;background:var(--gray2);overflow:hidden}
+.news-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.news-body{padding:22px 24px;display:flex;flex-direction:column;flex:1}
+.news-meta{display:flex;align-items:center;gap:10px;font-size:11px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray4);margin-bottom:10px}
+.news-source{color:var(--black)}
+.news-title{font-size:16px;font-weight:800;color:var(--black);line-height:1.35;margin-bottom:12px}
+.news-excerpt{font-size:13px;color:var(--gray5);line-height:1.7;margin-bottom:20px}
+.news-link{margin-top:auto;font-size:13px;font-weight:700;color:var(--black);display:inline-flex;align-items:center;gap:6px}
+.news-link:hover{text-decoration:underline}
+
+.hero-btn{
+  padding:14px 30px;border-radius:7px;
+  font-size:14px;font-weight:700;letter-spacing:.2px;
+  display:inline-flex;align-items:center;gap:8px;
+  transition:transform .2s ease,background .2s,border-color .2s,color .2s;
+}
+.hero-btn.primary{background:#000;color:#fff}
+.hero-btn.primary:hover{background:var(--gray6);transform:translateY(-2px)}
+
+/* ─── FOOTER ────────────────────────────────────────────── */
+footer{background:#000;padding:60px 6vw 28px}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:48px;padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.footer-brand-name{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.footer-brand p{font-size:12px;color:rgba(255,255,255,.28);line-height:1.8;max-width:270px}
+.footer-aim-line{
+  display:inline-flex;align-items:center;gap:7px;
+  border:1px solid rgba(255,255,255,.08);border-radius:6px;
+  padding:7px 12px;margin-top:14px;
+  font-size:10px;color:rgba(255,255,255,.3);
+}
+.footer-aim-line strong{color:rgba(255,255,255,.65)}
+.footer-col h5{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#fff;margin-bottom:18px}
+.footer-col a{display:block;font-size:12px;color:rgba(255,255,255,.3);margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:#fff}
+.footer-bottom{padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px}
+.footer-bottom p{font-size:11px;color:rgba(255,255,255,.2)}
+.footer-social-row{display:flex;gap:8px}
+.fsoc{
+  width:30px;height:30px;border-radius:7px;
+  background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:rgba(255,255,255,.3);transition:background .2s,color .2s;
+}
+.fsoc:hover{background:#fff;color:#000}
+
+@media(max-width:900px){
+  .hamburger{display:flex}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .news-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:600px){
+  #page-hero{padding:120px 5vw 48px}
+  #page-body-container{padding:48px 5vw 80px}
+  .footer-grid{grid-template-columns:1fr}
+  .news-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────────────── -->
+<nav id="nav">
+  <div class="aic-logo-lockup">
+    <a href="index.html" style="display:flex;align-items:center;gap:12px">
+      <img src="assets/aic-main-logo.png" alt="AIC Techno Logo" class="aic-logo-img">
+      <span class="aic-logo-text"><span class="t1">Atal Incubation Centre</span><span class="t2">Techno Innovation &amp; Incubation Council</span></span>
+    </a>
+  </div>
+
+  <div class="nav-links">
+    <a href="index.html#tig">About TIG</a>
+    <a href="index.html#aic">About AIC</a>
+    <a href="index.html#location">Location</a>
+    <a href="index.html#workspace">Workspace</a>
+    <a href="index.html#mentors">Ecosystem Enablers</a>
+    <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
+    <a href="index.html#careers">Careers</a>
+    <a href="index.html#partners">Partners</a>
+    <a href="index.html#gallery">Gallery</a>
+    <a href="news.html" class="current">News</a>
+    <a href="workspace-booking.html">Book Workspace</a>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="hamburger" id="ham"><span></span><span></span><span></span></div>
+  </div>
+</nav>
+
+<!-- ── HERO BANNER ─────────────────────────────────────────── -->
+<section id="page-hero">
+  <div class="page-hero-overlay"></div>
+
+  <div class="page-hero-content">
+    <div class="sec-tag light">Home / News</div>
+    <h1 class="sec-h light-text">News &amp; Media</h1>
+  </div>
+</section>
+
+<!-- ── NEWS LISTING ─────────────────────────────────────────── -->
+<section id="page-body-container">
+  <div class="page-body-inner">
+    <p class="sec-p dark-text" style="margin-top:0">Coverage, press mentions and highlights featuring AIC Techno Innovation and Incubation Council.</p>
+    <div class="news-grid" id="newsAllGrid"></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ────────────────────────────────────────────────── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">
+        <img src="assets/aic-main-logo.png" alt="AIC Techno Innovation and Incubation Council — Atal Incubation Centre" style="height:64px;width:auto;object-fit:contain;background:#fff;border-radius:6px;padding:6px">
+      </div>
+      <p>Center for Innovation &amp; Entrepreneurship. A Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+      <div class="footer-aim-line">Supported by <strong>&nbsp;Atal Innovation Mission, NITI Aayog&nbsp;</strong></div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Navigate</h5>
+      <a href="index.html#tig">About Techno India Group</a>
+      <a href="index.html#aic">About AIC</a>
+      <a href="index.html#location">Location</a>
+      <a href="index.html#mentors">Ecosystem Enablers</a>
+      <a href="https://aic-techno.com/back2bengal">Back2Bengal</a>
+      <a href="index.html#careers">Careers</a>
+      <a href="index.html#partners">Partners</a>
+      <a href="index.html#gallery">Gallery</a>
+      <a href="news.html">News</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Contact</h5>
+      <a href="mailto:contact@aic-techno.com">contact@aic-techno.com</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Links</h5>
+      <a href="https://aim.gov.in" target="_blank">AIM Website</a>
+      <a href="https://startupindia.gov.in" target="_blank">Startup India</a>
+      <a href="https://technoindiauniversity.ac.in" target="_blank">Techno India University</a>
+      <a href="#">Privacy Policy</a>
+      <a href="#">Grievance</a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 AIC Techno Innovation and Incubation Council — Center for Innovation &amp; Entrepreneurship, a Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+    <div class="footer-social-row">
+      <a class="fsoc" href="#">in</a>
+      <a class="fsoc" href="#">𝕏</a>
+      <a class="fsoc" href="#">ig</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── JS ────────────────────────────────────────────────────── -->
+<script>
+/* Scroll nav */
+window.addEventListener('scroll',()=>{document.getElementById('nav').classList.toggle('scrolled',scrollY>40)});
+
+/* Hamburger */
+const ham=document.getElementById('ham');
+const navLinks=document.querySelector('.nav-links');
+ham.addEventListener('click',()=>{
+  navLinks.classList.toggle('open');
+  ham.classList.toggle('active');
+});
+navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{
+  navLinks.classList.remove('open');
+  ham.classList.remove('active');
+}));
+document.addEventListener('click',e=>{
+  if(navLinks.classList.contains('open') && !navLinks.contains(e.target) && !ham.contains(e.target)){
+    navLinks.classList.remove('open');
+    ham.classList.remove('active');
+  }
+});
+</script>
+
+<!-- Firebase SDK & CMS Live Sync -->
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+<script src="firebase-cms-sync.js"></script>
+</body>
+</html>
