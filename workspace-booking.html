@@ -730,7 +730,10 @@
     document.querySelectorAll('.rev').forEach(function (el) { obs.observe(el); });
 
     function selectPlan(name) {
-      document.getElementById('plan-select').value = name;
+      const select = document.getElementById('plan-select');
+      select.value = name;
+      document.getElementById('book-form').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
+      select.focus({ preventScroll: true });
     }
 
     document.querySelectorAll('.plan-row').forEach(function (row) {
