@@ -299,6 +299,12 @@
     .booking-modal { max-width: 100%; border-radius: 20px 20px 0 0; max-height: 92vh; overflow-y: auto; padding: 32px 22px; }
   }
 
+  .success-modal { max-width: 420px; text-align: center; }
+  .success-icon { width: 56px; height: 56px; border-radius: 50%; background: var(--black); display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+  .success-icon svg { width: 26px; height: 26px; }
+  .success-modal h2 { font-family: var(--disp); font-size: 24px; font-weight: 700; letter-spacing: -.5px; color: var(--black); margin-bottom: 10px; }
+  .success-modal p { font-size: 14px; color: var(--gray5); line-height: 1.6; margin-bottom: 18px; }
+
   /* ---------- FOOTER ---------- */
   footer { background: var(--black); padding: 60px 6vw 28px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -701,6 +707,21 @@
     </div>
   </div>
 
+  <!-- SUCCESS MODAL -->
+  <div class="booking-modal-overlay" id="successModalOverlay">
+    <div class="booking-modal success-modal" role="dialog" aria-modal="true" aria-labelledby="successModalTitle">
+      <button type="button" class="booking-modal-close" id="successModalClose" aria-label="Close">&times;</button>
+      <div class="success-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      </div>
+      <h2 id="successModalTitle">Request Received!</h2>
+      <p>Thanks — we've got your details. Our team will contact you soon to confirm availability.</p>
+      <div class="contact-chip"><strong>contact@aic-techno.com</strong></div>
+      <div class="contact-chip"><strong>📞 78900 10537</strong></div>
+      <button type="button" class="btn solid-black" id="successModalDone" style="margin-top:28px;width:100%;justify-content:center;">Done</button>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-grid">
@@ -801,8 +822,30 @@
     bookingModalOverlay.addEventListener('click', function (e) {
       if (e.target === bookingModalOverlay) closeBookingModal();
     });
+
+    const successModalOverlay = document.getElementById('successModalOverlay');
+
+    function openSuccessModal() {
+      successModalOverlay.classList.add('open');
+      document.body.classList.add('modal-open');
+      document.getElementById('successModalDone').focus({ preventScroll: true });
+    }
+
+    function closeSuccessModal() {
+      successModalOverlay.classList.remove('open');
+      document.body.classList.remove('modal-open');
+    }
+
+    document.getElementById('successModalClose').addEventListener('click', closeSuccessModal);
+    document.getElementById('successModalDone').addEventListener('click', closeSuccessModal);
+    successModalOverlay.addEventListener('click', function (e) {
+      if (e.target === successModalOverlay) closeSuccessModal();
+    });
+
     document.addEventListener('keydown', function (e) {
-      if (e.key === 'Escape' && bookingModalOverlay.classList.contains('open')) closeBookingModal();
+      if (e.key !== 'Escape') return;
+      if (successModalOverlay.classList.contains('open')) closeSuccessModal();
+      else if (bookingModalOverlay.classList.contains('open')) closeBookingModal();
     });
 
     function selectPlan(name) {
@@ -870,8 +913,9 @@
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'Request failed');
-        showFormStatus('success', "Thanks! We've received your request — our team will contact you soon.");
         e.target.reset();
+        closeBookingModal();
+        openSuccessModal();
       } catch (err) {
         showFormStatus('error', "Couldn't reach our booking system — opening your email app instead.");
         mailFallback(payload);
