@@ -264,6 +264,41 @@
     .form-card { padding: 30px 22px; }
   }
 
+  /* ---------- BOOKING MODAL ---------- */
+  .booking-modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 300;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
+    align-items: flex-start; justify-content: center;
+    padding: 6vh 5vw; overflow-y: auto;
+  }
+  .booking-modal-overlay.open { display: flex; }
+  body.modal-open { overflow: hidden; }
+  .booking-modal {
+    position: relative; background: #fff; border-radius: 22px;
+    width: 100%; max-width: 640px; padding: 44px;
+    animation: modalIn .25s cubic-bezier(.16,1,.3,1);
+  }
+  @keyframes modalIn { from { opacity: 0; transform: translateY(16px) scale(.98); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .booking-modal { animation: none; } }
+  .booking-modal-close {
+    position: absolute; top: 18px; right: 18px; width: 36px; height: 36px;
+    border-radius: 50%; border: 1.5px solid var(--gray2); background: #fff;
+    font-size: 20px; line-height: 1; color: var(--gray5); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .booking-modal-close:hover { border-color: var(--black); color: var(--black); background: var(--gray1); }
+  .booking-modal-header { margin-bottom: 30px; padding-right: 40px; }
+  .booking-modal-header h2 { font-family: var(--disp); font-size: clamp(24px,3vw,32px); font-weight: 700; letter-spacing: -1px; color: var(--black); }
+  .booking-modal-header p { font-size: 14px; color: var(--gray5); line-height: 1.6; margin-top: 10px; }
+  .booking-modal .contact-chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--gray2); border-radius: 100px; padding: 8px 16px; font-size: 12.5px; color: var(--gray6); margin-top: 10px; margin-right: 8px; }
+  .booking-modal .contact-chip strong { color: var(--black); }
+
+  @media (max-width: 600px) {
+    .booking-modal-overlay { padding: 0; align-items: flex-end; }
+    .booking-modal { max-width: 100%; border-radius: 20px 20px 0 0; max-height: 92vh; overflow-y: auto; padding: 32px 22px; }
+  }
+
   /* ---------- FOOTER ---------- */
   footer { background: var(--black); padding: 60px 6vw 28px; }
   .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -306,7 +341,7 @@
       <a href="#rooms">Meeting Rooms</a>
       <a href="#benefits">Benefits</a>
       <a href="#facilities">Facilities</a>
-      <a href="#book-form" class="current">Book Now</a>
+      <a href="#book-form" class="current" onclick="event.preventDefault(); openBookingModal();">Book Now</a>
       <a href="https://aic-techno.com/">Main Site</a>
     </div>
     <div class="hamburger" id="ham" role="button" aria-label="Toggle navigation menu" tabindex="0"><span></span><span></span><span></span></div>
@@ -320,7 +355,7 @@
       <p class="hero-sub">Day passes, dedicated desks, meeting rooms and lab access at AIC Techno's workspace — built for founders, incubatees, and anyone who needs a serious place to build.</p>
       <div class="hero-btns">
         <a href="#plans" class="btn primary">See Plans &amp; Pricing</a>
-        <a href="#book-form" class="btn ghost-dark">
+        <a href="#book-form" class="btn ghost-dark" onclick="event.preventDefault(); openBookingModal();">
           Book a Spot
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
         </a>
@@ -567,91 +602,104 @@
     <div class="container">
       <div class="eyebrow light">Reserve Your Spot</div>
       <h2 class="big-h on-dark">Let's get you<br>a desk.</h2>
-
-      <div class="form-split">
-        <div class="form-info rev">
-          <p class="lead on-dark">Fill in your details and preferred plan — our team confirms availability and gets back to you soon.</p>
-          <div class="contact-chip"><strong>contact@aic-techno.com</strong></div>
-          <div class="contact-chip" style="margin-top:10px;"><strong>📞 78900 10537</strong></div>
-        </div>
-
-        <form class="form-card rev" id="bookingForm" style="transition-delay:.08s">
-          <div class="field field-full" style="margin-bottom: 20px;">
-            <label>I am a: <span class="req">*</span></label>
-            <div class="type-toggle" role="radiogroup" aria-label="User type">
-              <input type="radio" name="userType" id="type-incubated" value="Incubated Startup" checked>
-              <label for="type-incubated">Incubated Startup</label>
-              <input type="radio" name="userType" id="type-external" value="External User">
-              <label for="type-external">External User</label>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="name">Full Name <span class="req">*</span></label>
-              <input type="text" id="name" placeholder="Rajiv Chatterjee" required>
-            </div>
-            <div class="field">
-              <label for="email">Email Address <span class="req">*</span></label>
-              <input type="email" id="email" placeholder="rajiv@example.com" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="phone">Phone Number <span class="req">*</span></label>
-              <input type="tel" id="phone" placeholder="+91 98765 43210" required>
-            </div>
-            <div class="field">
-              <label for="org">Organization / Startup</label>
-              <input type="text" id="org" placeholder="Acme Ventures">
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="field">
-              <label for="plan-select">Plan / Facility <span class="req">*</span></label>
-              <select id="plan-select" required>
-                <option value="">Select a plan</option>
-                <option>Day Pass</option>
-                <option>Half-Day Pass (4 Hours)</option>
-                <option>Flexi Desk (Up to 20 Days/Month)</option>
-                <option>Dedicated Desk</option>
-                <option>Private Cabin</option>
-                <option>Virtual Office</option>
-                <option>Meeting Room A (2–3 Seater)</option>
-                <option>Meeting Rooms I &amp; C (6–8 Seater)</option>
-                <option>Board Room (20–25 Seater)</option>
-                <option>Meeting Pod</option>
-                <option>Laboratory Access</option>
-                <option>Crèche Facility</option>
-                <option>Gym Access</option>
-                <option>Wellness</option>
-                <option>Meals</option>
-                <option>Printing &amp; Stationery</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="start-date">Preferred Start Date</label>
-              <input type="date" id="start-date">
-            </div>
-          </div>
-
-          <div class="field field-full" style="margin-bottom: 22px;">
-            <label for="notes">Additional Notes</label>
-            <textarea id="notes" placeholder="Number of seats, duration, or anything else we should know..."></textarea>
-          </div>
-
-          <div class="form-submit">
-            <button type="submit" class="btn solid-black" id="submitBtn">
-              Send Booking Request
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
-            </button>
-          </div>
-          <p class="form-note" id="formNote">Your request is logged with our team — we'll contact you soon to confirm.</p>
-          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-        </form>
+      <p class="lead on-dark">Fill in your details and preferred plan — our team confirms availability and gets back to you soon.</p>
+      <div style="margin-top:36px">
+        <button type="button" class="btn primary" onclick="openBookingModal()">
+          Open Booking Form
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </button>
       </div>
     </div>
   </section>
+
+  <!-- BOOKING MODAL -->
+  <div class="booking-modal-overlay" id="bookingModalOverlay">
+    <div class="booking-modal" role="dialog" aria-modal="true" aria-labelledby="bookingModalTitle">
+      <button type="button" class="booking-modal-close" id="bookingModalClose" aria-label="Close booking form">&times;</button>
+      <div class="booking-modal-header">
+        <div class="eyebrow" style="margin-bottom:10px">Reserve Your Spot</div>
+        <h2 id="bookingModalTitle">Let's get you a desk.</h2>
+        <p>Fill in your details and preferred plan — our team confirms availability and gets back to you soon.</p>
+        <div class="contact-chip"><strong>contact@aic-techno.com</strong></div>
+        <div class="contact-chip"><strong>📞 78900 10537</strong></div>
+      </div>
+
+      <form id="bookingForm">
+        <div class="field field-full" style="margin-bottom: 20px;">
+          <label>I am a: <span class="req">*</span></label>
+          <div class="type-toggle" role="radiogroup" aria-label="User type">
+            <input type="radio" name="userType" id="type-incubated" value="Incubated Startup" checked>
+            <label for="type-incubated">Incubated Startup</label>
+            <input type="radio" name="userType" id="type-external" value="External User">
+            <label for="type-external">External User</label>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="name">Full Name <span class="req">*</span></label>
+            <input type="text" id="name" placeholder="Rajiv Chatterjee" required>
+          </div>
+          <div class="field">
+            <label for="email">Email Address <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="rajiv@example.com" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="phone">Phone Number <span class="req">*</span></label>
+            <input type="tel" id="phone" placeholder="+91 98765 43210" required>
+          </div>
+          <div class="field">
+            <label for="org">Organization / Startup</label>
+            <input type="text" id="org" placeholder="Acme Ventures">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="plan-select">Plan / Facility <span class="req">*</span></label>
+            <select id="plan-select" required>
+              <option value="">Select a plan</option>
+              <option>Day Pass</option>
+              <option>Half-Day Pass (4 Hours)</option>
+              <option>Flexi Desk (Up to 20 Days/Month)</option>
+              <option>Dedicated Desk</option>
+              <option>Private Cabin</option>
+              <option>Virtual Office</option>
+              <option>Meeting Room A (2–3 Seater)</option>
+              <option>Meeting Rooms I &amp; C (6–8 Seater)</option>
+              <option>Board Room (20–25 Seater)</option>
+              <option>Meeting Pod</option>
+              <option>Laboratory Access</option>
+              <option>Crèche Facility</option>
+              <option>Gym Access</option>
+              <option>Wellness</option>
+              <option>Meals</option>
+              <option>Printing &amp; Stationery</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="start-date">Preferred Start Date</label>
+            <input type="date" id="start-date">
+          </div>
+        </div>
+
+        <div class="field field-full" style="margin-bottom: 22px;">
+          <label for="notes">Additional Notes</label>
+          <textarea id="notes" placeholder="Number of seats, duration, or anything else we should know..."></textarea>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn solid-black" id="submitBtn">
+            Send Booking Request
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </button>
+        </div>
+        <p class="form-note" id="formNote">Your request is logged with our team — we'll contact you soon to confirm.</p>
+        <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
 
   <!-- FOOTER -->
   <footer>
@@ -669,7 +717,7 @@
         <a href="#rooms">Meeting Rooms</a>
         <a href="#benefits">Benefits</a>
         <a href="#facilities">Facilities</a>
-        <a href="#book-form">Book Now</a>
+        <a href="#book-form" onclick="event.preventDefault(); openBookingModal();">Book Now</a>
         <a href="https://aic-techno.com/">Main Site</a>
       </div>
       <div class="footer-col">
@@ -729,11 +777,36 @@
     }, { threshold: 0.1 });
     document.querySelectorAll('.rev').forEach(function (el) { obs.observe(el); });
 
+    const bookingModalOverlay = document.getElementById('bookingModalOverlay');
+    let lastFocusedBeforeModal = null;
+
+    function openBookingModal(planName) {
+      if (planName) { document.getElementById('plan-select').value = planName; }
+      lastFocusedBeforeModal = document.activeElement;
+      bookingModalOverlay.classList.add('open');
+      document.body.classList.add('modal-open');
+      const firstField = document.getElementById('type-incubated');
+      if (firstField) firstField.focus({ preventScroll: true });
+    }
+
+    function closeBookingModal() {
+      bookingModalOverlay.classList.remove('open');
+      document.body.classList.remove('modal-open');
+      if (lastFocusedBeforeModal && typeof lastFocusedBeforeModal.focus === 'function') {
+        lastFocusedBeforeModal.focus({ preventScroll: true });
+      }
+    }
+
+    document.getElementById('bookingModalClose').addEventListener('click', closeBookingModal);
+    bookingModalOverlay.addEventListener('click', function (e) {
+      if (e.target === bookingModalOverlay) closeBookingModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && bookingModalOverlay.classList.contains('open')) closeBookingModal();
+    });
+
     function selectPlan(name) {
-      const select = document.getElementById('plan-select');
-      select.value = name;
-      document.getElementById('book-form').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
-      select.focus({ preventScroll: true });
+      openBookingModal(name);
     }
 
     document.querySelectorAll('.plan-row').forEach(function (row) {
