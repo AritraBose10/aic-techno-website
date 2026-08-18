@@ -18,6 +18,6 @@ set ftp:ssl-allow yes;
 set ftp:ssl-force no;
 set ssl:verify-certificate no;
 open $HOST;
-mirror -R $DRYRUN --verbose --exclude-glob .git/ --exclude-glob .gitignore --exclude-glob README.md --exclude-glob CNAME --exclude-glob deploy.sh --exclude-glob .DS_Store $LOCAL_DIR /;
+mirror -R $DRYRUN --verbose --exclude-glob .git/ --exclude-glob .gitignore --exclude-glob README.md --exclude-glob CNAME --exclude-glob deploy.sh --exclude-glob .DS_Store --exclude-glob apps-script/ --exclude-glob *.xlsx --exclude-glob *.pDF --exclude-glob *.pdf $LOCAL_DIR /;
 bye
 "

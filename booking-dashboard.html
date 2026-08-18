@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking Dashboard | AIC Techno Innovation and Incubation Council</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/footerlogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000000; --white: #FFFFFF;
+    --gray1: #F5F5F5; --gray2: #EEEEEE; --gray3: #CCCCCC; --gray4: #999999; --gray5: #555555; --gray6: #333333;
+    --disp: 'Space Grotesk', sans-serif;
+  }
+  body { font-family: 'Inter', sans-serif; color: var(--black); background: var(--gray1); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--black); color: #fff; }
+
+  /* ---------- LOGIN GATE ---------- */
+  #loginGate { position: fixed; inset: 0; z-index: 50; background: var(--black); display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .login-card { width: 100%; max-width: 380px; text-align: center; }
+  .login-card .mark { width: 46px; height: 46px; border-radius: 12px; background: #fff; margin: 0 auto 26px; display: flex; align-items: center; justify-content: center; }
+  .login-card .mark svg { width: 20px; height: 20px; }
+  .login-card h1 { font-family: var(--disp); font-size: 26px; font-weight: 700; color: #fff; letter-spacing: -.5px; margin-bottom: 8px; }
+  .login-card p { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 30px; }
+  .login-card input { width: 100%; font-family: 'Inter', sans-serif; font-size: 15px; padding: 14px 16px; border-radius: 8px; border: 1.5px solid rgba(255,255,255,0.15); background: rgba(255,255,255,0.05); color: #fff; outline: none; text-align: center; letter-spacing: 2px; }
+  .login-card input:focus { border-color: #fff; }
+  .login-card input::placeholder { color: rgba(255,255,255,0.3); letter-spacing: normal; }
+  .login-card button { width: 100%; margin-top: 14px; padding: 14px; border: none; border-radius: 8px; background: #fff; color: #000; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s; }
+  .login-card button:hover { background: rgba(255,255,255,.85); transform: translateY(-1px); }
+  .login-card button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+  .login-error { display: none; margin-top: 16px; font-size: 12.5px; font-weight: 600; color: #fff; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; padding: 10px 14px; }
+  .login-error.show { display: block; }
+  .setup-note { margin-top: 30px; font-size: 11.5px; color: rgba(255,255,255,0.3); line-height: 1.6; text-align: left; background: rgba(255,255,255,0.04); border-radius: 8px; padding: 14px 16px; }
+  .setup-note code { color: rgba(255,255,255,0.6); }
+
+  /* ---------- APP SHELL ---------- */
+  #app { display: none; }
+  #app.show { display: block; }
+  header.bar { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--gray2); display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 68px; }
+  .bar-brand { display: flex; align-items: center; gap: 12px; }
+  .bar-brand img { height: 32px; width: auto; border-radius: 4px; }
+  .bar-brand span { font-family: var(--disp); font-size: 15px; font-weight: 700; letter-spacing: -.3px; }
+  .bar-actions { display: flex; align-items: center; gap: 10px; }
+  .icon-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; font-size: 12.5px; font-weight: 700; color: var(--black); cursor: pointer; transition: border-color .2s, background .2s, transform .2s; }
+  .icon-btn:hover { border-color: var(--black); transform: translateY(-1px); }
+  .icon-btn svg { width: 14px; height: 14px; }
+  .icon-btn.dark { background: var(--black); color: #fff; border-color: var(--black); }
+  .icon-btn.dark:hover { background: var(--gray6); }
+  #refreshBtn.loading svg { animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { #refreshBtn.loading svg { animation: none; } }
+
+  main { max-width: 1320px; margin: 0 auto; padding: 36px 28px 80px; }
+
+  /* ---------- STATS ---------- */
+  .stat-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: #fff; border: 1px solid var(--gray2); border-radius: 14px; padding: 22px 24px; }
+  .stat-card .l { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray4); margin-bottom: 10px; }
+  .stat-card .n { font-family: var(--disp); font-size: 32px; font-weight: 700; letter-spacing: -1px; }
+  .stat-card .n.small { font-size: 20px; }
+
+  /* ---------- PLAN BREAKDOWN ---------- */
+  .panel { background: #fff; border: 1px solid var(--gray2); border-radius: 14px; padding: 24px 26px; margin-bottom: 24px; }
+  .panel h2 { font-family: var(--disp); font-size: 15px; font-weight: 700; margin-bottom: 18px; }
+  .bar-row { display: grid; grid-template-columns: 180px 1fr 50px 100px; align-items: center; gap: 14px; margin-bottom: 12px; font-size: 12.5px; }
+  .bar-row .label { color: var(--gray6); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bar-track { height: 8px; border-radius: 100px; background: var(--gray1); overflow: hidden; }
+  .bar-fill { height: 100%; background: var(--black); border-radius: 100px; transition: width .5s ease; }
+  .bar-row .count { text-align: right; color: var(--gray4); font-weight: 700; }
+  .bar-row .revenue { text-align: right; color: var(--black); font-weight: 700; white-space: nowrap; }
+  @media (max-width: 600px) { .bar-row { grid-template-columns: 110px 1fr 34px 76px; gap: 8px; } }
+
+  /* ---------- TABLE ---------- */
+  .table-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 16px; flex-wrap: wrap; }
+  .search-wrap { position: relative; flex: 1; min-width: 220px; max-width: 340px; }
+  .search-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 15px; height: 15px; color: var(--gray4); }
+  #searchInput { width: 100%; font-size: 13px; padding: 10px 14px 10px 38px; border-radius: 100px; border: 1.5px solid var(--gray2); outline: none; background: #fff; }
+  #searchInput:focus { border-color: var(--black); }
+  .count-pill { font-size: 12px; font-weight: 700; color: var(--gray5); }
+
+  .table-wrap { background: #fff; border: 1px solid var(--gray2); border-radius: 14px; overflow: auto; }
+  table { width: 100%; border-collapse: collapse; min-width: 900px; }
+  thead th { text-align: left; font-size: 10.5px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; color: var(--gray4); padding: 14px 18px; border-bottom: 1px solid var(--gray2); white-space: nowrap; }
+  tbody td { padding: 16px 18px; font-size: 13px; border-bottom: 1px solid var(--gray2); vertical-align: top; color: var(--gray6); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--gray1); }
+  td.name-cell { font-weight: 700; color: var(--black); }
+  td .sub { display: block; font-size: 11.5px; color: var(--gray4); font-weight: 500; margin-top: 2px; }
+  .plan-badge { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 100px; background: var(--gray1); color: var(--gray6); white-space: nowrap; }
+  select.status-select { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; padding: 7px 10px; border-radius: 7px; border: 1.5px solid var(--gray2); background: #fff; cursor: pointer; outline: none; }
+  select.status-select:focus { border-color: var(--black); }
+  select.status-select[data-status="New"] { color: var(--black); }
+  select.status-select[data-status="Confirmed"] { color: var(--black); background: var(--gray1); }
+  select.status-select[data-status="Cancelled"] { color: var(--gray4); text-decoration: line-through; }
+
+  .empty-state, .load-state { text-align: center; padding: 60px 20px; color: var(--gray4); font-size: 14px; }
+  .load-state svg { width: 22px; height: 22px; margin: 0 auto 14px; animation: spin .8s linear infinite; display: block; }
+  @media (prefers-reduced-motion: reduce) { .load-state svg { animation: none; } }
+
+  @media (max-width: 1100px) {
+    .stat-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 900px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    header.bar { padding: 0 16px; }
+    main { padding: 24px 16px 60px; }
+  }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+  #loginGate a:focus-visible, #loginGate button:focus-visible, #loginGate input:focus-visible { outline-color: #fff; }
+</style>
+</head>
+<body>
+
+  <!-- LOGIN GATE -->
+  <div id="loginGate">
+    <div class="login-card">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      <h1>Booking Dashboard</h1>
+      <p>Enter the admin password to view workspace bookings.</p>
+      <form id="loginForm" autocomplete="off">
+        <input type="password" id="passwordInput" placeholder="Password" autocomplete="current-password" required>
+        <button type="submit" id="loginBtn">Unlock Dashboard</button>
+      </form>
+      <p class="login-error" id="loginError"></p>
+      <p class="setup-note" id="setupNote" style="display:none;">
+        No backend connected yet — use password <code>aic-demo-2026</code> to preview the dashboard with sample data.<br><br>
+        To go live: open <code>booking-dashboard.html</code> and set <code>APPS_SCRIPT_URL</code>
+        at the top of the script to your deployed Apps Script web app URL (see <code>apps-script/Code.gs</code>).
+      </p>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <header class="bar">
+      <div class="bar-brand">
+        <img src="assets/logo.jpeg" alt="AIC Techno">
+        <span>Booking Dashboard</span>
+      </div>
+      <div class="bar-actions">
+        <button class="icon-btn" id="refreshBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.36"/><path d="M21 4v6h-6"/></svg>
+          Refresh
+        </button>
+        <a class="icon-btn" href="workspace-booking.html" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          Booking Page
+        </a>
+        <button class="icon-btn dark" id="logoutBtn">Log Out</button>
+      </div>
+    </header>
+
+    <main>
+      <div class="stat-grid">
+        <div class="stat-card"><div class="l">Total Bookings</div><div class="n" id="statTotal">0</div></div>
+        <div class="stat-card"><div class="l">New / Pending</div><div class="n" id="statNew">0</div></div>
+        <div class="stat-card"><div class="l">This Month</div><div class="n" id="statMonth">0</div></div>
+        <div class="stat-card"><div class="l">Top Plan</div><div class="n small" id="statTop">—</div></div>
+        <div class="stat-card"><div class="l">Est. Revenue</div><div class="n small" id="statRevenue">₹0</div></div>
+      </div>
+
+      <div class="panel">
+        <h2>Bookings by Plan</h2>
+        <p style="font-size:11.5px;color:var(--gray4);margin-top:-12px;margin-bottom:18px;">Revenue is an estimate based on each plan's list price — excludes cancelled bookings.</p>
+        <div id="planBreakdown"></div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="search-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+          <input type="text" id="searchInput" placeholder="Search name, email, plan…">
+        </div>
+        <span class="count-pill" id="resultCount"></span>
+      </div>
+
+      <div class="table-wrap">
+        <div class="load-state" id="loadState">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.36"/><path d="M21 4v6h-6"/></svg>
+          Loading bookings…
+        </div>
+        <table id="bookingsTable" style="display:none;">
+          <thead>
+            <tr>
+              <th>Submitted</th>
+              <th>Contact</th>
+              <th>Organization</th>
+              <th>Type</th>
+              <th>Plan</th>
+              <th>Amount</th>
+              <th>Start Date</th>
+              <th>Notes</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none;">No bookings match your search.</div>
+      </div>
+
+      <div class="panel" style="margin-top:32px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;">
+          <h2 style="margin-bottom:0;">"Notify Me" Signups <span id="signupCount" class="count-pill" style="margin-left:8px;"></span></h2>
+          <button class="icon-btn" id="copyEmailsBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            Copy All Emails
+          </button>
+        </div>
+        <div class="table-wrap" style="border-radius:10px;">
+          <table id="signupsTable">
+            <thead><tr><th>Email</th><th>Signed Up</th></tr></thead>
+            <tbody id="signupsBody"></tbody>
+          </table>
+          <div class="empty-state" id="signupsEmpty" style="display:none;padding:32px;">No signups yet.</div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Paste the /exec URL from your deployed Apps Script web app here (see apps-script/Code.gs).
+    const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUht4lIDjNAZ_bolaliDMJ8_eaMm0ujUxe-i2RbBNWJ2-jdaRolpVrHCCqRhaKuyU/exec';
+    const STORAGE_KEY = 'aic_dashboard_pw';
+
+    // List price per plan, used only to estimate revenue — update if the rate card changes.
+    // Pricing differs by user type; 0 means TBD / On Request / NA (not counted toward revenue).
+    const PLAN_PRICES = {
+      'Day Pass': { Incubated: 300, External: 500 },
+      'Half-Day Pass (4 Hours)': { Incubated: 200, External: 0 },
+      'Flexi Desk (Up to 20 Days/Month)': { Incubated: 3000, External: 0 },
+      'Dedicated Desk': { Incubated: 5000, External: 6500 },
+      'Private Cabin': { Incubated: 0, External: 0 },
+      'Virtual Office': { Incubated: 500, External: 0 },
+      'Meeting Room A (2–3 Seater)': { Incubated: 150, External: 150 },
+      'Meeting Rooms I & C (6–8 Seater)': { Incubated: 250, External: 250 },
+      'Board Room (20–25 Seater)': { Incubated: 500, External: 500 },
+      'Meeting Pod': { Incubated: 0, External: 0 },
+      'Laboratory Access': { Incubated: 0, External: 0 },
+      'Crèche Facility': { Incubated: 0, External: 0 }
+    };
+
+    function getPlanPrice(plan, userType) {
+      const tier = userType === 'External User' ? 'External' : 'Incubated';
+      const entry = PLAN_PRICES[plan];
+      return entry ? (entry[tier] || 0) : 0;
+    }
+
+    function formatINR(n) {
+      return '₹' + Math.round(n).toLocaleString('en-IN');
+    }
+
+    // Demo mode: while APPS_SCRIPT_URL isn't configured yet, this password loads sample
+    // data client-side so you can preview the dashboard. Remove once the backend is live.
+    const DEMO_PASSWORD = 'aic-demo-2026';
+    const DEMO_BOOKINGS = [
+      { row: 0, Timestamp: '2026-07-12T09:30:00', Name: 'Rajiv Chatterjee', Email: 'rajiv@example.com', Phone: '+91 98765 43210', Organization: 'Acme Ventures', 'User Type': 'Incubated Startup', Plan: 'Dedicated Desk', 'Start Date': '2026-07-20', Notes: '2 seats, near the window if possible', Status: 'Confirmed' },
+      { row: 1, Timestamp: '2026-07-13T14:05:00', Name: 'Ishita Sen', Email: 'ishita.sen@example.com', Phone: '+91 90123 45678', Organization: 'Loopwork Labs', 'User Type': 'Incubated Startup', Plan: 'Flexi Desk (Up to 20 Days/Month)', 'Start Date': '2026-07-15', Notes: '', Status: 'New' },
+      { row: 2, Timestamp: '2026-07-13T18:42:00', Name: 'Arindam Roy', Email: 'arindam@example.com', Phone: '+91 91234 56789', Organization: '', 'User Type': 'External User', Plan: 'Day Pass', 'Start Date': '2026-07-14', Notes: 'First-time visitor', Status: 'New' },
+      { row: 3, Timestamp: '2026-07-10T11:15:00', Name: 'Priya Banerjee', Email: 'priya.b@example.com', Phone: '+91 99887 76655', Organization: 'Studio Petal', 'User Type': 'External User', Plan: 'Board Room (20–25 Seater)', 'Start Date': '2026-07-11', Notes: '1 hour, client pitch', Status: 'Cancelled' },
+      { row: 4, Timestamp: '2026-06-28T16:00:00', Name: 'Sourav Mitra', Email: 'sourav@example.com', Phone: '+91 98765 12345', Organization: 'Techno Incubatees', 'User Type': 'Incubated Startup', Plan: 'Laboratory Access', 'Start Date': '2026-07-01', Notes: 'Annual renewal', Status: 'Confirmed' },
+      { row: 5, Timestamp: '2026-07-09T10:20:00', Name: 'Nabanita Ghosh', Email: 'nabanita@example.com', Phone: '+91 97531 08642', Organization: '', 'User Type': 'Incubated Startup', Plan: 'Virtual Office', 'Start Date': '2026-07-09', Notes: '', Status: 'Confirmed' },
+      { row: 6, Timestamp: '2026-07-13T08:55:00', Name: 'Kunal Das', Email: 'kunal.das@example.com', Phone: '+91 96385 27419', Organization: 'Freelance', 'User Type': 'External User', Plan: 'Meeting Room A (2–3 Seater)', 'Start Date': '2026-07-13', Notes: '3 hours', Status: 'New' },
+      { row: 7, Timestamp: '2026-07-05T13:40:00', Name: 'Meghna Basu', Email: 'meghna@example.com', Phone: '+91 95040 19283', Organization: 'Basu & Co', 'User Type': 'Incubated Startup', Plan: 'Flexi Desk (Up to 20 Days/Month)', 'Start Date': '2026-07-06', Notes: 'Prefers quiet zone', Status: 'Confirmed' }
+    ];
+    const DEMO_SIGNUPS = [
+      { row: 0, Timestamp: '2026-07-13T20:10:00', Email: 'wren.dutta@example.com' },
+      { row: 1, Timestamp: '2026-07-13T09:00:00', Email: 'ayan.k@example.com' },
+      { row: 2, Timestamp: '2026-07-12T17:22:00', Email: 'shreya.paul@example.com' },
+      { row: 3, Timestamp: '2026-07-10T12:05:00', Email: 'debarati@example.com' }
+    ];
+
+    const loginGate = document.getElementById('loginGate');
+    const loginForm = document.getElementById('loginForm');
+    const passwordInput = document.getElementById('passwordInput');
+    const loginBtn = document.getElementById('loginBtn');
+    const loginError = document.getElementById('loginError');
+    const app = document.getElementById('app');
+
+    let allBookings = [];
+    let allSignups = [];
+    let demoMode = false;
+
+    function isConfigured() {
+      return APPS_SCRIPT_URL && APPS_SCRIPT_URL.indexOf('PASTE_YOUR') !== 0;
+    }
+
+    if (!isConfigured()) {
+      document.getElementById('setupNote').style.display = 'block';
+    }
+
+    async function fetchAction(action, password) {
+      const res = await fetch(APPS_SCRIPT_URL + '?action=' + action + '&password=' + encodeURIComponent(password));
+      return res.json();
+    }
+
+    async function tryLogin(password, silent) {
+      if (!isConfigured()) {
+        if (password === DEMO_PASSWORD) {
+          demoMode = true;
+          sessionStorage.setItem(STORAGE_KEY, password);
+          allBookings = JSON.parse(JSON.stringify(DEMO_BOOKINGS));
+          allSignups = JSON.parse(JSON.stringify(DEMO_SIGNUPS));
+          loginGate.style.display = 'none';
+          app.classList.add('show');
+          renderAll();
+          return true;
+        }
+        if (!silent) showLoginError('Backend not configured yet — use the demo password below, or see the setup note.');
+        return false;
+      }
+      loginBtn.disabled = true;
+      loginBtn.textContent = 'Checking…';
+      try {
+        const [bookingsJson, signupsJson] = await Promise.all([
+          fetchAction('getBookings', password),
+          fetchAction('getSignups', password)
+        ]);
+        if (bookingsJson.ok) {
+          sessionStorage.setItem(STORAGE_KEY, password);
+          allBookings = bookingsJson.bookings || [];
+          allSignups = signupsJson.ok ? (signupsJson.signups || []) : [];
+          loginGate.style.display = 'none';
+          app.classList.add('show');
+          renderAll();
+          return true;
+        }
+        if (!silent) showLoginError('Incorrect password. Try again.');
+        sessionStorage.removeItem(STORAGE_KEY);
+        return false;
+      } catch (err) {
+        if (!silent) showLoginError("Couldn't reach the booking backend. Check your connection or Apps Script deployment.");
+        return false;
+      } finally {
+        loginBtn.disabled = false;
+        loginBtn.textContent = 'Unlock Dashboard';
+      }
+    }
+
+    function showLoginError(text) {
+      loginError.textContent = text;
+      loginError.classList.add('show');
+    }
+
+    loginForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      loginError.classList.remove('show');
+      tryLogin(passwordInput.value, false);
+    });
+
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      sessionStorage.removeItem(STORAGE_KEY);
+      app.classList.remove('show');
+      passwordInput.value = '';
+      loginGate.style.display = 'flex';
+    });
+
+    const savedPw = sessionStorage.getItem(STORAGE_KEY);
+    if (savedPw) { tryLogin(savedPw, true); }
+
+    async function refreshBookings() {
+      const pw = sessionStorage.getItem(STORAGE_KEY);
+      if (!pw) return;
+      const btn = document.getElementById('refreshBtn');
+      btn.classList.add('loading');
+      if (demoMode) {
+        setTimeout(function () { btn.classList.remove('loading'); renderAll(); }, 400);
+        return;
+      }
+      try {
+        const [bookingsJson, signupsJson] = await Promise.all([
+          fetchAction('getBookings', pw),
+          fetchAction('getSignups', pw)
+        ]);
+        if (bookingsJson.ok) { allBookings = bookingsJson.bookings || []; }
+        if (signupsJson.ok) { allSignups = signupsJson.signups || []; }
+        renderAll();
+      } catch (err) { /* silent — keep showing last known data */ }
+      finally { btn.classList.remove('loading'); }
+    }
+    document.getElementById('refreshBtn').addEventListener('click', refreshBookings);
+
+    async function updateStatus(rowIndex, status) {
+      if (demoMode) return; // sample data only — nothing to persist
+      const pw = sessionStorage.getItem(STORAGE_KEY);
+      try {
+        await fetch(APPS_SCRIPT_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'updateStatus', row: rowIndex, status: status, password: pw })
+        });
+      } catch (err) { /* best-effort */ }
+    }
+
+    function renderAll() {
+      document.getElementById('loadState').style.display = 'none';
+      document.getElementById('bookingsTable').style.display = 'table';
+      renderStats();
+      renderPlanBreakdown();
+      renderTable(document.getElementById('searchInput').value);
+      renderSignups();
+    }
+
+    function renderSignups() {
+      const body = document.getElementById('signupsBody');
+      body.innerHTML = '';
+      const sorted = allSignups.slice().sort(function (a, b) { return new Date(b.Timestamp) - new Date(a.Timestamp); });
+
+      document.getElementById('signupCount').textContent = sorted.length + (sorted.length === 1 ? ' signup' : ' signups');
+      document.getElementById('signupsTable').style.display = sorted.length ? 'table' : 'none';
+      document.getElementById('signupsEmpty').style.display = sorted.length ? 'none' : 'block';
+
+      sorted.forEach(function (s) {
+        const tr = document.createElement('tr');
+        const tdEmail = document.createElement('td');
+        tdEmail.className = 'name-cell';
+        tdEmail.textContent = s.Email || '—';
+        const tdDate = document.createElement('td');
+        tdDate.textContent = formatDate(s.Timestamp);
+        tr.appendChild(tdEmail);
+        tr.appendChild(tdDate);
+        body.appendChild(tr);
+      });
+    }
+
+    document.getElementById('copyEmailsBtn').addEventListener('click', async function () {
+      const emails = allSignups.map(function (s) { return s.Email; }).filter(Boolean).join(', ');
+      const btn = this;
+      const original = btn.innerHTML;
+      try {
+        await navigator.clipboard.writeText(emails);
+        btn.innerHTML = 'Copied!';
+      } catch (err) {
+        btn.innerHTML = 'Copy failed';
+      }
+      setTimeout(function () { btn.innerHTML = original; }, 1800);
+    });
+
+    function renderStats() {
+      document.getElementById('statTotal').textContent = allBookings.length;
+      document.getElementById('statNew').textContent = allBookings.filter(function (b) { return (b.Status || 'New') === 'New'; }).length;
+
+      const now = new Date();
+      const thisMonth = allBookings.filter(function (b) {
+        const d = new Date(b.Timestamp);
+        return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+      }).length;
+      document.getElementById('statMonth').textContent = thisMonth;
+
+      const counts = planCounts();
+      const top = Object.keys(counts).sort(function (a, b) { return counts[b] - counts[a]; })[0];
+      document.getElementById('statTop').textContent = top || '—';
+
+      const revenue = allBookings.reduce(function (sum, b) {
+        if ((b.Status || 'New') === 'Cancelled') return sum;
+        return sum + getPlanPrice(b.Plan, b['User Type']);
+      }, 0);
+      document.getElementById('statRevenue').textContent = formatINR(revenue);
+    }
+
+    function planCounts() {
+      const counts = {};
+      allBookings.forEach(function (b) {
+        const plan = b.Plan || 'Other';
+        counts[plan] = (counts[plan] || 0) + 1;
+      });
+      return counts;
+    }
+
+    function planRevenue(planName) {
+      return allBookings.reduce(function (sum, b) {
+        if (b.Plan !== planName || (b.Status || 'New') === 'Cancelled') return sum;
+        return sum + getPlanPrice(planName, b['User Type']);
+      }, 0);
+    }
+
+    function renderPlanBreakdown() {
+      const wrap = document.getElementById('planBreakdown');
+      wrap.innerHTML = '';
+      const counts = planCounts();
+      const entries = Object.keys(counts).map(function (k) { return [k, counts[k]]; }).sort(function (a, b) { return b[1] - a[1]; });
+      const max = entries.length ? entries[0][1] : 1;
+
+      if (!entries.length) {
+        const p = document.createElement('p');
+        p.style.fontSize = '13px'; p.style.color = '#999';
+        p.textContent = 'No bookings yet.';
+        wrap.appendChild(p);
+        return;
+      }
+
+      entries.forEach(function (entry) {
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+
+        const label = document.createElement('div');
+        label.className = 'label';
+        label.textContent = entry[0];
+
+        const track = document.createElement('div');
+        track.className = 'bar-track';
+        const fill = document.createElement('div');
+        fill.className = 'bar-fill';
+        fill.style.width = Math.max(4, (entry[1] / max) * 100) + '%';
+        track.appendChild(fill);
+
+        const revenue = document.createElement('div');
+        revenue.className = 'revenue';
+        revenue.textContent = formatINR(planRevenue(entry[0]));
+
+        const count = document.createElement('div');
+        count.className = 'count';
+        count.textContent = entry[1];
+
+        row.appendChild(label);
+        row.appendChild(track);
+        row.appendChild(count);
+        row.appendChild(revenue);
+        wrap.appendChild(row);
+      });
+    }
+
+    function formatDate(value) {
+      if (!value) return '—';
+      const d = new Date(value);
+      if (isNaN(d.getTime())) return String(value);
+      return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) + ' · ' +
+             d.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' });
+    }
+
+    function renderTable(query) {
+      const body = document.getElementById('bookingsBody');
+      body.innerHTML = '';
+      const q = (query || '').trim().toLowerCase();
+
+      const filtered = allBookings.filter(function (b) {
+        if (!q) return true;
+        return [b.Name, b.Email, b.Plan, b.Organization].some(function (v) {
+          return String(v || '').toLowerCase().indexOf(q) !== -1;
+        });
+      }).sort(function (a, b) { return new Date(b.Timestamp) - new Date(a.Timestamp); });
+
+      document.getElementById('resultCount').textContent = filtered.length + (filtered.length === 1 ? ' booking' : ' bookings');
+      document.getElementById('bookingsTable').style.display = filtered.length ? 'table' : 'none';
+      document.getElementById('emptyState').style.display = filtered.length ? 'none' : 'block';
+
+      filtered.forEach(function (b) {
+        const tr = document.createElement('tr');
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = formatDate(b.Timestamp);
+        tr.appendChild(tdDate);
+
+        const tdContact = document.createElement('td');
+        tdContact.className = 'name-cell';
+        tdContact.textContent = b.Name || '—';
+        const sub = document.createElement('span');
+        sub.className = 'sub';
+        sub.textContent = [b.Email, b.Phone].filter(Boolean).join(' · ');
+        tdContact.appendChild(sub);
+        tr.appendChild(tdContact);
+
+        const tdOrg = document.createElement('td');
+        tdOrg.textContent = b.Organization || '—';
+        tr.appendChild(tdOrg);
+
+        const tdType = document.createElement('td');
+        tdType.textContent = b['User Type'] === 'External User' ? 'External' : (b['User Type'] ? 'Incubated' : '—');
+        tr.appendChild(tdType);
+
+        const tdPlan = document.createElement('td');
+        const badge = document.createElement('span');
+        badge.className = 'plan-badge';
+        badge.textContent = b.Plan || '—';
+        tdPlan.appendChild(badge);
+        tr.appendChild(tdPlan);
+
+        const tdAmount = document.createElement('td');
+        const amount = getPlanPrice(b.Plan, b['User Type']);
+        tdAmount.textContent = amount ? formatINR(amount) : '—';
+        tdAmount.style.fontWeight = '700';
+        if ((b.Status || 'New') === 'Cancelled') {
+          tdAmount.style.color = 'var(--gray4)';
+          tdAmount.style.textDecoration = 'line-through';
+        }
+        tr.appendChild(tdAmount);
+
+        const tdStart = document.createElement('td');
+        tdStart.textContent = b['Start Date'] || '—';
+        tr.appendChild(tdStart);
+
+        const tdNotes = document.createElement('td');
+        tdNotes.style.maxWidth = '260px';
+        tdNotes.textContent = b.Notes || '—';
+        tr.appendChild(tdNotes);
+
+        const tdStatus = document.createElement('td');
+        const select = document.createElement('select');
+        select.className = 'status-select';
+        const status = b.Status || 'New';
+        ['New', 'Confirmed', 'Cancelled'].forEach(function (opt) {
+          const o = document.createElement('option');
+          o.value = opt; o.textContent = opt;
+          if (opt === status) o.selected = true;
+          select.appendChild(o);
+        });
+        select.dataset.status = status;
+        select.addEventListener('change', function () {
+          b.Status = select.value;
+          updateStatus(b.row, select.value);
+          renderStats();
+          renderPlanBreakdown();
+          renderTable(document.getElementById('searchInput').value);
+        });
+        tdStatus.appendChild(select);
+        tr.appendChild(tdStatus);
+
+        body.appendChild(tr);
+      });
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function () {
+      renderTable(this.value);
+    });
+  </script>
+
+</body>
+</html>

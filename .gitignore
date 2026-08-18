@@ -2,3 +2,9 @@
 cgi-bin/
 .well-known/
 .DS_Store
+
+# Internal / secret — never publish to this public repo
+apps-script/
+*.xlsx
+*.pdf
+*.pDF

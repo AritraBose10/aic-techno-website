@@ -3,160 +3,805 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workspace Booking — Coming Soon | AIC Techno Innovation and Incubation Council</title>
-<meta name="description" content="Online booking for AIC Techno's workspace at Offbeat CCU, Kolkata is coming soon. Day passes, dedicated desks, meeting rooms and lab access.">
+<title>Book a Workspace | AIC Techno Innovation and Incubation Council</title>
+<meta name="description" content="Book a desk, meeting room or lab membership at AIC Techno Innovation and Incubation Council's workspace at Offbeat CCU, Kolkata. Day passes, flexi seats, dedicated desks, virtual offices and more.">
 <link rel="icon" type="image/png" href="assets/footerlogo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
+
   :root {
-    --black: #000000; --white: #FFFFFF;
-    --gray1: #F5F5F5; --gray2: #EEEEEE; --gray3: #CCCCCC; --gray4: #999999; --gray5: #555555; --gray6: #333333;
+    --black:  #000000;
+    --black2: #0D0D0D;
+    --black3: #141414;
+    --white:  #FFFFFF;
+    --gray1:  #F5F5F5;
+    --gray2:  #EEEEEE;
+    --gray3:  #CCCCCC;
+    --gray4:  #999999;
+    --gray5:  #555555;
+    --gray6:  #333333;
     --disp: 'Space Grotesk', sans-serif;
   }
+
   html { scroll-behavior: smooth; }
-  body { font-family: 'Inter', sans-serif; background: var(--black); color: #fff; overflow-x: hidden; min-height: 100vh; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body { font-family: 'Inter', sans-serif; background: var(--white); color: var(--black); overflow-x: hidden; }
   a { text-decoration: none; color: inherit; }
-  ::selection { background: #fff; color: #000; }
+  img { max-width: 100%; }
+  ::selection { background: var(--black); color: var(--white); }
 
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 6vw; height: 68px; }
-  .aic-logo-img { display: block; height: 38px; width: auto; background: #fff; border-radius: 6px; padding: 4px; object-fit: contain; }
-  .nav-back { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.55); transition: color .2s; }
-  .nav-back:hover { color: #fff; }
-  .nav-back svg { width: 14px; height: 14px; }
+  /* ---------- SCROLL PROGRESS ---------- */
+  #progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--black); transform: scaleX(0); transform-origin: left; z-index: 200; }
 
-  main {
-    min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    text-align: center; padding: 140px 6vw 80px; position: relative; overflow: hidden;
+  /* ---------- NAV ---------- */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 0 6vw; height: 68px; background: transparent; transition: background 0.3s, box-shadow 0.3s, border-color .3s; border-bottom: 1px solid transparent; }
+  nav.scrolled { background: rgba(255,255,255,0.92); backdrop-filter: blur(16px); box-shadow: 0 1px 12px rgba(0,0,0,0.06); border-color: var(--gray2); }
+  nav.scrolled .nav-links a, nav.scrolled .aic-logo-text { color: var(--black); }
+  .aic-logo-img { display: block; height: 40px; width: auto; background: #fff; border-radius: 6px; padding: 4px; object-fit: contain; }
+  .nav-links { display: flex; align-items: center; gap: 30px; }
+  .nav-links a { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); transition: color 0.2s; }
+  nav:not(.scrolled) .nav-links a:hover { color: #fff; }
+  nav.scrolled .nav-links a:hover { color: var(--gray5); }
+  .nav-links a.current { font-weight: 800; }
+  nav:not(.scrolled) .nav-links a.current { color: #fff; }
+  nav.scrolled .nav-links a.current { color: var(--black); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
+  .hamburger span { width: 22px; height: 2px; background: #fff; border-radius: 2px; transition: transform 0.25s, opacity 0.2s, background .2s; }
+  nav.scrolled .hamburger span { background: var(--black); }
+  .hamburger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger.active span:nth-child(2) { opacity: 0; }
+  .hamburger.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  @media (max-width: 900px) {
+    .hamburger { display: flex; }
+    .nav-links { display: flex; flex-direction: column; align-items: flex-start; position: fixed; top: 68px; left: 0; right: 0; background: rgba(0,0,0,0.97); backdrop-filter: blur(16px); padding: 24px 6vw; gap: 22px; border-bottom: 1px solid rgba(255,255,255,0.08); transform: translateY(-130%); transition: transform 0.3s; z-index: 99; }
+    .nav-links.open { transform: translateY(0); }
+    .nav-links a, nav.scrolled .nav-links a { font-size: 16px; color: rgba(255,255,255,0.85) !important; }
   }
-  main::before {
+
+  /* ---------- SECTION SYSTEM ---------- */
+  section { padding: 120px 6vw; position: relative; }
+  .container { max-width: 1240px; margin: 0 auto; }
+  .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-family: var(--disp); font-size: 12px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 22px; color: var(--gray5); }
+  .eyebrow::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--black); }
+  .eyebrow.light { color: rgba(255,255,255,0.55); }
+  .eyebrow.light::before { background: #fff; }
+  .big-h { font-family: var(--disp); font-size: clamp(34px, 5vw, 68px); font-weight: 700; line-height: 1.02; letter-spacing: -2px; max-width: 900px; }
+  .big-h.on-dark { color: #fff; }
+  .lead { font-size: 16px; color: var(--gray5); line-height: 1.75; max-width: 560px; margin-top: 22px; }
+  .lead.on-dark { color: rgba(255,255,255,0.5); }
+
+  /* ---------- reveal ---------- */
+  .rev { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .7s cubic-bezier(.16,1,.3,1); }
+  .rev.on { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .rev { opacity: 1; transform: none; transition: none; } }
+
+  /* ---------- HERO ---------- */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; background: var(--black); overflow: hidden; padding: 140px 6vw 0; }
+  .hero::before {
     content: ''; position: absolute; inset: 0; z-index: 0; opacity: .5;
     background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
     background-size: 26px 26px;
-    mask-image: radial-gradient(ellipse 60% 55% at 50% 40%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, #000 40%, transparent 100%);
   }
-  .cs-content { position: relative; z-index: 2; max-width: 780px; }
-  .eyebrow { display: inline-flex; align-items: center; gap: 9px; font-family: var(--disp); font-size: 12px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
-  .eyebrow::before, .eyebrow::after { content: ''; width: 18px; height: 1px; background: rgba(255,255,255,0.3); }
+  .hero-inner { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; width: 100%; }
+  .hero-kicker { display: inline-flex; align-items: center; gap: 9px; font-family: var(--disp); font-size: 12px; font-weight: 600; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+  .hero-kicker::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: #fff; }
+  .hero-h1 { font-family: var(--disp); font-size: clamp(46px, 8.5vw, 128px); font-weight: 700; line-height: 0.94; letter-spacing: -4px; color: #fff; }
+  .hero-h1 .outline { color: transparent; -webkit-text-stroke: 1.5px #fff; }
+  @supports not (-webkit-text-stroke: 1px #fff) { .hero-h1 .outline { color: #fff; } }
+  .hero-sub { font-size: 17px; color: rgba(255,255,255,0.45); line-height: 1.75; max-width: 540px; margin-top: 30px; }
+  .hero-btns { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 44px; }
+  .btn { padding: 15px 28px; border-radius: 100px; font-size: 14px; font-weight: 700; letter-spacing: 0.2px; display: inline-flex; align-items: center; gap: 8px; transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s; cursor: pointer; border: 1.5px solid transparent; }
+  .btn.primary { background: #fff; color: #000; }
+  .btn.primary:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); }
+  .btn.ghost-dark { background: transparent; color: #fff; border-color: rgba(255,255,255,0.3); }
+  .btn.ghost-dark:hover { border-color: #fff; background: rgba(255,255,255,0.08); transform: translateY(-2px); }
+  .btn.solid-black { background: var(--black); color: #fff; }
+  .btn.solid-black:hover { background: var(--gray6); transform: translateY(-2px); }
+  .btn svg { width: 14px; height: 14px; transition: transform .2s; }
+  .btn:hover svg { transform: translate(3px,-3px); }
 
-  .cs-h1 { font-family: var(--disp); font-size: clamp(46px, 8vw, 96px); font-weight: 700; line-height: 0.98; letter-spacing: -3px; color: #fff; }
-  .cs-h1 .outline { color: transparent; -webkit-text-stroke: 1.5px #fff; }
-  @supports not (-webkit-text-stroke: 1px #fff) { .cs-h1 .outline { color: #fff; } }
+  .scroll-cue { position: relative; z-index: 2; margin: 64px auto 0; display: flex; flex-direction: column; align-items: center; gap: 10px; color: rgba(255,255,255,0.35); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+  .scroll-cue .line { width: 1px; height: 34px; background: rgba(255,255,255,0.25); overflow: hidden; position: relative; }
+  .scroll-cue .line::after { content: ''; position: absolute; top: -100%; left: 0; width: 100%; height: 100%; background: #fff; animation: scrolldrop 1.8s ease-in-out infinite; }
+  @keyframes scrolldrop { 0% { top: -100%; } 60%,100% { top: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .scroll-cue .line::after { animation: none; top: 0; } }
 
-  .cs-sub { font-size: 16px; color: rgba(255,255,255,0.45); line-height: 1.75; max-width: 560px; margin: 26px auto 0; }
+  /* ---------- MARQUEE TICKER ---------- */
+  .ticker { background: #fff; border-top: 1px solid var(--gray2); border-bottom: 1px solid var(--gray2); overflow: hidden; padding: 20px 0; position: relative; }
+  .ticker::before, .ticker::after { content: ''; position: absolute; top: 0; bottom: 0; width: 90px; z-index: 2; pointer-events: none; }
+  .ticker::before { left: 0; background: linear-gradient(90deg,#fff,rgba(255,255,255,0)); }
+  .ticker::after { right: 0; background: linear-gradient(270deg,#fff,rgba(255,255,255,0)); }
+  .ticker-track { display: flex; align-items: center; width: max-content; animation: tape 32s linear infinite; }
+  .ticker:hover .ticker-track { animation-play-state: paused; }
+  .ticker-item { display: flex; align-items: center; gap: 14px; font-family: var(--disp); font-size: 15px; font-weight: 600; letter-spacing: .3px; white-space: nowrap; margin: 0 30px; color: var(--black); }
+  .ticker-item .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gray3); }
+  .ticker-item .price { color: var(--gray4); font-weight: 500; }
+  @keyframes tape { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .ticker-track { animation: none; } }
 
-  .plan-teaser { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin: 40px 0 44px; }
-  .plan-chip { border: 1px solid rgba(255,255,255,0.14); border-radius: 100px; padding: 9px 18px; font-size: 12.5px; font-weight: 600; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.03); transition: border-color .2s, color .2s; }
-  .plan-chip:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
-
-  .notify-form { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; max-width: 460px; margin: 0 auto; }
-  .notify-form input[type="email"] {
-    flex: 1 1 240px; font-family: 'Inter', sans-serif; font-size: 14px; padding: 15px 18px;
-    border-radius: 100px; border: 1.5px solid rgba(255,255,255,0.18); background: rgba(255,255,255,0.04);
-    color: #fff; outline: none; transition: border-color .2s;
+  /* ---------- PLANS (index rows) ---------- */
+  .plans-section { background: #fff; }
+  .plans-list { margin-top: 60px; border-top: 1px solid var(--gray2); }
+  .plan-row {
+    display: grid; grid-template-columns: 90px 1fr 1fr auto; align-items: center; gap: 28px;
+    padding: 34px 8px; border-bottom: 1px solid var(--gray2);
+    cursor: pointer; transition: background .35s ease, color .35s ease, padding .3s ease;
+    color: var(--black);
   }
-  .notify-form input[type="email"]::placeholder { color: rgba(255,255,255,0.35); }
-  .notify-form input[type="email"]:focus { border-color: #fff; }
-  .notify-form button {
-    flex: 0 0 auto; padding: 15px 26px; border-radius: 100px; border: none; background: #fff; color: #000;
-    font-size: 14px; font-weight: 700; cursor: pointer; transition: background .2s, transform .2s;
+  .plan-row:hover { background: var(--black); color: #fff; padding-left: 24px; padding-right: 24px; }
+  .plan-row:hover .plan-desc { color: rgba(255,255,255,0.55); }
+  .plan-row:hover .plan-tag { color: rgba(255,255,255,0.4); }
+  .plan-row:hover .plan-arrow { background: #fff; color: #000; transform: translate(4px,-4px); }
+  .plan-idx { font-family: var(--disp); font-size: 14px; font-weight: 500; color: var(--gray4); }
+  .plan-row:hover .plan-idx { color: rgba(255,255,255,0.4); }
+  .plan-name-wrap { display: flex; flex-direction: column; gap: 6px; }
+  .plan-name { font-family: var(--disp); font-size: clamp(20px,2.6vw,30px); font-weight: 600; letter-spacing: -.5px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .plan-tag { font-size: 10px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase; color: var(--gray4); border: 1px solid currentColor; border-radius: 100px; padding: 3px 10px; transition: color .35s; }
+  .plan-desc { font-size: 13.5px; color: var(--gray5); line-height: 1.6; max-width: 360px; transition: color .35s; }
+  .plan-price-wrap { display: flex; align-items: flex-start; justify-content: flex-end; gap: 22px; text-align: right; flex-wrap: wrap; }
+  .price-col { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; }
+  .price-col .tier-label { font-size: 9px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray4); transition: color .35s; }
+  .plan-row:hover .price-col .tier-label { color: rgba(255,255,255,0.35); }
+  .plan-price { font-family: var(--disp); font-size: clamp(20px,2.4vw,28px); font-weight: 700; letter-spacing: -1px; }
+  .plan-price.na { color: var(--gray3); font-weight: 500; }
+  .plan-row:hover .plan-price.na { color: rgba(255,255,255,0.25); }
+  .plan-unit { font-size: 11px; font-weight: 500; color: var(--gray4); white-space: nowrap; }
+  .plan-arrow { width: 46px; height: 46px; border-radius: 50%; border: 1.5px solid var(--gray3); display: flex; align-items: center; justify-content: center; transition: transform .3s, background .3s, color .3s, border-color .3s; flex-shrink: 0; }
+  .plan-arrow svg { width: 16px; height: 16px; }
+  .plan-row:hover .plan-arrow { border-color: #fff; }
+
+  @media (max-width: 900px) {
+    .plan-row { grid-template-columns: 1fr auto; grid-template-areas: "idx arrow" "name name" "price price"; row-gap: 12px; }
+    .plan-idx { grid-area: idx; }
+    .plan-arrow { grid-area: arrow; justify-self: end; }
+    .plan-name-wrap { grid-area: name; }
+    .plan-desc { max-width: none; }
+    .plan-price-wrap { grid-area: price; justify-content: flex-start; text-align: left; }
   }
-  .notify-form button:hover { background: rgba(255,255,255,0.85); transform: translateY(-2px); }
-  .notify-form button:disabled { opacity: .5; cursor: not-allowed; transform: none; }
 
-  .notify-status { margin-top: 16px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.55); min-height: 18px; }
+  /* ---------- MEETING ROOMS (ticket cards) ---------- */
+  .rooms-section { background: var(--black); }
+  .rooms-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 26px; margin-top: 60px; }
+  .room-card { position: relative; background: #fff; border-radius: 18px; padding: 30px 26px 26px; transition: transform .3s ease, box-shadow .3s ease; }
+  .room-card:hover { transform: translateY(-6px) rotate(-.6deg); box-shadow: 0 24px 50px rgba(0,0,0,.35); }
+  .room-card .r-price { font-family: var(--disp); font-size: 26px; font-weight: 700; letter-spacing: -1px; margin-bottom: 4px; }
+  .room-card .r-unit { font-size: 11px; color: var(--gray4); font-weight: 600; text-transform: uppercase; letter-spacing: .6px; }
+  .perf { position: relative; margin: 20px 0; height: 1px; background-image: linear-gradient(to right, var(--gray3) 60%, transparent 0%); background-size: 10px 1px; background-repeat: repeat-x; }
+  .perf::before, .perf::after { content: ''; position: absolute; top: 50%; transform: translateY(-50%); width: 18px; height: 18px; border-radius: 50%; background: var(--black); }
+  .perf::before { left: -30px; }
+  .perf::after { right: -30px; }
+  .room-card h4 { font-size: 14px; font-weight: 800; color: var(--black); margin-bottom: 8px; line-height: 1.4; }
+  .room-card p { font-size: 12.5px; color: var(--gray5); line-height: 1.6; }
 
-  .cs-contact { margin-top: 46px; font-size: 13px; color: rgba(255,255,255,0.35); }
-  .cs-contact a { color: rgba(255,255,255,0.75); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.25); }
-  .cs-contact a:hover { border-color: rgba(255,255,255,0.7); }
+  @media (max-width: 900px) { .rooms-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 600px) { .rooms-grid { grid-template-columns: 1fr; } }
 
+  /* ---------- BENEFITS COMPARISON ---------- */
+  .benefits-section { background: #fff; }
+  .benefits-table { margin-top: 56px; border: 1px solid var(--gray2); border-radius: 18px; overflow: hidden; }
+  .benefits-row { display: grid; grid-template-columns: 1.4fr 1fr 1fr; border-bottom: 1px solid var(--gray2); }
+  .benefits-row:last-child { border-bottom: none; }
+  .benefits-row.head { background: var(--black); color: #fff; }
+  .benefits-row.head .b-cell { font-size: 10px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,0.55); }
+  .benefits-row.head .b-cell:first-child { color: rgba(255,255,255,0.9); }
+  .b-cell { padding: 18px 24px; font-size: 13px; color: var(--gray6); display: flex; align-items: center; }
+  .benefits-row .b-cell:first-child { font-weight: 700; color: var(--black); font-size: 13.5px; }
+  .benefits-row:nth-child(even):not(.head) { background: var(--gray1); }
+  @media (max-width: 700px) { .benefits-row { grid-template-columns: 1.1fr 1fr 1fr; } .b-cell { padding: 14px 12px; font-size: 12px; } }
+
+  /* ---------- ADD-ONS ---------- */
+  .addons-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 20px; margin-top: 32px; }
+  .addon-card { border: 1px solid var(--gray2); border-radius: 14px; padding: 24px 20px; }
+  .addon-card h4 { font-family: var(--disp); font-size: 14px; font-weight: 600; margin-bottom: 10px; }
+  .addon-card ul { list-style: none; font-size: 12px; color: var(--gray5); line-height: 1.7; }
+  .addon-card ul li::before { content: '—'; margin-right: 6px; color: var(--gray3); }
+  @media (max-width: 900px) { .addons-grid { grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 600px) { .addons-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- GENERAL TERMS ---------- */
+  .terms-box { margin-top: 48px; border-top: 1px solid var(--gray2); padding-top: 32px; }
+  .terms-box h3 { font-family: var(--disp); font-size: 13px; font-weight: 700; margin-bottom: 14px; }
+  .terms-box ul { list-style: none; font-size: 12.5px; color: var(--gray5); line-height: 1.9; max-width: 720px; }
+  .terms-box ul li::before { content: '•'; margin-right: 8px; color: var(--gray3); }
+
+  /* ---------- FACILITIES (checkerboard) ---------- */
+  .facilities-section { background: #fff; padding-top: 100px; padding-bottom: 100px; }
+  .facilities-grid { display: grid; grid-template-columns: repeat(5,1fr); margin-top: 60px; border: 1px solid var(--gray2); border-radius: 20px; overflow: hidden; }
+  .facility-cell { padding: 30px 20px; border-right: 1px solid var(--gray2); transition: background .3s, color .3s; }
+  .facility-cell:last-child { border-right: none; }
+  .facility-cell:nth-child(odd) { background: var(--black); color: #fff; }
+  .facility-cell:nth-child(even) { background: #fff; color: var(--black); }
+  .facility-cell:hover { background: var(--gray1) !important; color: var(--black) !important; }
+  .facility-cell h4 { font-family: var(--disp); font-size: 14px; font-weight: 600; margin-bottom: 10px; line-height: 1.35; min-height: 36px; }
+  .facility-cell .price { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .facility-cell p { font-size: 11.5px; opacity: .65; line-height: 1.5; }
+
+  @media (max-width: 900px) { .facilities-grid { grid-template-columns: repeat(2,1fr); border-radius: 14px; } .facility-cell { border-bottom: 1px solid var(--gray2); } }
+
+  /* ---------- BOOKING FORM (split) ---------- */
+  .form-section { background: var(--black); padding-top: 100px; }
+  .form-split { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 60px; align-items: start; margin-top: 56px; }
+  .form-info { position: sticky; top: 110px; }
+  .form-info .contact-chip { display: inline-flex; align-items: center; gap: 10px; border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; padding: 10px 18px; font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 30px; }
+  .form-info .contact-chip strong { color: #fff; }
+  .form-card { background: #fff; border-radius: 20px; padding: 44px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; margin-bottom: 20px; }
+  .field { display: flex; flex-direction: column; gap: 8px; }
+  .field label { font-size: 11px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; color: var(--black); }
+  .field label .req { color: var(--gray4); }
+  input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select, textarea {
+    font-family: 'Inter', sans-serif; font-size: 14px; padding: 14px 16px;
+    border: 1.5px solid var(--gray3); border-radius: 8px; background: #fff; color: var(--black);
+    outline: none; width: 100%; transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: var(--black); box-shadow: 0 0 0 3px rgba(0,0,0,0.08); }
+  textarea { resize: vertical; min-height: 110px; }
+  .field-full { grid-column: 1 / -1; }
+  .type-toggle { display: flex; gap: 10px; position: relative; }
+  .type-toggle label { flex: 1; text-align: center; font-size: 13px; font-weight: 700; padding: 13px 14px; border: 1.5px solid var(--gray3); border-radius: 8px; cursor: pointer; transition: border-color .2s, background .2s, color .2s; color: var(--gray6); }
+  .type-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+  .type-toggle input:checked + label { border-color: var(--black); background: var(--black); color: #fff; }
+  .type-toggle label:focus-within { outline: 2px solid var(--black); outline-offset: 2px; }
+  .form-submit .btn { width: 100%; justify-content: center; }
+  .form-note { text-align: center; font-size: 12px; color: var(--gray5); margin-top: 16px; }
+  .form-status { display: none; text-align: center; font-size: 13px; font-weight: 700; margin-top: 14px; padding: 12px 16px; border-radius: 8px; }
+  .form-status.show { display: block; }
+  .form-status.success { background: var(--gray1); color: var(--black); }
+  .form-status.error { background: #fff; color: var(--black); border: 1.5px solid var(--black); }
+  #submitBtn:disabled { opacity: .6; cursor: not-allowed; }
+  #submitBtn:disabled:hover { transform: none; background: var(--black); }
+
+  @media (max-width: 900px) {
+    .form-split { grid-template-columns: 1fr; }
+    .form-info { position: static; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-card { padding: 30px 22px; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer { background: var(--black); padding: 60px 6vw 28px; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 48px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .footer-brand-name { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+  .footer-brand-name img { height: 40px; width: auto; background: #fff; border-radius: 6px; padding: 6px; object-fit: contain; }
+  .footer-brand p { font-size: 12px; color: rgba(255,255,255,0.28); line-height: 1.8; max-width: 270px; }
+  .footer-aim-line { display: inline-flex; align-items: center; gap: 7px; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 7px 12px; margin-top: 14px; font-size: 10px; color: rgba(255,255,255,0.3); }
+  .footer-aim-line strong { color: rgba(255,255,255,0.65); }
+  .footer-col h5 { font-family: var(--disp); font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #fff; margin-bottom: 18px; }
+  .footer-col a { display: block; font-size: 12px; color: rgba(255,255,255,0.3); margin-bottom: 10px; transition: color 0.2s; }
+  .footer-col a:hover { color: rgba(255,255,255,0.8); }
+  .footer-bottom { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; padding-top: 24px; }
+  .footer-bottom p { font-size: 11px; color: rgba(255,255,255,0.25); max-width: 640px; line-height: 1.6; }
+  .footer-social { display: flex; gap: 14px; }
+  .footer-social a { width: 30px; height: 30px; border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; color: rgba(255,255,255,0.5); }
+  .footer-social a:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+  @media (max-width: 900px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 600px) {
-    main { padding: 120px 6vw 60px; }
-    .notify-form { flex-direction: column; }
-    .notify-form button { width: 100%; }
+    section { padding: 80px 5vw; }
+    .footer-grid { grid-template-columns: 1fr; }
+    .hero { padding: 120px 6vw 0; }
   }
 
-  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  /* focus visibility for keyboard nav */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .plan-row:focus-visible {
+    outline: 2px solid var(--black); outline-offset: 2px;
+  }
+  nav a:focus-visible { outline-color: #fff; }
 </style>
 </head>
 <body>
 
-  <nav>
+  <div id="progress"></div>
+
+  <nav id="siteNav">
     <a href="https://aic-techno.com/"><img class="aic-logo-img" src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council"></a>
-    <a class="nav-back" href="https://aic-techno.com/">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
-      Back to Main Site
-    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="#plans">Plans</a>
+      <a href="#rooms">Meeting Rooms</a>
+      <a href="#benefits">Benefits</a>
+      <a href="#facilities">Facilities</a>
+      <a href="#book-form" class="current">Book Now</a>
+      <a href="https://aic-techno.com/">Main Site</a>
+    </div>
+    <div class="hamburger" id="ham" role="button" aria-label="Toggle navigation menu" tabindex="0"><span></span><span></span><span></span></div>
   </nav>
 
-  <main>
-    <div class="cs-content">
-      <div class="eyebrow">Offbeat CCU · Kolkata</div>
-      <h1 class="cs-h1">Booking is<br><span class="outline">Coming Soon</span></h1>
-      <p class="cs-sub">We're putting the finishing touches on online workspace booking — day passes, dedicated desks, meeting rooms, virtual offices and lab access, all in one place.</p>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-kicker">Offbeat CCU · Kolkata</div>
+      <h1 class="hero-h1">A desk when<br>you need it. <span class="outline">A home<br>when you don't.</span></h1>
+      <p class="hero-sub">Day passes, dedicated desks, meeting rooms and lab access at AIC Techno's workspace — built for founders, incubatees, and anyone who needs a serious place to build.</p>
+      <div class="hero-btns">
+        <a href="#plans" class="btn primary">See Plans &amp; Pricing</a>
+        <a href="#book-form" class="btn ghost-dark">
+          Book a Spot
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
+  </section>
 
-      <div class="plan-teaser">
-        <span class="plan-chip">Day Pass</span>
-        <span class="plan-chip">Flexi Seat</span>
-        <span class="plan-chip">Dedicated Seat</span>
-        <span class="plan-chip">Virtual Office</span>
-        <span class="plan-chip">Meeting Rooms</span>
-        <span class="plan-chip">Lab Membership</span>
+  <!-- TICKER -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-track">
+      <span class="ticker-item">Day Pass <span class="price">₹300–₹500/day</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Flexi Desk <span class="price">₹3,000/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Dedicated Desk <span class="price">₹5,000–₹6,500/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Virtual Office <span class="price">₹500/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Meeting Room A <span class="price">₹150/hr</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Board Room <span class="price">₹500/hr</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Private Cabin, Lab &amp; Crèche <span class="price">TBD</span></span><span class="ticker-item"><span class="dot"></span></span>
+
+      <span class="ticker-item">Day Pass <span class="price">₹300–₹500/day</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Flexi Desk <span class="price">₹3,000/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Dedicated Desk <span class="price">₹5,000–₹6,500/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Virtual Office <span class="price">₹500/mo</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Meeting Room A <span class="price">₹150/hr</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Board Room <span class="price">₹500/hr</span></span><span class="ticker-item"><span class="dot"></span></span>
+      <span class="ticker-item">Private Cabin, Lab &amp; Crèche <span class="price">TBD</span></span><span class="ticker-item"><span class="dot"></span></span>
+    </div>
+  </div>
+
+  <!-- WORKSPACE PLANS -->
+  <section class="plans-section" id="plans">
+    <div class="container">
+      <div class="eyebrow">Workspace Plans</div>
+      <h2 class="big-h">Pick how often<br>you show up.</h2>
+      <p class="lead">Pricing differs for AIC-incubated startups and external users — every row books instantly through the form below.</p>
+
+      <div class="plans-list">
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Day Pass')">
+          <span class="plan-idx">01</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Day Pass</div>
+            <p class="plan-desc">Full-day access to the shared workspace for individuals.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price">₹300</span><span class="plan-unit">/ day</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price">₹500</span><span class="plan-unit">/ day</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Half-Day Pass (4 Hours)')">
+          <span class="plan-idx">02</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Half-Day Pass <span class="plan-tag">4 Hours</span></div>
+            <p class="plan-desc">A short session at the workspace — incubated startups only.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price">₹200</span><span class="plan-unit">/ 4 hrs</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price na">NA</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Flexi Desk (Up to 20 Days/Month)')">
+          <span class="plan-idx">03</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Flexi Desk <span class="plan-tag">Up to 20 Days/Month</span></div>
+            <p class="plan-desc">Any available desk, any day — flexible monthly seating for incubated startups.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price">₹3,000</span><span class="plan-unit">/ month</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price na">NA</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Dedicated Desk')">
+          <span class="plan-idx">04</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Dedicated Desk <span class="plan-tag">Most Booked</span></div>
+            <p class="plan-desc">A desk reserved exclusively for you, every day.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price">₹5,000</span><span class="plan-unit">/ month</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price">₹6,500</span><span class="plan-unit">/ month</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Private Cabin')">
+          <span class="plan-idx">05</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Private Cabin</div>
+            <p class="plan-desc">A closed-door private cabin. Pricing to be announced separately.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price na">TBD</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price na">TBD</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+
+        <div class="plan-row rev" tabindex="0" onclick="selectPlan('Virtual Office')">
+          <span class="plan-idx">06</span>
+          <div class="plan-name-wrap">
+            <div class="plan-name">Virtual Office</div>
+            <p class="plan-desc">Business address &amp; courier handling — incubated startups only.</p>
+          </div>
+          <div></div>
+          <div class="plan-price-wrap">
+            <div class="price-col"><span class="tier-label">Incubated</span><span class="plan-price">₹500</span><span class="plan-unit">/ month</span></div>
+            <div class="price-col"><span class="tier-label">External</span><span class="plan-price na">NA</span></div>
+          </div>
+          <div class="plan-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEETING ROOMS -->
+  <section class="rooms-section" id="rooms">
+    <div class="container">
+      <div class="eyebrow light">Meeting Rooms</div>
+      <h2 class="big-h on-dark">Space to meet<br>and present.</h2>
+      <p class="lead on-dark">Meeting rooms are priced the same for incubated startups and external users — dedicated desk members get complimentary monthly hours (see benefits below).</p>
+
+      <div class="rooms-grid">
+        <div class="room-card rev">
+          <div class="r-price">₹150</div>
+          <div class="r-unit">per hour</div>
+          <div class="perf"></div>
+          <h4>Meeting Room A <span style="font-weight:600;color:var(--gray5)">· 2–3 Seater</span></h4>
+          <p>A compact room for quick 1:1s and small huddles.</p>
+        </div>
+        <div class="room-card rev" style="transition-delay:.08s">
+          <div class="r-price">₹250</div>
+          <div class="r-unit">per hour</div>
+          <div class="perf"></div>
+          <h4>Meeting Rooms I &amp; C <span style="font-weight:600;color:var(--gray5)">· 6–8 Seater</span></h4>
+          <p>Mid-sized rooms for team syncs and client meetings.</p>
+        </div>
+        <div class="room-card rev" style="transition-delay:.16s">
+          <div class="r-price">₹500</div>
+          <div class="r-unit">per hour</div>
+          <div class="perf"></div>
+          <h4>Board Room <span style="font-weight:600;color:var(--gray5)">· 20–25 Seater</span></h4>
+          <p>For larger presentations, workshops and board meetings.</p>
+        </div>
+        <div class="room-card rev" style="transition-delay:.24s">
+          <div class="r-price">On Request</div>
+          <div class="r-unit">subject to availability</div>
+          <div class="perf"></div>
+          <h4>Meeting Pod</h4>
+          <p>A quiet enclosed pod, available on request.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MEMBERSHIP BENEFITS -->
+  <section class="benefits-section" id="benefits">
+    <div class="container">
+      <div class="eyebrow">Dedicated Desk Membership</div>
+      <h2 class="big-h">What comes with<br>your desk.</h2>
+      <p class="lead">Every Dedicated Desk membership includes these perks — incubated startups get a few extras.</p>
+
+      <div class="benefits-table rev">
+        <div class="benefits-row head">
+          <div class="b-cell">Benefit</div>
+          <div class="b-cell">Incubated Startups</div>
+          <div class="b-cell">External Users</div>
+        </div>
+        <div class="benefits-row"><div class="b-cell">Dedicated Desk</div><div class="b-cell">Included</div><div class="b-cell">Included</div></div>
+        <div class="benefits-row"><div class="b-cell">High-Speed Wi-Fi</div><div class="b-cell">Included</div><div class="b-cell">Included</div></div>
+        <div class="benefits-row"><div class="b-cell">Complimentary Tea / Coffee</div><div class="b-cell">Included</div><div class="b-cell">Included</div></div>
+        <div class="benefits-row"><div class="b-cell">Meeting Rooms (A, I &amp; C)</div><div class="b-cell">2 Complimentary Hours / Month</div><div class="b-cell">NA</div></div>
+        <div class="benefits-row"><div class="b-cell">Board Room</div><div class="b-cell">2 Complimentary Hours / Month</div><div class="b-cell">NA</div></div>
+        <div class="benefits-row"><div class="b-cell">Food Discount</div><div class="b-cell">15% Off</div><div class="b-cell">10% Off</div></div>
+        <div class="benefits-row"><div class="b-cell">Gym Membership Discount</div><div class="b-cell">15% Discount</div><div class="b-cell">10% Discount</div></div>
+        <div class="benefits-row"><div class="b-cell">Stay / Co-living Discount</div><div class="b-cell">15% Discount</div><div class="b-cell">10% Discount</div></div>
+        <div class="benefits-row"><div class="b-cell">Community &amp; Networking Events</div><div class="b-cell">Included</div><div class="b-cell">NA</div></div>
+        <div class="benefits-row"><div class="b-cell">Printing &amp; Stationery</div><div class="b-cell">Chargeable (Pay-per-use)</div><div class="b-cell">Chargeable (Pay-per-use)</div></div>
+        <div class="benefits-row"><div class="b-cell">Gym Membership</div><div class="b-cell">Customized (On Request)</div><div class="b-cell">Customized (On Request)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADDITIONAL FACILITIES -->
+  <section class="facilities-section" id="facilities">
+    <div class="container">
+      <div class="eyebrow">Additional Facilities</div>
+      <h2 class="big-h">Beyond the desk.</h2>
+      <p class="lead">Lab access and everyday amenities to support builders working from the space. Pricing on a few of these is still being finalized.</p>
+
+      <div class="facilities-grid rev">
+        <div class="facility-cell">
+          <h4>Laboratory Access</h4>
+          <div class="price">TBD</div>
+          <p>Pricing to be announced separately for both user types.</p>
+        </div>
+        <div class="facility-cell">
+          <h4>Crèche Facility</h4>
+          <div class="price">TBD</div>
+          <p>Pricing to be announced separately for both user types.</p>
+        </div>
+        <div class="facility-cell">
+          <h4>Gym Access</h4>
+          <div class="price">Daily / Monthly</div>
+          <p>Daily pass or monthly membership — discounted for members (see benefits above).</p>
+        </div>
+        <div class="facility-cell">
+          <h4>Wellness</h4>
+          <div class="price">Daily / Monthly</div>
+          <p>Ice bath, steam &amp; sauna — daily pass or monthly membership.</p>
+        </div>
+        <div class="facility-cell">
+          <h4>Meals</h4>
+          <div class="price">Pre-booked plans cheaper</div>
+          <p>Daily meal option, or a pre-booked monthly meal plan at a lower rate.</p>
+        </div>
       </div>
 
-      <form class="notify-form" id="notifyForm">
-        <input type="email" id="notifyEmail" placeholder="you@example.com" required>
-        <button type="submit" id="notifyBtn">Notify Me</button>
-      </form>
-      <p class="notify-status" id="notifyStatus"></p>
-
-      <p class="cs-contact">Need a desk sooner? Write to us at <a href="mailto:contact@aic-techno.com">contact@aic-techno.com</a> and we'll sort it out manually.</p>
+      <div class="terms-box rev">
+        <h3>General Terms</h3>
+        <ul>
+          <li>Complimentary meeting room &amp; board room hours are non-transferable and reset every month.</li>
+          <li>Meeting Pods are available on request and subject to availability.</li>
+          <li>Printing and stationery are chargeable on a pay-per-use basis.</li>
+          <li>Food, gym and stay discounts are applicable at participating AIC Techno facilities.</li>
+          <li>Laboratory, private cabin and crèche pricing will be announced separately.</li>
+          <li>Additional facility usage beyond complimentary limits will be charged as per the prevailing rate card.</li>
+        </ul>
+      </div>
     </div>
-  </main>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section class="form-section" id="book-form">
+    <div class="container">
+      <div class="eyebrow light">Reserve Your Spot</div>
+      <h2 class="big-h on-dark">Let's get you<br>a desk.</h2>
+
+      <div class="form-split">
+        <div class="form-info rev">
+          <p class="lead on-dark">Fill in your details and preferred plan — our team confirms availability and gets back to you soon.</p>
+          <div class="contact-chip"><strong>contact@aic-techno.com</strong></div>
+          <div class="contact-chip" style="margin-top:10px;"><strong>📞 78900 10537</strong></div>
+        </div>
+
+        <form class="form-card rev" id="bookingForm" style="transition-delay:.08s">
+          <div class="field field-full" style="margin-bottom: 20px;">
+            <label>I am a: <span class="req">*</span></label>
+            <div class="type-toggle" role="radiogroup" aria-label="User type">
+              <input type="radio" name="userType" id="type-incubated" value="Incubated Startup" checked>
+              <label for="type-incubated">Incubated Startup</label>
+              <input type="radio" name="userType" id="type-external" value="External User">
+              <label for="type-external">External User</label>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="name">Full Name <span class="req">*</span></label>
+              <input type="text" id="name" placeholder="Rajiv Chatterjee" required>
+            </div>
+            <div class="field">
+              <label for="email">Email Address <span class="req">*</span></label>
+              <input type="email" id="email" placeholder="rajiv@example.com" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="phone">Phone Number <span class="req">*</span></label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" required>
+            </div>
+            <div class="field">
+              <label for="org">Organization / Startup</label>
+              <input type="text" id="org" placeholder="Acme Ventures">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="plan-select">Plan / Facility <span class="req">*</span></label>
+              <select id="plan-select" required>
+                <option value="">Select a plan</option>
+                <option>Day Pass</option>
+                <option>Half-Day Pass (4 Hours)</option>
+                <option>Flexi Desk (Up to 20 Days/Month)</option>
+                <option>Dedicated Desk</option>
+                <option>Private Cabin</option>
+                <option>Virtual Office</option>
+                <option>Meeting Room A (2–3 Seater)</option>
+                <option>Meeting Rooms I &amp; C (6–8 Seater)</option>
+                <option>Board Room (20–25 Seater)</option>
+                <option>Meeting Pod</option>
+                <option>Laboratory Access</option>
+                <option>Crèche Facility</option>
+                <option>Gym Access</option>
+                <option>Wellness</option>
+                <option>Meals</option>
+                <option>Printing &amp; Stationery</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="start-date">Preferred Start Date</label>
+              <input type="date" id="start-date">
+            </div>
+          </div>
+
+          <div class="field field-full" style="margin-bottom: 22px;">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" placeholder="Number of seats, duration, or anything else we should know..."></textarea>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn solid-black" id="submitBtn">
+              Send Booking Request
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+            </button>
+          </div>
+          <p class="form-note" id="formNote">Your request is logged with our team — we'll contact you soon to confirm.</p>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-brand-name">
+          <img src="assets/logo.jpeg" alt="AIC Techno">
+        </div>
+        <p>Center for Innovation &amp; Entrepreneurship. A Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+        <div class="footer-aim-line"><strong>Supported by</strong>&nbsp;Atal Innovation Mission, NITI Aayog</div>
+      </div>
+      <div class="footer-col">
+        <h5>Navigate</h5>
+        <a href="#plans">Workspace Plans</a>
+        <a href="#rooms">Meeting Rooms</a>
+        <a href="#benefits">Benefits</a>
+        <a href="#facilities">Facilities</a>
+        <a href="#book-form">Book Now</a>
+        <a href="https://aic-techno.com/">Main Site</a>
+      </div>
+      <div class="footer-col">
+        <h5>Contact</h5>
+        <a href="mailto:contact@aic-techno.com">contact@aic-techno.com</a>
+        <a href="tel:+917890010537">78900 10537</a>
+      </div>
+      <div class="footer-col">
+        <h5>Links</h5>
+        <a href="https://aim.gov.in" target="_blank" rel="noopener">AIM Website</a>
+        <a href="https://startupindia.gov.in" target="_blank" rel="noopener">Startup India</a>
+        <a href="https://technoindiauniversity.ac.in" target="_blank" rel="noopener">Techno India University</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 AIC Techno Innovation and Incubation Council — Center for Innovation &amp; Entrepreneurship, a Techno India University Initiative. Supported by Atal Innovation Mission, NITI Aayog, Government of India.</p>
+      <div class="footer-social">
+        <a href="#" aria-label="LinkedIn">in</a>
+        <a href="#" aria-label="X">𝕏</a>
+        <a href="#" aria-label="Instagram">ig</a>
+        <a href="booking-dashboard.html" aria-label="Booking Dashboard (admin)" title="Booking Dashboard (admin)">◈</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
+    const nav = document.getElementById('siteNav');
+    const ham = document.getElementById('ham');
+    const navLinks = document.getElementById('navLinks');
+    const progress = document.getElementById('progress');
+
+    function onScroll() {
+      const y = window.scrollY;
+      if (y > 10) { nav.classList.add('scrolled'); } else { nav.classList.remove('scrolled'); }
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      progress.style.transform = 'scaleX(' + (h > 0 ? Math.min(y / h, 1) : 0) + ')';
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+
+    function toggleNav() {
+      ham.classList.toggle('active');
+      navLinks.classList.toggle('open');
+    }
+    ham.addEventListener('click', toggleNav);
+    ham.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleNav(); } });
+
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        ham.classList.remove('active');
+        navLinks.classList.remove('open');
+      });
+    });
+
+    const obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { if (e.isIntersecting) e.target.classList.add('on'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.rev').forEach(function (el) { obs.observe(el); });
+
+    function selectPlan(name) {
+      document.getElementById('plan-select').value = name;
+    }
+
+    document.querySelectorAll('.plan-row').forEach(function (row) {
+      row.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); row.click(); }
+      });
+    });
+
     // Paste the /exec URL from your deployed Apps Script web app here (see apps-script/Code.gs).
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUht4lIDjNAZ_bolaliDMJ8_eaMm0ujUxe-i2RbBNWJ2-jdaRolpVrHCCqRhaKuyU/exec';
 
-    function mailFallback(email) {
-      window.location.href = 'mailto:contact@aic-techno.com?subject=' +
-        encodeURIComponent('Notify me — Workspace Booking Launch') +
-        '&body=' + encodeURIComponent('Please notify me at ' + email + ' when online workspace booking goes live.');
+    function showFormStatus(kind, text) {
+      const el = document.getElementById('formStatus');
+      el.textContent = text;
+      el.className = 'form-status show ' + kind;
     }
 
-    document.getElementById('notifyForm').addEventListener('submit', async function (e) {
+    function mailFallback(payload) {
+      const subject = 'Workspace Booking Request — ' + (payload.plan || 'AIC Techno');
+      const body =
+        'User Type: ' + (payload.userType || '-') + '\n' +
+        'Name: ' + payload.name + '\n' +
+        'Email: ' + payload.email + '\n' +
+        'Phone: ' + payload.phone + '\n' +
+        'Organization/Startup: ' + (payload.org || '-') + '\n' +
+        'Plan/Facility: ' + (payload.plan || '-') + '\n' +
+        'Preferred Start Date: ' + (payload.startDate || '-') + '\n' +
+        'Notes: ' + (payload.notes || '-');
+      window.location.href = 'mailto:contact@aic-techno.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+    }
+
+    document.getElementById('bookingForm').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const email = document.getElementById('notifyEmail').value;
-      const btn = document.getElementById('notifyBtn');
-      const status = document.getElementById('notifyStatus');
-      const originalText = btn.textContent;
+      const userTypeInput = document.querySelector('input[name="userType"]:checked');
+      const payload = {
+        userType: userTypeInput ? userTypeInput.value : '',
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        org: document.getElementById('org').value,
+        plan: document.getElementById('plan-select').value,
+        startDate: document.getElementById('start-date').value,
+        notes: document.getElementById('notes').value
+      };
 
       if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0) {
-        mailFallback(email);
-        status.textContent = "Opening your email app to confirm — we'll let you know as soon as booking opens.";
+        mailFallback(payload);
         return;
       }
 
-      btn.disabled = true;
-      btn.textContent = 'Saving…';
+      const submitBtn = document.getElementById('submitBtn');
+      const originalHTML = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = 'Sending…';
+
       try {
         const res = await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-          body: JSON.stringify({ action: 'addSignup', email: email })
+          body: JSON.stringify(payload)
         });
         const json = await res.json();
         if (!json.ok) throw new Error(json.error || 'Request failed');
-        status.textContent = "You're on the list — we'll email you the moment booking opens.";
+        showFormStatus('success', "Thanks! We've received your request — our team will contact you soon.");
         e.target.reset();
       } catch (err) {
-        status.textContent = "Couldn't reach our signup list — opening your email app instead.";
-        mailFallback(email);
+        showFormStatus('error', "Couldn't reach our booking system — opening your email app instead.");
+        mailFallback(payload);
       } finally {
-        btn.disabled = false;
-        btn.textContent = originalText;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
       }
     });
   </script>
