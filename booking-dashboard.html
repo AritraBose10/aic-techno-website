@@ -358,8 +358,28 @@
       loginGate.style.display = 'flex';
     });
 
+    // Restoring a saved session (page load / refresh / new tab): unlock immediately
+    // and fetch fresh data in the background. A network hiccup should never bounce
+    // the user back to the login screen — only an explicit "wrong password" from
+    // the server should. This is what makes refresh not look like a logout.
+    async function restoreSession(password) {
+      if (!isConfigured()) {
+        if (password !== DEMO_PASSWORD) { localStorage.removeItem(STORAGE_KEY); return; }
+        demoMode = true;
+        allBookings = JSON.parse(JSON.stringify(DEMO_BOOKINGS));
+        allSignups = JSON.parse(JSON.stringify(DEMO_SIGNUPS));
+        loginGate.style.display = 'none';
+        app.classList.add('show');
+        renderAll();
+        return;
+      }
+      loginGate.style.display = 'none';
+      app.classList.add('show');
+      await refreshBookings();
+    }
+
     const savedPw = localStorage.getItem(STORAGE_KEY);
-    if (savedPw) { tryLogin(savedPw, true); }
+    if (savedPw) { restoreSession(savedPw); }
 
     async function refreshBookings() {
       const pw = localStorage.getItem(STORAGE_KEY);
@@ -375,11 +395,23 @@
           fetchAction('getBookings', pw),
           fetchAction('getSignups', pw)
         ]);
-        if (bookingsJson.ok) { allBookings = bookingsJson.bookings || []; }
-        if (signupsJson.ok) { allSignups = signupsJson.signups || []; }
-        renderAll();
-      } catch (err) { /* silent — keep showing last known data */ }
-      finally { btn.classList.remove('loading'); }
+        if (bookingsJson.ok) {
+          allBookings = bookingsJson.bookings || [];
+          if (signupsJson.ok) { allSignups = signupsJson.signups || []; }
+          renderAll();
+        } else {
+          // The server explicitly rejected this password — it's genuinely no longer
+          // valid (e.g. changed on the backend), so this is a real logout.
+          localStorage.removeItem(STORAGE_KEY);
+          app.classList.remove('show');
+          loginGate.style.display = 'flex';
+          showLoginError('Your session is no longer valid — please log in again.');
+        }
+      } catch (err) {
+        /* Network/CORS hiccup — keep the dashboard open with whatever data we have. */
+      } finally {
+        btn.classList.remove('loading');
+      }
     }
     document.getElementById('refreshBtn').addEventListener('click', refreshBookings);
 
