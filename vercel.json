@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/booking", "destination": "/workspace-booking.html" },
+    { "source": "/dashboard", "destination": "/booking-dashboard.html" }
+  ]
+}

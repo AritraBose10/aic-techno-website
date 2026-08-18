@@ -147,7 +147,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.36"/><path d="M21 4v6h-6"/></svg>
           Refresh
         </button>
-        <a class="icon-btn" href="workspace-booking.html" target="_blank" rel="noopener">
+        <a class="icon-btn" href="/booking" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
           Booking Page
         </a>
@@ -301,7 +301,7 @@
       if (!isConfigured()) {
         if (password === DEMO_PASSWORD) {
           demoMode = true;
-          sessionStorage.setItem(STORAGE_KEY, password);
+          localStorage.setItem(STORAGE_KEY, password);
           allBookings = JSON.parse(JSON.stringify(DEMO_BOOKINGS));
           allSignups = JSON.parse(JSON.stringify(DEMO_SIGNUPS));
           loginGate.style.display = 'none';
@@ -320,7 +320,7 @@
           fetchAction('getSignups', password)
         ]);
         if (bookingsJson.ok) {
-          sessionStorage.setItem(STORAGE_KEY, password);
+          localStorage.setItem(STORAGE_KEY, password);
           allBookings = bookingsJson.bookings || [];
           allSignups = signupsJson.ok ? (signupsJson.signups || []) : [];
           loginGate.style.display = 'none';
@@ -329,7 +329,7 @@
           return true;
         }
         if (!silent) showLoginError('Incorrect password. Try again.');
-        sessionStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(STORAGE_KEY);
         return false;
       } catch (err) {
         if (!silent) showLoginError("Couldn't reach the booking backend. Check your connection or Apps Script deployment.");
@@ -352,17 +352,17 @@
     });
 
     document.getElementById('logoutBtn').addEventListener('click', function () {
-      sessionStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_KEY);
       app.classList.remove('show');
       passwordInput.value = '';
       loginGate.style.display = 'flex';
     });
 
-    const savedPw = sessionStorage.getItem(STORAGE_KEY);
+    const savedPw = localStorage.getItem(STORAGE_KEY);
     if (savedPw) { tryLogin(savedPw, true); }
 
     async function refreshBookings() {
-      const pw = sessionStorage.getItem(STORAGE_KEY);
+      const pw = localStorage.getItem(STORAGE_KEY);
       if (!pw) return;
       const btn = document.getElementById('refreshBtn');
       btn.classList.add('loading');
@@ -385,7 +385,7 @@
 
     async function updateStatus(rowIndex, status) {
       if (demoMode) return; // sample data only — nothing to persist
-      const pw = sessionStorage.getItem(STORAGE_KEY);
+      const pw = localStorage.getItem(STORAGE_KEY);
       try {
         await fetch(APPS_SCRIPT_URL, {
           method: 'POST',
