@@ -772,8 +772,8 @@ footer{background:#000;padding:60px 6vw 28px}
   transform:translateY(16px) scale(.98);transition:transform .3s ease;
 }
 .pujo-pop.open .pujo-pop-panel{transform:none}
-.pujo-pop-img{background:var(--black);min-height:0}
-.pujo-pop-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:center 45%}
+.pujo-pop-img{background:#fff;min-height:0;border-right:1px solid var(--gray2)}
+.pujo-pop-img img{display:block;width:100%;height:100%;object-fit:contain;object-position:center top}
 .pujo-pop-body{padding:36px 32px 30px;display:flex;flex-direction:column;justify-content:center;overflow-y:auto}
 .pujo-pop-tag{
   display:inline-block;align-self:flex-start;margin-bottom:16px;
@@ -805,8 +805,8 @@ footer{background:#000;padding:60px 6vw 28px}
 .pujo-pop-close:hover{background:rgba(0,0,0,.85)}
 @media(max-width:700px){
   .pujo-pop-panel{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr);max-width:420px}
-  .pujo-pop-img{height:38vh}
-  .pujo-pop-img img{object-position:center 40%}
+  .pujo-pop-img{height:36vh;border-right:none;border-bottom:1px solid var(--gray2)}
+  .pujo-pop-img img{object-fit:cover;object-position:center 48%}
   .pujo-pop-body{padding:24px 22px 22px}
   .pujo-pop-body h3{font-size:22px}
   .pujo-pop-body p{margin:8px 0 18px}
@@ -1028,7 +1028,7 @@ footer{background:#000;padding:60px 6vw 28px}
   <div class="pujo-pop-panel">
     <button type="button" class="pujo-pop-close" id="pujoPopClose" aria-label="Close">&times;</button>
     <div class="pujo-pop-img">
-      <img src="assets/pujo-installation.jpg" alt="AIC Techno Durga Puja installation on a Kolkata street" loading="lazy">
+      <img src="assets/pujo-poster.jpg" alt="AIC Techno Durga Puja campaign: This Pujo, turn your big idea into a bigger dream. Register now, apply at aic-techno.com">
     </div>
     <div class="pujo-pop-body">
       <span class="pujo-pop-tag">Spotted across Kolkata · Durga Puja</span>
