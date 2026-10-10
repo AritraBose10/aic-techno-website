@@ -112,6 +112,46 @@
   }
   a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
   #loginGate a:focus-visible, #loginGate button:focus-visible, #loginGate input:focus-visible { outline-color: #fff; }
+
+  /* ---------- TABS ---------- */
+  .tabs { display: flex; gap: 6px; max-width: 1320px; margin: 0 auto; padding: 22px 28px 0; }
+  .tab-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 700; color: var(--gray5); cursor: pointer; transition: border-color .2s, color .2s, background .2s; }
+  .tab-btn:hover { border-color: var(--black); color: var(--black); }
+  .tab-btn[aria-selected="true"] { background: var(--black); border-color: var(--black); color: #fff; }
+  .tab-btn .tab-count { font-size: 11px; font-weight: 800; padding: 2px 7px; border-radius: 100px; background: var(--gray1); color: var(--gray6); }
+  .tab-btn[aria-selected="true"] .tab-count { background: rgba(255,255,255,.18); color: #fff; }
+  .tab-btn .tab-count:empty { display: none; }
+  [hidden] { display: none !important; }
+  @media (max-width: 900px) { .tabs { padding: 18px 16px 0; } }
+
+  /* ---------- CONTACT LEADS ---------- */
+  .leads-stats { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) { .leads-stats { grid-template-columns: repeat(2, 1fr); } }
+  .fb-signin { max-width: 400px; margin: 40px auto; background: #fff; border: 1px solid var(--gray2); border-radius: 14px; padding: 30px 28px; }
+  .fb-signin h2 { font-family: var(--disp); font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+  .fb-signin p { font-size: 12.5px; color: var(--gray5); line-height: 1.6; margin-bottom: 20px; }
+  .fb-signin input { width: 100%; font-family: 'Inter', sans-serif; font-size: 14px; padding: 12px 14px; border-radius: 8px; border: 1.5px solid var(--gray2); outline: none; margin-bottom: 10px; }
+  .fb-signin input:focus { border-color: var(--black); }
+  .fb-signin button { width: 100%; padding: 13px; border: none; border-radius: 8px; background: var(--black); color: #fff; font-size: 14px; font-weight: 700; cursor: pointer; margin-top: 4px; }
+  .fb-signin button:disabled { opacity: .5; cursor: not-allowed; }
+  .fb-error { display: none; margin-top: 12px; font-size: 12.5px; font-weight: 600; color: #B51F1F; }
+  .fb-error.show { display: block; }
+  .leads-toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .filter-select { font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; padding: 9px 12px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; outline: none; cursor: pointer; }
+  .filter-select:focus { border-color: var(--black); }
+  #leadSearch { width: 100%; font-size: 13px; padding: 10px 14px 10px 38px; border-radius: 100px; border: 1.5px solid var(--gray2); outline: none; background: #fff; }
+  #leadSearch:focus { border-color: var(--black); }
+  .idea-cell { min-width: 260px; max-width: 360px; }
+  .idea-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
+  .idea-cell.expanded .idea-text { display: block; -webkit-line-clamp: unset; }
+  .idea-toggle { margin-top: 6px; border: none; background: none; padding: 0; font-size: 11.5px; font-weight: 700; color: var(--black); cursor: pointer; text-decoration: underline; }
+  .src-badge { display: inline-block; font-size: 10.5px; font-weight: 700; padding: 4px 10px; border-radius: 100px; background: var(--gray1); color: var(--gray6); white-space: nowrap; }
+  .src-badge.pujo { background: #FDECEC; color: #D62828; }
+  select.status-select[data-status="contacted"] { background: var(--gray1); }
+  select.status-select[data-status="qualified"] { background: var(--black); color: #fff; border-color: var(--black); }
+  select.status-select[data-status="closed"] { color: var(--gray4); }
+  .fb-user { margin-top: 16px; font-size: 12px; color: var(--gray5); }
+  .fb-user button { border: none; background: none; font-size: 12px; font-weight: 700; text-decoration: underline; cursor: pointer; color: var(--black); margin-left: 6px; }
 </style>
 </head>
 <body>
@@ -155,7 +195,12 @@
       </div>
     </header>
 
-    <main>
+    <div class="tabs" role="tablist" aria-label="Dashboard sections">
+      <button class="tab-btn" role="tab" id="tabBookings" aria-controls="bookingsView" aria-selected="true" data-view="bookings">Bookings</button>
+      <button class="tab-btn" role="tab" id="tabLeads" aria-controls="leadsView" aria-selected="false" data-view="leads">Contact Leads <span class="tab-count" id="leadsTabCount"></span></button>
+    </div>
+
+    <main id="bookingsView" role="tabpanel" aria-labelledby="tabBookings">
       <div class="stat-grid">
         <div class="stat-card"><div class="l">Total Bookings</div><div class="n" id="statTotal">0</div></div>
         <div class="stat-card"><div class="l">New / Pending</div><div class="n" id="statNew">0</div></div>
@@ -219,8 +264,82 @@
         </div>
       </div>
     </main>
+
+    <main id="leadsView" role="tabpanel" aria-labelledby="tabLeads" hidden>
+      <!-- Shown until a Firebase admin account signs in (Firestore rules gate reads) -->
+      <div class="fb-signin" id="fbSignin">
+        <h2>Sign in to view leads</h2>
+        <p>Contact form submissions are stored in Firebase. Sign in with an AIC admin account that's allowed in the Firestore rules. You'll stay signed in on this browser.</p>
+        <form id="fbSigninForm">
+          <input type="email" id="fbEmail" placeholder="Admin email" autocomplete="username" required>
+          <input type="password" id="fbPassword" placeholder="Password" autocomplete="current-password" required>
+          <button type="submit" id="fbSigninBtn">Sign In</button>
+        </form>
+        <p class="fb-error" id="fbError"></p>
+      </div>
+
+      <div id="leadsContent" hidden>
+        <div class="stat-grid leads-stats">
+          <div class="stat-card"><div class="l">Total Leads</div><div class="n" id="leadTotal">0</div></div>
+          <div class="stat-card"><div class="l">New</div><div class="n" id="leadNew">0</div></div>
+          <div class="stat-card"><div class="l">This Month</div><div class="n" id="leadMonth">0</div></div>
+          <div class="stat-card"><div class="l">From Durga Puja</div><div class="n" id="leadPujo">0</div></div>
+        </div>
+
+        <div class="table-toolbar">
+          <div class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+            <input type="text" id="leadSearch" placeholder="Search name, email, startup, idea…">
+          </div>
+          <div class="leads-toolbar-right">
+            <select class="filter-select" id="leadStatusFilter" aria-label="Filter by status">
+              <option value="">All statuses</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="qualified">Qualified</option>
+              <option value="closed">Closed</option>
+            </select>
+            <select class="filter-select" id="leadSourceFilter" aria-label="Filter by source">
+              <option value="">All sources</option>
+            </select>
+            <button class="icon-btn" id="exportLeadsBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>
+              Export CSV
+            </button>
+            <span class="count-pill" id="leadCount"></span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <div class="load-state" id="leadsLoad">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-2.6-6.36"/><path d="M21 4v6h-6"/></svg>
+            Loading leads…
+          </div>
+          <table id="leadsTable" style="display:none;">
+            <thead>
+              <tr>
+                <th>Submitted</th>
+                <th>Contact</th>
+                <th>Startup</th>
+                <th>Stage</th>
+                <th>Idea</th>
+                <th>Source</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="leadsBody"></tbody>
+          </table>
+          <div class="empty-state" id="leadsEmpty" style="display:none;">No leads match your filters.</div>
+        </div>
+
+        <p class="fb-user">Signed in to Firebase as <strong id="fbUserEmail"></strong><button type="button" id="fbSignoutBtn">Sign out</button></p>
+      </div>
+    </main>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
   <script>
     // Paste the /exec URL from your deployed Apps Script web app here (see apps-script/Code.gs).
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUht4lIDjNAZ_bolaliDMJ8_eaMm0ujUxe-i2RbBNWJ2-jdaRolpVrHCCqRhaKuyU/exec';
@@ -657,6 +776,312 @@
     document.getElementById('searchInput').addEventListener('input', function () {
       renderTable(this.value);
     });
+
+    /* ================= TABS ================= */
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    function showView(view) {
+      tabButtons.forEach(function (b) {
+        const on = b.dataset.view === view;
+        b.setAttribute('aria-selected', on ? 'true' : 'false');
+        document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+      });
+      try { history.replaceState(null, '', view === 'leads' ? '#leads' : location.pathname + location.search); } catch (e) {}
+      if (view === 'leads') initLeads();
+    }
+    tabButtons.forEach(function (b) {
+      b.addEventListener('click', function () { showView(b.dataset.view); });
+    });
+
+    /* ================= CONTACT LEADS (Firestore) ================= */
+    // Reads are gated by Firestore rules (admin email allowlist), not the dashboard password,
+    // so staff sign in once with a Firebase account on this tab.
+    const FIREBASE_CONFIG = {
+      apiKey: "AIzaSyClv5MIo8RjatXoZwRbSjkehOb27wMqixo",
+      authDomain: "aic-techno-cms.firebaseapp.com",
+      projectId: "aic-techno-cms",
+      storageBucket: "aic-techno-cms.firebasestorage.app",
+      messagingSenderId: "159332667631",
+      appId: "1:159332667631:web:bf52340d7b0ce106af8b1a",
+    };
+    const LEADS_COLLECTION = 'contactSubmissions';
+    const LEAD_STATUSES = ['new', 'contacted', 'qualified', 'closed'];
+    const SOURCE_LABELS = {
+      'durga-puja-installation': 'Durga Puja installation',
+      'website': 'Website',
+      'social-media': 'Social media',
+      'friend-referral': 'Friend / referral',
+      'event': 'Event / college',
+      'other': 'Other',
+      'not-specified': 'Not specified'
+    };
+
+    let allLeads = [];
+    let leadsInitDone = false;
+    let leadsUnsub = null;
+
+    function initLeads() {
+      if (leadsInitDone) return;
+      leadsInitDone = true;
+      if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (leadsUnsub) { leadsUnsub(); leadsUnsub = null; }
+        document.getElementById('fbSignin').hidden = !!user;
+        document.getElementById('leadsContent').hidden = !user;
+        if (user) {
+          document.getElementById('fbUserEmail').textContent = user.email || '';
+          subscribeLeads();
+        } else {
+          allLeads = [];
+          document.getElementById('leadsTabCount').textContent = '';
+        }
+      });
+    }
+
+    function subscribeLeads() {
+      document.getElementById('leadsLoad').style.display = 'block';
+      document.getElementById('leadsTable').style.display = 'none';
+      document.getElementById('leadsEmpty').style.display = 'none';
+      leadsUnsub = firebase.firestore().collection(LEADS_COLLECTION)
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(function (snap) {
+          allLeads = snap.docs.map(function (d) {
+            const data = d.data();
+            const ts = data.createdAt && data.createdAt.toDate ? data.createdAt.toDate() : null;
+            return Object.assign({ id: d.id, _date: ts }, data);
+          });
+          document.getElementById('leadsLoad').style.display = 'none';
+          renderLeads();
+        }, function (err) {
+          document.getElementById('leadsLoad').style.display = 'none';
+          const empty = document.getElementById('leadsEmpty');
+          empty.textContent = err && err.code === 'permission-denied'
+            ? "This account isn't allowed to read leads. Ask an admin to add your email to the Firestore rules."
+            : "Couldn't load leads: " + (err && err.message ? err.message : 'unknown error');
+          empty.style.display = 'block';
+        });
+    }
+
+    document.getElementById('fbSigninForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const errEl = document.getElementById('fbError');
+      const btn = document.getElementById('fbSigninBtn');
+      errEl.classList.remove('show');
+      btn.disabled = true;
+      btn.textContent = 'Signing in…';
+      try {
+        await firebase.auth().signInWithEmailAndPassword(
+          document.getElementById('fbEmail').value.trim(),
+          document.getElementById('fbPassword').value
+        );
+        document.getElementById('fbPassword').value = '';
+      } catch (err) {
+        const badCreds = err && ['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-email'].indexOf(err.code) !== -1;
+        errEl.textContent = badCreds ? 'Incorrect email or password.' : "Couldn't sign in: " + (err && err.message ? err.message : 'unknown error');
+        errEl.classList.add('show');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Sign In';
+      }
+    });
+
+    document.getElementById('fbSignoutBtn').addEventListener('click', function () {
+      firebase.auth().signOut();
+    });
+    // Logging out of the dashboard also signs out of Firebase on this browser.
+    document.getElementById('logoutBtn').addEventListener('click', function () {
+      if (leadsInitDone) firebase.auth().signOut();
+      showView('bookings');
+    });
+
+    function sourceLabel(src) { return SOURCE_LABELS[src] || src || 'Not specified'; }
+    function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
+    function isPujoLead(l) {
+      return l.source === 'durga-puja-installation' || String(l.campaign || '').indexOf('durga-puja') === 0;
+    }
+
+    function filteredLeads() {
+      const q = document.getElementById('leadSearch').value.trim().toLowerCase();
+      const st = document.getElementById('leadStatusFilter').value;
+      const src = document.getElementById('leadSourceFilter').value;
+      return allLeads.filter(function (l) {
+        if (st && (l.status || 'new') !== st) return false;
+        if (src && (l.source || 'not-specified') !== src) return false;
+        if (!q) return true;
+        return [l.name, l.email, l.phone, l.startup, l.idea].some(function (v) {
+          return String(v || '').toLowerCase().indexOf(q) !== -1;
+        });
+      });
+    }
+
+    function renderLeadSourceOptions() {
+      const sel = document.getElementById('leadSourceFilter');
+      const current = sel.value;
+      const sources = Array.from(new Set(allLeads.map(function (l) { return l.source || 'not-specified'; }))).sort();
+      sel.innerHTML = '<option value="">All sources</option>';
+      sources.forEach(function (src) {
+        const o = document.createElement('option');
+        o.value = src; o.textContent = sourceLabel(src);
+        sel.appendChild(o);
+      });
+      sel.value = sources.indexOf(current) !== -1 ? current : '';
+    }
+
+    function renderLeads() {
+      const newCount = allLeads.filter(function (l) { return (l.status || 'new') === 'new'; }).length;
+      const now = new Date();
+      document.getElementById('leadTotal').textContent = allLeads.length;
+      document.getElementById('leadNew').textContent = newCount;
+      document.getElementById('leadMonth').textContent = allLeads.filter(function (l) {
+        return l._date && l._date.getFullYear() === now.getFullYear() && l._date.getMonth() === now.getMonth();
+      }).length;
+      document.getElementById('leadPujo').textContent = allLeads.filter(isPujoLead).length;
+      document.getElementById('leadsTabCount').textContent = newCount ? newCount + ' new' : '';
+      renderLeadSourceOptions();
+      renderLeadsTable();
+    }
+
+    function renderLeadsTable() {
+      const body = document.getElementById('leadsBody');
+      body.innerHTML = '';
+      const rows = filteredLeads();
+      document.getElementById('leadCount').textContent = rows.length + (rows.length === 1 ? ' lead' : ' leads');
+      document.getElementById('leadsTable').style.display = rows.length ? 'table' : 'none';
+      const empty = document.getElementById('leadsEmpty');
+      empty.textContent = allLeads.length ? 'No leads match your filters.' : 'No leads yet.';
+      empty.style.display = rows.length ? 'none' : 'block';
+
+      rows.forEach(function (l) {
+        const tr = document.createElement('tr');
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = l._date ? formatDate(l._date) : 'Just now';
+        tdDate.style.whiteSpace = 'nowrap';
+        tr.appendChild(tdDate);
+
+        const tdContact = document.createElement('td');
+        tdContact.className = 'name-cell';
+        tdContact.textContent = l.name || '—';
+        const sub = document.createElement('span');
+        sub.className = 'sub';
+        if (l.email) {
+          const a = document.createElement('a');
+          a.href = 'mailto:' + l.email; a.textContent = l.email; a.style.textDecoration = 'underline';
+          sub.appendChild(a);
+        }
+        if (l.phone) {
+          if (l.email) sub.appendChild(document.createTextNode(' · '));
+          const a = document.createElement('a');
+          a.href = 'tel:' + String(l.phone).replace(/[^\d+]/g, ''); a.textContent = l.phone;
+          sub.appendChild(a);
+        }
+        tdContact.appendChild(sub);
+        tr.appendChild(tdContact);
+
+        const tdStartup = document.createElement('td');
+        tdStartup.textContent = l.startup || '—';
+        tr.appendChild(tdStartup);
+
+        const tdStage = document.createElement('td');
+        const stage = document.createElement('span');
+        stage.className = 'plan-badge';
+        stage.textContent = l.stage || '—';
+        tdStage.appendChild(stage);
+        tr.appendChild(tdStage);
+
+        const tdIdea = document.createElement('td');
+        tdIdea.className = 'idea-cell';
+        const idea = document.createElement('div');
+        idea.className = 'idea-text';
+        idea.textContent = l.idea || '—';
+        tdIdea.appendChild(idea);
+        if ((l.idea || '').length > 140) {
+          const toggle = document.createElement('button');
+          toggle.type = 'button';
+          toggle.className = 'idea-toggle';
+          toggle.textContent = 'Show more';
+          toggle.addEventListener('click', function () {
+            const open = tdIdea.classList.toggle('expanded');
+            toggle.textContent = open ? 'Show less' : 'Show more';
+          });
+          tdIdea.appendChild(toggle);
+        }
+        tr.appendChild(tdIdea);
+
+        const tdSrc = document.createElement('td');
+        const src = document.createElement('span');
+        src.className = 'src-badge' + (isPujoLead(l) ? ' pujo' : '');
+        src.textContent = sourceLabel(l.source);
+        tdSrc.appendChild(src);
+        if (l.campaign) {
+          const c = document.createElement('span');
+          c.className = 'sub';
+          c.textContent = l.campaign;
+          tdSrc.appendChild(c);
+        }
+        tr.appendChild(tdSrc);
+
+        const tdStatus = document.createElement('td');
+        const select = document.createElement('select');
+        select.className = 'status-select';
+        select.setAttribute('aria-label', 'Status for ' + (l.name || 'lead'));
+        const status = l.status || 'new';
+        LEAD_STATUSES.forEach(function (opt) {
+          const o = document.createElement('option');
+          o.value = opt; o.textContent = capitalize(opt);
+          if (opt === status) o.selected = true;
+          select.appendChild(o);
+        });
+        select.dataset.status = status;
+        select.addEventListener('change', async function () {
+          const prev = select.dataset.status;
+          select.dataset.status = select.value;
+          select.disabled = true;
+          try {
+            // onSnapshot re-renders the table once the write lands.
+            await firebase.firestore().collection(LEADS_COLLECTION).doc(l.id).update({
+              status: select.value,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (err) {
+            select.value = prev;
+            select.dataset.status = prev;
+            alert("Couldn't update status: " + (err && err.message ? err.message : 'unknown error'));
+          } finally {
+            select.disabled = false;
+          }
+        });
+        tdStatus.appendChild(select);
+        tr.appendChild(tdStatus);
+
+        body.appendChild(tr);
+      });
+    }
+
+    document.getElementById('leadSearch').addEventListener('input', renderLeadsTable);
+    document.getElementById('leadStatusFilter').addEventListener('change', renderLeadsTable);
+    document.getElementById('leadSourceFilter').addEventListener('change', renderLeadsTable);
+
+    document.getElementById('exportLeadsBtn').addEventListener('click', function () {
+      const cols = ['Submitted', 'Name', 'Email', 'Phone', 'Startup', 'Stage', 'Idea', 'Source', 'Campaign', 'Status'];
+      const esc = function (v) {
+        let s = String(v == null ? '' : v);
+        if (/^[=+\-@]/.test(s)) s = "'" + s;   // stop spreadsheet formula injection
+        return '"' + s.replace(/"/g, '""') + '"';
+      };
+      const lines = [cols.map(esc).join(',')].concat(filteredLeads().map(function (l) {
+        return [l._date ? l._date.toISOString() : '', l.name, l.email, l.phone, l.startup, l.stage, l.idea,
+                sourceLabel(l.source), l.campaign, l.status || 'new'].map(esc).join(',');
+      }));
+      const blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'aic-contact-leads-' + new Date().toISOString().slice(0, 10) + '.csv';
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+    });
+
+    if (location.hash === '#leads') showView('leads');
   </script>
 
 </body>
