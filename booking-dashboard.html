@@ -806,7 +806,17 @@
     const LEADS_COLLECTION = 'contactSubmissions';
     const LEAD_STATUSES = ['new', 'contacted', 'qualified', 'closed'];
     const SOURCE_LABELS = {
-      'durga-puja-installation': 'Durga Puja installation',
+      // Durga Puja 2026 installations (MCRA × AIC Techno) — keep in sync with contact.html
+      'durga-puja-nalin-sarkar-street': 'Pujo · Nalin Sarkar Street',
+      'durga-puja-hatibagan-sarbojonin': 'Pujo · Hatibagan Sarbojonin',
+      'durga-puja-hatibagan-nabin-pally': 'Pujo · Hatibagan Nabin Pally',
+      'durga-puja-santoshpur-lakepally': 'Pujo · Santoshpur Lakepally',
+      'durga-puja-santoshpur-trikone-park': 'Pujo · Santoshpur Trikone Park',
+      'durga-puja-samaj-sebi-sangha': 'Pujo · Samaj Sebi Sangha',
+      'durga-puja-dum-dum-park-tarun-sangha': 'Pujo · Dum Dum Park Tarun Sangha',
+      'durga-puja-dum-dum-park-sarbojonin': 'Pujo · Dum Dum Park Sarbojonin',
+      'durga-puja-dum-dum-park-tarun-dal': 'Pujo · Dum Dum Park Tarun Dal',
+      'durga-puja-installation': 'Pujo · pandal not specified',
       'website': 'Website',
       'social-media': 'Social media',
       'friend-referral': 'Friend / referral',
@@ -896,7 +906,7 @@
     function sourceLabel(src) { return SOURCE_LABELS[src] || src || 'Not specified'; }
     function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
     function isPujoLead(l) {
-      return l.source === 'durga-puja-installation' || String(l.campaign || '').indexOf('durga-puja') === 0;
+      return String(l.source || '').indexOf('durga-puja') === 0 || String(l.campaign || '').indexOf('durga-puja') === 0;
     }
 
     function filteredLeads() {

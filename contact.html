@@ -123,7 +123,7 @@
         <p class="ct-sub">Tell us a little about yourself and what you're building. Our team will get back to you about the right way in — incubation, mentorship, workspace or funding support.</p>
 
         <div class="pujo-note" id="pujoNote">
-          <strong>Spotted us this Durga Puja?</strong> We'd love to hear your idea. Fill in the form and we'll be in touch.
+          <strong>Spotted us this Durga Puja?</strong> We'd love to hear your idea. Fill in the form — and tell us which pandal you saw us at — and we'll be in touch.
         </div>
 
         <div class="ct-info">
@@ -185,12 +185,29 @@
             <label for="source">How did you hear about us?</label>
             <select id="source" name="source">
               <option value="">Select an option</option>
-              <option value="durga-puja-installation">Durga Puja installation</option>
-              <option value="website">Website</option>
-              <option value="social-media">Social media</option>
-              <option value="friend-referral">Friend / referral</option>
-              <option value="event">Event / college</option>
-              <option value="other">Other</option>
+              <optgroup label="Durga Puja installation · North Kolkata">
+                <option value="durga-puja-nalin-sarkar-street">Nalin Sarkar Street</option>
+                <option value="durga-puja-hatibagan-sarbojonin">Hatibagan Sarbojonin</option>
+                <option value="durga-puja-hatibagan-nabin-pally">Hatibagan Nabin Pally</option>
+              </optgroup>
+              <optgroup label="Durga Puja installation · South Kolkata">
+                <option value="durga-puja-santoshpur-lakepally">Santoshpur Lakepally</option>
+                <option value="durga-puja-santoshpur-trikone-park">Santoshpur Trikone Park</option>
+                <option value="durga-puja-samaj-sebi-sangha">Samaj Sebi Sangha</option>
+              </optgroup>
+              <optgroup label="Durga Puja installation · Dum Dum Park">
+                <option value="durga-puja-dum-dum-park-tarun-sangha">Dum Dum Park Tarun Sangha</option>
+                <option value="durga-puja-dum-dum-park-sarbojonin">Dum Dum Park Sarbojonin</option>
+                <option value="durga-puja-dum-dum-park-tarun-dal">Dum Dum Park Tarun Dal</option>
+              </optgroup>
+              <optgroup label="Other">
+                <option value="durga-puja-installation">Durga Puja installation (not sure which pandal)</option>
+                <option value="website">Website</option>
+                <option value="social-media">Social media</option>
+                <option value="friend-referral">Friend / referral</option>
+                <option value="event">Event / college</option>
+                <option value="other">Other</option>
+              </optgroup>
             </select>
           </div>
 
@@ -236,8 +253,8 @@
       const campaign = (params.get('source') || '').slice(0, 60);
       const sourceSel = document.getElementById('source');
       if (campaign.indexOf('durga-puja') === 0) {
+        // Visitor came from the Pujo popup — let them pick the pandal; fall back to the generic option.
         document.getElementById('pujoNote').classList.add('show');
-        sourceSel.value = 'durga-puja-installation';
       }
 
       const form = document.getElementById('contactForm');
@@ -290,7 +307,7 @@
             startup: val('startup'),
             stage: val('stage'),
             idea: val('idea'),
-            source: sourceSel.value || 'not-specified',
+            source: sourceSel.value || (campaign.indexOf('durga-puja') === 0 ? 'durga-puja-installation' : 'not-specified'),
             campaign: campaign,
             page: location.pathname,
             status: 'new',
