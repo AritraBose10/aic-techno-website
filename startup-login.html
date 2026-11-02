@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startup Login | AIC Techno Innovation and Incubation Council</title>
+<meta name="description" content="Sign in to the AIC Techno startup portal to see your meetings, events and updates.">
+<meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="assets/footerlogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000000; --white: #FFFFFF;
+    --gray1: #F5F5F5; --gray2: #EEEEEE; --gray3: #CCCCCC; --gray4: #999999; --gray5: #555555; --gray6: #333333;
+    --red: #D62828;
+    --disp: 'Space Grotesk', sans-serif;
+  }
+  body { font-family: 'Inter', sans-serif; background: var(--black); color: #fff; min-height: 100vh; overflow-x: hidden; }
+  a { text-decoration: none; color: inherit; }
+  ::selection { background: #fff; color: #000; }
+
+  nav { position: absolute; top: 0; left: 0; right: 0; z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 6vw; height: 68px; }
+  .aic-logo-img { display: block; height: 38px; width: auto; background: #fff; border-radius: 6px; padding: 4px; object-fit: contain; }
+  .nav-back { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.55); transition: color .2s; }
+  .nav-back:hover { color: #fff; }
+  .nav-back svg { width: 14px; height: 14px; }
+
+  main { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 110px 16px 60px; position: relative; }
+  main::before {
+    content: ''; position: absolute; inset: 0; opacity: .5;
+    background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+    mask-image: radial-gradient(ellipse 60% 55% at 50% 45%, #000 40%, transparent 100%);
+  }
+  .card { position: relative; width: 100%; max-width: 420px; background: #fff; color: var(--black); border-radius: 20px; padding: 38px 34px 32px; box-shadow: 0 30px 80px rgba(0,0,0,.45); }
+  .eyebrow { font-family: var(--disp); font-size: 11.5px; font-weight: 700; letter-spacing: 2.2px; text-transform: uppercase; color: var(--gray4); margin-bottom: 12px; }
+  .card h1 { font-family: var(--disp); font-size: 28px; font-weight: 700; letter-spacing: -.8px; line-height: 1.1; margin-bottom: 8px; }
+  .card .sub { font-size: 13.5px; color: var(--gray5); line-height: 1.6; margin-bottom: 26px; }
+
+  .field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 14px; }
+  .field label { font-size: 12.5px; font-weight: 700; color: var(--gray6); }
+  .field input { font-family: 'Inter', sans-serif; font-size: 14.5px; padding: 12px 14px; border-radius: 10px; border: 1.5px solid var(--gray2); background: var(--gray1); outline: none; transition: border-color .2s, background .2s; }
+  .field input:focus { border-color: var(--black); background: #fff; }
+  .row-between { display: flex; justify-content: flex-end; margin: -4px 0 20px; }
+  .link-btn { border: none; background: none; padding: 0; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--black); text-decoration: underline; cursor: pointer; }
+
+  .primary { width: 100%; padding: 14px 20px; border-radius: 10px; border: none; cursor: pointer; background: var(--black); color: #fff; font-family: 'Inter', sans-serif; font-size: 14.5px; font-weight: 800; transition: background .2s, transform .2s; }
+  .primary:hover { background: var(--gray6); transform: translateY(-1px); }
+  .primary:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+  .msg { display: none; margin-top: 14px; font-size: 13px; font-weight: 600; line-height: 1.55; border-radius: 10px; padding: 11px 14px; }
+  .msg.show { display: block; }
+  .msg.error { background: #FDECEC; color: #B51F1F; }
+  .msg.info { background: var(--gray1); color: var(--gray6); }
+
+  .divider { display: flex; align-items: center; gap: 12px; margin: 26px 0 18px; font-size: 11.5px; font-weight: 700; color: var(--gray4); text-transform: uppercase; letter-spacing: 1px; }
+  .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--gray2); }
+  .signup { display: block; text-align: center; padding: 13px 20px; border-radius: 10px; border: 1.5px solid var(--gray3); font-size: 14px; font-weight: 700; transition: border-color .2s; }
+  .signup:hover { border-color: var(--black); }
+  .signup-note { margin-top: 10px; text-align: center; font-size: 12px; color: var(--gray4); line-height: 1.5; }
+
+  .demo-link { display: block; margin-top: 22px; padding: 12px 16px; border-radius: 10px; border: 1.5px dashed #E0C068; background: #FFF6DB; color: #6B4E00; text-align: center; font-size: 13.5px; font-weight: 800; }
+  .demo-link span { display: block; font-size: 11.5px; font-weight: 600; margin-top: 2px; opacity: .8; }
+  .demo-link:hover { border-style: solid; }
+  [hidden] { display: none !important; }
+  .checking { text-align: center; font-size: 14px; color: var(--gray5); padding: 30px 0; }
+
+  @media (max-width: 600px) { nav { padding: 0 16px; } .card { padding: 30px 22px 26px; border-radius: 16px; } }
+  a:focus-visible, button:focus-visible, input:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html"><img class="aic-logo-img" src="assets/logo.jpeg" alt="AIC Techno Innovation and Incubation Council"></a>
+    <a class="nav-back" href="index.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+      Back to Main Site
+    </a>
+  </nav>
+
+  <main>
+    <div class="card">
+      <div class="checking" id="checking">Checking your session…</div>
+
+      <div id="loginView" hidden>
+        <div class="eyebrow">Startup Portal</div>
+        <h1>Sign in</h1>
+        <p class="sub">For startups registered with AIC Techno. Use the email your account was set up with.</p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" type="email" autocomplete="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input id="password" type="password" autocomplete="current-password" required>
+          </div>
+          <div class="row-between">
+            <button type="button" class="link-btn" id="forgotBtn">Forgot password?</button>
+          </div>
+          <button type="submit" class="primary" id="loginBtn">Sign In</button>
+        </form>
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+        <div class="divider">Not registered yet?</div>
+        <a class="signup" href="index.html#apply">Sign up — apply to AIC Techno</a>
+        <p class="signup-note">Once your application is accepted, we'll email you a link to set your password.</p>
+
+        <a class="demo-link" id="demoLink" href="startup-dashboard.html?demo=1" hidden>Open demo dashboard <span>localhost only · sample data</span></a>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    (function () {
+      const firebaseConfig = {
+        apiKey: "AIzaSyClv5MIo8RjatXoZwRbSjkehOb27wMqixo",
+        authDomain: "aic-techno-cms.firebaseapp.com",
+        projectId: "aic-techno-cms",
+        storageBucket: "aic-techno-cms.firebasestorage.app",
+        messagingSenderId: "159332667631",
+        appId: "1:159332667631:web:bf52340d7b0ce106af8b1a",
+      };
+      // Demo dashboard shortcut for local testing — never shown on the live site.
+      if (['localhost', '127.0.0.1', '[::1]'].indexOf(location.hostname) !== -1) {
+        document.getElementById('demoLink').hidden = false;
+      }
+
+      firebase.initializeApp(firebaseConfig);
+      const auth = firebase.auth();
+      const db = firebase.firestore();
+
+      const checking = document.getElementById('checking');
+      const loginView = document.getElementById('loginView');
+      const msg = document.getElementById('msg');
+      const loginBtn = document.getElementById('loginBtn');
+      let busy = false;
+
+      function showMsg(text, kind) {
+        msg.textContent = text;
+        msg.className = 'msg show ' + (kind || 'error');
+      }
+      function showLogin() {
+        checking.hidden = true;
+        loginView.hidden = false;
+      }
+
+      // Only accounts AIC has registered (startups/{email}, active) get into the portal.
+      async function checkStartup(user) {
+        const email = (user.email || '').toLowerCase();
+        let snap;
+        try {
+          snap = await db.collection('startups').doc(email).get();
+        } catch (err) {
+          snap = null;
+        }
+        if (!snap || !snap.exists) {
+          await auth.signOut();
+          showLogin();
+          showMsg("This email isn't registered as an AIC Techno startup. If you've been accepted, contact us at contact@aic-techno.com.");
+          return;
+        }
+        if (snap.data().active === false) {
+          await auth.signOut();
+          showLogin();
+          showMsg('Your startup portal access is currently inactive. Please contact AIC Techno.');
+          return;
+        }
+        if (!user.emailVerified) {
+          try { await user.sendEmailVerification(); } catch (e) {}
+          await auth.signOut();
+          showLogin();
+          showMsg("Please verify your email first — we've sent a verification link to " + email + '. Then sign in again.', 'info');
+          return;
+        }
+        location.replace('startup-dashboard.html');
+      }
+
+      auth.onAuthStateChanged(function (user) {
+        if (busy) return;
+        if (user) { checkStartup(user); } else { showLogin(); }
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        msg.className = 'msg';
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+        if (!email || !password) { showMsg('Enter your email and password.'); return; }
+        busy = true;
+        loginBtn.disabled = true;
+        loginBtn.textContent = 'Signing in…';
+        try {
+          const cred = await auth.signInWithEmailAndPassword(email, password);
+          await checkStartup(cred.user);
+        } catch (err) {
+          const bad = err && ['auth/invalid-credential', 'auth/wrong-password', 'auth/user-not-found', 'auth/invalid-email'].indexOf(err.code) !== -1;
+          showMsg(bad ? 'Incorrect email or password.'
+            : err && err.code === 'auth/too-many-requests' ? 'Too many attempts. Please wait a few minutes and try again.'
+            : "Couldn't sign in right now. Please try again.");
+        } finally {
+          busy = false;
+          loginBtn.disabled = false;
+          loginBtn.textContent = 'Sign In';
+        }
+      });
+
+      document.getElementById('forgotBtn').addEventListener('click', async function () {
+        const email = document.getElementById('email').value.trim();
+        if (!email) { showMsg('Enter your email above, then click "Forgot password?" again.'); document.getElementById('email').focus(); return; }
+        try {
+          await auth.sendPasswordResetEmail(email, { url: location.origin + location.pathname });
+        } catch (err) {
+          // Site domain not yet in Firebase's authorized domains — send without the return link.
+          if (err && /continue-uri|unauthorized-domain/.test(err.code || '')) {
+            try { await auth.sendPasswordResetEmail(email); } catch (e) {}
+          }
+          /* otherwise stay quiet: don't reveal whether the account exists */
+        }
+        showMsg('If ' + email + ' has a startup account, a password reset link is on its way.', 'info');
+      });
+    })();
+  </script>
+</body>
+</html>

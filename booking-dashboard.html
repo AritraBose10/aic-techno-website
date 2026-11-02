@@ -139,8 +139,8 @@
   .leads-toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
   .filter-select { font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 600; padding: 9px 12px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; outline: none; cursor: pointer; }
   .filter-select:focus { border-color: var(--black); }
-  #leadSearch { width: 100%; font-size: 13px; padding: 10px 14px 10px 38px; border-radius: 100px; border: 1.5px solid var(--gray2); outline: none; background: #fff; }
-  #leadSearch:focus { border-color: var(--black); }
+  #leadSearch, #portalSearch { width: 100%; font-size: 13px; padding: 10px 14px 10px 38px; border-radius: 100px; border: 1.5px solid var(--gray2); outline: none; background: #fff; }
+  #leadSearch:focus, #portalSearch:focus { border-color: var(--black); }
   .idea-cell { min-width: 260px; max-width: 360px; }
   .idea-text { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; white-space: pre-wrap; }
   .idea-cell.expanded .idea-text { display: block; -webkit-line-clamp: unset; }
@@ -152,6 +152,49 @@
   select.status-select[data-status="closed"] { color: var(--gray4); }
   .fb-user { margin-top: 16px; font-size: 12px; color: var(--gray5); }
   .fb-user button { border: none; background: none; font-size: 12px; font-weight: 700; text-decoration: underline; cursor: pointer; color: var(--black); margin-left: 6px; }
+  .fb-user-bar { max-width: 1320px; margin: -48px auto 0; padding: 0 28px 40px; }
+  @media (max-width: 900px) { .fb-user-bar { margin-top: -36px; padding: 0 16px 32px; } }
+
+  /* ---------- STARTUP PORTAL (admin) ---------- */
+  .sub-tabs { display: flex; gap: 4px; flex-wrap: wrap; border-bottom: 1px solid var(--gray2); margin-bottom: 18px; }
+  .sub-tab { padding: 10px 16px; border: none; border-bottom: 2.5px solid transparent; background: none; font-family: 'Inter', sans-serif; font-size: 13.5px; font-weight: 700; color: var(--gray4); cursor: pointer; margin-bottom: -1px; }
+  .sub-tab:hover { color: var(--black); }
+  .sub-tab[aria-selected="true"] { color: var(--black); border-bottom-color: var(--black); }
+  .portal-hint { font-size: 12.5px; color: var(--gray5); line-height: 1.6; margin-bottom: 18px; max-width: 860px; }
+  .portal-grid { display: grid; grid-template-columns: minmax(300px, 380px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (max-width: 1000px) { .portal-grid { grid-template-columns: 1fr; } }
+  .portal-form { position: sticky; top: 88px; margin-bottom: 0; }
+  @media (max-width: 1000px) { .portal-form { position: static; } }
+  .portal-form .pf-field { display: flex; flex-direction: column; gap: 6px; margin-bottom: 13px; }
+  .portal-form label { font-size: 12px; font-weight: 700; color: var(--gray6); }
+  .portal-form label .req { color: #D62828; }
+  .portal-form input[type=text], .portal-form input[type=email], .portal-form input[type=tel], .portal-form input[type=url],
+  .portal-form input[type=number], .portal-form input[type=datetime-local], .portal-form select, .portal-form textarea {
+    width: 100%; font-family: 'Inter', sans-serif; font-size: 13.5px; padding: 10px 12px; border-radius: 8px; border: 1.5px solid var(--gray2); background: #fff; outline: none;
+  }
+  .portal-form textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
+  .portal-form input:focus, .portal-form select:focus, .portal-form textarea:focus { border-color: var(--black); }
+  .portal-form [aria-invalid="true"] { border-color: #D62828 !important; }
+  .portal-form .pf-check { flex-direction: row; align-items: center; gap: 8px; }
+  .portal-form .pf-check label { font-weight: 600; }
+  .portal-form .pf-help { font-size: 11.5px; color: var(--gray4); line-height: 1.5; }
+  .pf-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+  .pf-actions button { padding: 11px 18px; border-radius: 8px; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 800; cursor: pointer; border: 1.5px solid var(--black); background: var(--black); color: #fff; }
+  .pf-actions button.secondary { background: #fff; color: var(--black); border-color: var(--gray2); }
+  .pf-actions button:disabled { opacity: .55; cursor: not-allowed; }
+  .pf-status { margin-top: 12px; font-size: 12.5px; font-weight: 600; line-height: 1.5; min-height: 18px; }
+  .pf-status.error { color: #B51F1F; }
+  .pf-status.ok { color: #1b7a3a; }
+  table.portal-table { min-width: 720px; }
+  .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+  .row-actions button { padding: 6px 10px; border-radius: 7px; border: 1.5px solid var(--gray2); background: #fff; font-family: 'Inter', sans-serif; font-size: 11.5px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+  .row-actions button:hover { border-color: var(--black); }
+  .row-actions button.danger:hover { border-color: #D62828; color: #D62828; }
+  .pill { display: inline-block; font-size: 10.5px; font-weight: 800; padding: 3px 9px; border-radius: 100px; background: var(--gray1); color: var(--gray6); white-space: nowrap; }
+  .pill.on { background: #E8F5EC; color: #1b7a3a; }
+  .pill.off { background: var(--gray2); color: var(--gray4); }
+  .pill.red { background: #FDECEC; color: #D62828; }
+  tr.is-muted td { color: var(--gray4); }
 </style>
 </head>
 <body>
@@ -198,6 +241,7 @@
     <div class="tabs" role="tablist" aria-label="Dashboard sections">
       <button class="tab-btn" role="tab" id="tabBookings" aria-controls="bookingsView" aria-selected="true" data-view="bookings">Bookings</button>
       <button class="tab-btn" role="tab" id="tabLeads" aria-controls="leadsView" aria-selected="false" data-view="leads">Contact Leads <span class="tab-count" id="leadsTabCount"></span></button>
+      <button class="tab-btn" role="tab" id="tabPortal" aria-controls="portalView" aria-selected="false" data-view="portal">Startup Portal</button>
     </div>
 
     <main id="bookingsView" role="tabpanel" aria-labelledby="tabBookings">
@@ -265,11 +309,11 @@
       </div>
     </main>
 
-    <main id="leadsView" role="tabpanel" aria-labelledby="tabLeads" hidden>
-      <!-- Shown until a Firebase admin account signs in (Firestore rules gate reads) -->
+    <!-- Shown on the Firebase-backed tabs until an admin signs in (Firestore rules gate access) -->
+    <main id="fbGateView" hidden>
       <div class="fb-signin" id="fbSignin">
-        <h2>Sign in to view leads</h2>
-        <p>Contact form submissions are stored in Firebase. Sign in with an AIC admin account that's allowed in the Firestore rules. You'll stay signed in on this browser.</p>
+        <h2>Sign in with your AIC admin account</h2>
+        <p>Contact Leads and the Startup Portal are stored in Firebase. Sign in with an AIC admin account that's allowed in the Firestore rules. You'll stay signed in on this browser.</p>
         <form id="fbSigninForm">
           <input type="email" id="fbEmail" placeholder="Admin email" autocomplete="username" required>
           <input type="password" id="fbPassword" placeholder="Password" autocomplete="current-password" required>
@@ -277,8 +321,10 @@
         </form>
         <p class="fb-error" id="fbError"></p>
       </div>
+    </main>
 
-      <div id="leadsContent" hidden>
+    <main id="leadsView" role="tabpanel" aria-labelledby="tabLeads" hidden>
+      <div id="leadsContent">
         <div class="stat-grid leads-stats">
           <div class="stat-card"><div class="l">Total Leads</div><div class="n" id="leadTotal">0</div></div>
           <div class="stat-card"><div class="l">New</div><div class="n" id="leadNew">0</div></div>
@@ -332,14 +378,45 @@
           <div class="empty-state" id="leadsEmpty" style="display:none;">No leads match your filters.</div>
         </div>
 
-        <p class="fb-user">Signed in to Firebase as <strong id="fbUserEmail"></strong><button type="button" id="fbSignoutBtn">Sign out</button></p>
       </div>
     </main>
+
+    <main id="portalView" role="tabpanel" aria-labelledby="tabPortal" hidden>
+      <div class="sub-tabs" role="tablist" aria-label="Startup Portal sections">
+        <button class="sub-tab" role="tab" data-section="startups" aria-selected="true">Startups</button>
+        <button class="sub-tab" role="tab" data-section="meetings" aria-selected="false">Meetings</button>
+        <button class="sub-tab" role="tab" data-section="events" aria-selected="false">Events</button>
+        <button class="sub-tab" role="tab" data-section="notifications" aria-selected="false">Notifications</button>
+      </div>
+      <p class="portal-hint" id="portalHint"></p>
+      <div class="portal-grid">
+        <form class="panel portal-form" id="portalForm" novalidate></form>
+        <div>
+          <div class="table-toolbar">
+            <div class="search-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+              <input type="text" id="portalSearch" placeholder="Search…">
+            </div>
+            <span class="count-pill" id="portalCount"></span>
+          </div>
+          <div class="table-wrap">
+            <table id="portalTable" class="portal-table">
+              <thead id="portalHead"></thead>
+              <tbody id="portalBody"></tbody>
+            </table>
+            <div class="empty-state" id="portalEmpty" style="display:none;"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <p class="fb-user fb-user-bar" id="fbUserBar" hidden>Signed in to Firebase as <strong id="fbUserEmail"></strong><button type="button" id="fbSignoutBtn">Sign out</button></p>
   </div>
 
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script src="portal-admin.js"></script>
   <script>
     // Paste the /exec URL from your deployed Apps Script web app here (see apps-script/Code.gs).
     const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzUht4lIDjNAZ_bolaliDMJ8_eaMm0ujUxe-i2RbBNWJ2-jdaRolpVrHCCqRhaKuyU/exec';
@@ -779,14 +856,25 @@
 
     /* ================= TABS ================= */
     const tabButtons = document.querySelectorAll('.tab-btn');
+    let currentView = 'bookings';
     function showView(view) {
+      currentView = view;
       tabButtons.forEach(function (b) {
-        const on = b.dataset.view === view;
-        b.setAttribute('aria-selected', on ? 'true' : 'false');
-        document.getElementById(b.getAttribute('aria-controls')).hidden = !on;
+        b.setAttribute('aria-selected', b.dataset.view === view ? 'true' : 'false');
       });
-      try { history.replaceState(null, '', view === 'leads' ? '#leads' : location.pathname + location.search); } catch (e) {}
-      if (view === 'leads') initLeads();
+      try { history.replaceState(null, '', view === 'bookings' ? location.pathname + location.search : '#' + view); } catch (e) {}
+      if (view !== 'bookings') initFirebase();
+      syncViews();
+    }
+
+    // Bookings use the Apps Script password; Contact Leads and Startup Portal need a Firebase admin sign-in.
+    function syncViews() {
+      const fbView = currentView !== 'bookings';
+      document.getElementById('bookingsView').hidden = fbView;
+      document.getElementById('fbGateView').hidden = !(fbView && fbAuthKnown && !fbUser);
+      document.getElementById('leadsView').hidden = !(currentView === 'leads' && fbUser);
+      document.getElementById('portalView').hidden = !(currentView === 'portal' && fbUser);
+      document.getElementById('fbUserBar').hidden = !(fbView && fbUser);
     }
     tabButtons.forEach(function (b) {
       b.addEventListener('click', function () { showView(b.dataset.view); });
@@ -826,17 +914,19 @@
     };
 
     let allLeads = [];
-    let leadsInitDone = false;
+    let fbInitDone = false;
+    let fbAuthKnown = false;
+    let fbUser = null;
     let leadsUnsub = null;
 
-    function initLeads() {
-      if (leadsInitDone) return;
-      leadsInitDone = true;
+    function initFirebase() {
+      if (fbInitDone) return;
+      fbInitDone = true;
       if (!firebase.apps.length) firebase.initializeApp(FIREBASE_CONFIG);
       firebase.auth().onAuthStateChanged(function (user) {
+        fbUser = user;
+        fbAuthKnown = true;
         if (leadsUnsub) { leadsUnsub(); leadsUnsub = null; }
-        document.getElementById('fbSignin').hidden = !!user;
-        document.getElementById('leadsContent').hidden = !user;
         if (user) {
           document.getElementById('fbUserEmail').textContent = user.email || '';
           subscribeLeads();
@@ -844,6 +934,8 @@
           allLeads = [];
           document.getElementById('leadsTabCount').textContent = '';
         }
+        PortalAdmin.setUser(user, FIREBASE_CONFIG);
+        syncViews();
       });
     }
 
@@ -899,7 +991,7 @@
     });
     // Logging out of the dashboard also signs out of Firebase on this browser.
     document.getElementById('logoutBtn').addEventListener('click', function () {
-      if (leadsInitDone) firebase.auth().signOut();
+      if (fbInitDone) firebase.auth().signOut();
       showView('bookings');
     });
 
@@ -1091,7 +1183,7 @@
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
     });
 
-    if (location.hash === '#leads') showView('leads');
+    if (location.hash === '#leads' || location.hash === '#portal') showView(location.hash.slice(1));
   </script>
 
 </body>

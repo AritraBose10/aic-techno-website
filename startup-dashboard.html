@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Startup Portal | AIC Techno Innovation and Incubation Council</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/png" href="assets/footerlogo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #000000; --white: #FFFFFF;
+    --gray1: #F5F5F5; --gray2: #EEEEEE; --gray3: #CCCCCC; --gray4: #999999; --gray5: #555555; --gray6: #333333;
+    --red: #D62828; --red-soft: #FDECEC;
+    --disp: 'Space Grotesk', sans-serif;
+  }
+  body { font-family: 'Inter', sans-serif; color: var(--black); background: var(--gray1); min-height: 100vh; }
+  a { color: inherit; text-decoration: none; }
+  ::selection { background: var(--black); color: #fff; }
+  [hidden] { display: none !important; }
+
+  /* ---------- BOOT ---------- */
+  #boot { position: fixed; inset: 0; z-index: 50; background: var(--black); color: rgba(255,255,255,.6); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+
+  /* ---------- HEADER ---------- */
+  header.bar { position: sticky; top: 0; z-index: 10; background: #fff; border-bottom: 1px solid var(--gray2); display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 0 28px; height: 68px; }
+  .bar-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  .bar-brand img { height: 32px; width: auto; border-radius: 4px; }
+  .bar-brand span { font-family: var(--disp); font-size: 15px; font-weight: 700; letter-spacing: -.3px; white-space: nowrap; }
+  .bar-actions { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .who { font-size: 12.5px; font-weight: 600; color: var(--gray5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 260px; }
+  .icon-btn { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--black); cursor: pointer; transition: border-color .2s, background .2s; white-space: nowrap; }
+  .icon-btn:hover { border-color: var(--black); }
+  .icon-btn.dark { background: var(--black); color: #fff; border-color: var(--black); }
+  .icon-btn.dark:hover { background: var(--gray6); }
+  .icon-btn svg { width: 14px; height: 14px; }
+
+  main { max-width: 1240px; margin: 0 auto; padding: 34px 28px 80px; }
+
+  .welcome { margin-bottom: 26px; }
+  .welcome .date { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray4); margin-bottom: 8px; }
+  .welcome h1 { font-family: var(--disp); font-size: clamp(26px, 4vw, 36px); font-weight: 700; letter-spacing: -1px; line-height: 1.1; }
+  .welcome p { font-size: 14px; color: var(--gray5); margin-top: 8px; }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 1.75fr) minmax(0, 1fr); gap: 24px; align-items: start; }
+  .panel { background: #fff; border: 1px solid var(--gray2); border-radius: 16px; padding: 24px 24px; }
+  .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 18px; }
+  .panel-head h2 { font-family: var(--disp); font-size: 17px; font-weight: 700; letter-spacing: -.3px; display: flex; align-items: center; gap: 8px; }
+  .count { font-family: 'Inter', sans-serif; font-size: 11px; font-weight: 800; padding: 2px 8px; border-radius: 100px; background: var(--red); color: #fff; }
+  .count:empty { display: none; }
+
+  /* ---------- NEXT UP ---------- */
+  .next { background: var(--black); color: #fff; border-radius: 16px; padding: 24px; margin-bottom: 24px; display: grid; grid-template-columns: auto 1fr auto; gap: 20px; align-items: center; }
+  .next .cal { width: 64px; text-align: center; border-radius: 12px; background: rgba(255,255,255,.08); padding: 10px 0; }
+  .next .cal b { display: block; font-family: var(--disp); font-size: 26px; line-height: 1; }
+  .next .cal span { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: rgba(255,255,255,.6); }
+  .next .lbl { font-size: 11px; font-weight: 800; letter-spacing: 1.2px; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 6px; }
+  .next h3 { font-size: 18px; font-weight: 800; letter-spacing: -.3px; line-height: 1.25; }
+  .next .meta { font-size: 13px; color: rgba(255,255,255,.65); margin-top: 6px; }
+  .next .go { display: inline-block; padding: 11px 18px; border-radius: 10px; background: #fff; color: #000; font-size: 13px; font-weight: 800; white-space: nowrap; }
+
+  /* ---------- FILTERS ---------- */
+  .chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .chip { padding: 7px 14px; border-radius: 100px; border: 1.5px solid var(--gray2); background: #fff; font-family: 'Inter', sans-serif; font-size: 12.5px; font-weight: 700; color: var(--gray5); cursor: pointer; }
+  .chip:hover { border-color: var(--black); color: var(--black); }
+  .chip[aria-pressed="true"] { background: var(--black); border-color: var(--black); color: #fff; }
+
+  /* ---------- TIMELINE ---------- */
+  .tl-day { font-size: 11.5px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; color: var(--gray4); margin: 22px 0 10px; }
+  .tl-day:first-child { margin-top: 0; }
+  .tl-item { position: relative; display: grid; grid-template-columns: 74px 1fr; gap: 16px; padding: 16px 0 16px; border-top: 1px solid var(--gray2); }
+  .tl-day + .tl-item { border-top: none; padding-top: 4px; }
+  .tl-time { font-size: 13px; font-weight: 800; color: var(--black); padding-top: 2px; }
+  .tl-time span { display: block; font-size: 11.5px; font-weight: 600; color: var(--gray4); margin-top: 2px; }
+  .badges { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 6px; }
+  .badge { display: inline-block; font-size: 10.5px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; padding: 3px 9px; border-radius: 100px; }
+  .badge.meeting { background: var(--black); color: #fff; }
+  .badge.event { background: var(--red-soft); color: var(--red); }
+  .badge.muted { background: var(--gray1); color: var(--gray5); }
+  .badge.cancelled { background: var(--gray2); color: var(--gray5); }
+  .tl-item h3 { font-size: 15.5px; font-weight: 800; letter-spacing: -.2px; line-height: 1.3; }
+  .tl-item.is-cancelled h3 { text-decoration: line-through; color: var(--gray4); }
+  .tl-meta { font-size: 12.5px; color: var(--gray5); margin-top: 4px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .tl-desc { font-size: 13.5px; color: var(--gray6); line-height: 1.65; margin-top: 8px; white-space: pre-wrap; }
+  .tl-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+  .act { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 8px; font-size: 12.5px; font-weight: 700; border: 1.5px solid var(--gray2); background: #fff; cursor: pointer; font-family: 'Inter', sans-serif; color: var(--black); }
+  .act:hover { border-color: var(--black); }
+  .act.primary { background: var(--black); color: #fff; border-color: var(--black); }
+  .act.primary:hover { background: var(--gray6); }
+
+  .empty { text-align: center; padding: 40px 10px; color: var(--gray4); font-size: 13.5px; line-height: 1.6; }
+
+  /* ---------- NOTIFICATIONS ---------- */
+  .note { position: relative; padding: 14px 0 14px 18px; border-top: 1px solid var(--gray2); }
+  .note:first-child { border-top: none; padding-top: 0; }
+  .note .dot { position: absolute; left: 0; top: 20px; width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+  .note:first-child .dot { top: 6px; }
+  .note:not(.unread) .dot { display: none; }
+  .note h3 { font-size: 14px; font-weight: 800; line-height: 1.35; }
+  .note .when { font-size: 11.5px; color: var(--gray4); font-weight: 600; margin-top: 3px; }
+  .note p { font-size: 13px; color: var(--gray6); line-height: 1.6; margin-top: 6px; white-space: pre-wrap; }
+  .note a.more { display: inline-block; margin-top: 8px; font-size: 12.5px; font-weight: 700; text-decoration: underline; }
+  .pin { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: .6px; text-transform: uppercase; color: var(--red); margin-left: 6px; vertical-align: 1px; }
+
+  .error-bar { display: none; background: var(--red-soft); color: #B51F1F; border-radius: 12px; padding: 12px 16px; font-size: 13px; font-weight: 600; margin-bottom: 20px; }
+  .error-bar.show { display: block; }
+  .demo-bar { background: #FFF6DB; color: #6B4E00; border: 1px solid #F2DD9B; border-radius: 12px; padding: 12px 16px; font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
+
+  @media (max-width: 960px) {
+    .layout { grid-template-columns: 1fr; }
+    #notesPanel { order: -1; }
+  }
+  @media (max-width: 600px) {
+    header.bar { padding: 0 16px; }
+    .who, .bar-brand span { display: none; }
+    main { padding: 24px 16px 60px; }
+    .panel { padding: 20px 18px; }
+    .next { grid-template-columns: auto 1fr; }
+    .next .go { grid-column: 1 / -1; text-align: center; }
+    .tl-item { grid-template-columns: 1fr; gap: 6px; }
+  }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--black); outline-offset: 2px; }
+</style>
+</head>
+<body>
+
+  <div id="boot">Loading your portal…</div>
+
+  <header class="bar">
+    <div class="bar-brand">
+      <img src="assets/logo.jpeg" alt="AIC Techno">
+      <span>Startup Portal</span>
+    </div>
+    <div class="bar-actions">
+      <span class="who" id="who"></span>
+      <button class="icon-btn dark" id="logoutBtn">Sign Out</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="welcome">
+      <div class="date" id="todayLabel"></div>
+      <h1 id="welcomeTitle">Welcome</h1>
+      <p>Your meetings with AIC Techno, upcoming events and the latest updates — all in one place.</p>
+    </div>
+
+    <div class="demo-bar" id="demoBar" hidden><strong>Demo mode</strong> — sample data on this computer only. Nothing here is saved or sent to Firebase.</div>
+    <div class="error-bar" id="errorBar"></div>
+
+    <div class="layout">
+      <div>
+        <div class="next" id="nextUp" hidden></div>
+
+        <section class="panel" aria-labelledby="tlTitle">
+          <div class="panel-head">
+            <h2 id="tlTitle">Timeline</h2>
+            <div class="chips" role="group" aria-label="Filter timeline">
+              <button class="chip" data-type="all" aria-pressed="true">All</button>
+              <button class="chip" data-type="meeting" aria-pressed="false">Meetings</button>
+              <button class="chip" data-type="event" aria-pressed="false">Events</button>
+            </div>
+          </div>
+          <div class="chips" role="group" aria-label="Upcoming or past" style="margin:-6px 0 18px;">
+            <button class="chip" data-when="upcoming" aria-pressed="true">Upcoming</button>
+            <button class="chip" data-when="past" aria-pressed="false">Past</button>
+          </div>
+          <div id="timeline"><div class="empty">Loading…</div></div>
+        </section>
+      </div>
+
+      <section class="panel" id="notesPanel" aria-labelledby="notesTitle">
+        <div class="panel-head">
+          <h2 id="notesTitle">Updates from AIC Techno <span class="count" id="unreadCount"></span></h2>
+          <button class="act" id="markReadBtn" hidden>Mark all read</button>
+        </div>
+        <div id="notes"><div class="empty">Loading…</div></div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+  <script>
+    (function () {
+      const firebaseConfig = {
+        apiKey: "AIzaSyClv5MIo8RjatXoZwRbSjkehOb27wMqixo",
+        authDomain: "aic-techno-cms.firebaseapp.com",
+        projectId: "aic-techno-cms",
+        storageBucket: "aic-techno-cms.firebasestorage.app",
+        messagingSenderId: "159332667631",
+        appId: "1:159332667631:web:bf52340d7b0ce106af8b1a",
+      };
+      // Demo mode: sample data, no Firebase. Only ever enabled when served from this computer.
+      const IS_LOCAL = ['localhost', '127.0.0.1', '[::1]'].indexOf(location.hostname) !== -1;
+      const DEMO = IS_LOCAL && new URLSearchParams(location.search).get('demo') === '1';
+      if (!DEMO) firebase.initializeApp(firebaseConfig);
+      const auth = DEMO ? null : firebase.auth();
+      const db = DEMO ? null : firebase.firestore();
+
+      let me = null;              // { email, name, ... } from startups/{email}
+      let meetings = [];
+      let events = [];
+      let notes = [];
+      let filterType = 'all';
+      let filterWhen = 'upcoming';
+      const unsubs = [];
+
+      /* ---------- helpers ---------- */
+      function el(tag, cls, text) {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = text;
+        return n;
+      }
+      function toDate(v) { return v && v.toDate ? v.toDate() : (v ? new Date(v) : null); }
+      // Only allow http(s) links from the CMS.
+      function safeUrl(u) {
+        if (!u || !String(u).trim()) return '';
+        try { const p = new URL(String(u).trim()); return /^https?:$/.test(p.protocol) ? p.href : ''; }
+        catch (e) { return ''; }
+      }
+      function fmtTime(d) { return d.toLocaleTimeString('en-IN', { hour: 'numeric', minute: '2-digit' }); }
+      function fmtDay(d) {
+        const t = new Date(); t.setHours(0, 0, 0, 0);
+        const x = new Date(d); x.setHours(0, 0, 0, 0);
+        const diff = Math.round((x - t) / 864e5);
+        if (diff === 0) return 'Today';
+        if (diff === 1) return 'Tomorrow';
+        if (diff === -1) return 'Yesterday';
+        return d.toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: x.getFullYear() === t.getFullYear() ? undefined : 'numeric' });
+      }
+      function relTime(d) {
+        const s = Math.round((Date.now() - d) / 1000);
+        if (s < 60) return 'Just now';
+        if (s < 3600) return Math.floor(s / 60) + ' min ago';
+        if (s < 86400) return Math.floor(s / 3600) + ' h ago';
+        if (s < 7 * 86400) return Math.floor(s / 86400) + ' d ago';
+        return d.toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+      function showError(text) {
+        const b = document.getElementById('errorBar');
+        b.textContent = text;
+        b.classList.add('show');
+      }
+      function icsStamp(d) { return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); }
+      function icsEscape(s) { return String(s || '').replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/[,;]/g, '\\$&'); }
+      function downloadIcs(item) {
+        const end = item.end || new Date(item.start.getTime() + 60 * 60000);
+        const ics = [
+          'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//AIC Techno//Startup Portal//EN', 'BEGIN:VEVENT',
+          'UID:' + item.kind + '-' + item.id + '@aic-techno.com',
+          'DTSTAMP:' + icsStamp(new Date()),
+          'DTSTART:' + icsStamp(item.start), 'DTEND:' + icsStamp(end),
+          'SUMMARY:' + icsEscape(item.title),
+          'DESCRIPTION:' + icsEscape([item.desc, item.link].filter(Boolean).join('\n\n')),
+          'LOCATION:' + icsEscape(item.location || item.link || ''),
+          'END:VEVENT', 'END:VCALENDAR'
+        ].join('\r\n');
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+        a.download = item.title.replace(/[^\w\- ]+/g, '').trim().slice(0, 60) + '.ics';
+        document.body.appendChild(a); a.click();
+        setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+      }
+
+      /* ---------- demo data (localhost only) ---------- */
+      function demoData() {
+        const at = function (days, h, m) { const d = new Date(); d.setDate(d.getDate() + days); d.setHours(h, m || 0, 0, 0); return d; };
+        const ago = function (ms) { return new Date(Date.now() - ms); };
+        return {
+          me: { email: 'demo@greenloop.in', name: 'GreenLoop (demo)', founderName: 'Arko Das', stage: 'Incubation', active: true },
+          meetings: [
+            { id: 'dm1', title: 'Monthly mentoring review', startAt: at(1, 11), durationMins: 45, mode: 'Online', meetingLink: 'https://meet.google.com/', host: 'Programme Manager, AIC Techno', agenda: 'Go through MVP traction numbers and the pitch deck for the upcoming demo day.', status: 'scheduled' },
+            { id: 'dm2', title: 'Legal & IP clinic', startAt: at(3, 12), durationMins: 30, mode: 'Online', status: 'cancelled' },
+            { id: 'dm3', title: 'Investor-readiness check', startAt: at(6, 15, 30), durationMins: 60, mode: 'In person', location: 'AIC Techno, Offbeat CCU', host: 'Mentor panel', agenda: 'Bring your financial model and cap table.', status: 'scheduled' },
+            { id: 'dm4', title: 'Onboarding call', startAt: at(-10, 10), durationMins: 30, mode: 'Online', status: 'completed' }
+          ],
+          events: [
+            { id: 'de1', title: 'Founders Friday: Fundraising 101', startAt: at(4, 17), endAt: at(4, 19), location: 'AIC Techno, Offbeat CCU', link: 'https://aic-techno.com/', linkLabel: 'Register', description: 'An evening session with angel investors on preparing for your first round.' },
+            { id: 'de2', title: 'Demo Day', startAt: at(20, 10), location: 'Techno India University, Salt Lake', description: 'Pitch to investors, corporates and the AIC Techno network.' },
+            { id: 'de3', title: 'Product teardown workshop', startAt: at(-4, 16), endAt: at(-4, 18), location: 'Online' }
+          ],
+          notes: [
+            { id: 'dn1', title: 'Applications open: AIM seed support', body: 'Incubated startups can now apply for Atal Innovation Mission seed support. Talk to your programme manager before the end of the month.', link: 'https://aic-techno.com/', linkLabel: 'Read the guidelines', pinned: true, createdAt: ago(5 * 864e5) },
+            { id: 'dn2', title: 'Workspace closed on Sunday', body: 'The Offbeat CCU workspace will stay closed this Sunday for maintenance. Meeting rooms can be booked again from Monday.', createdAt: ago(3 * 36e5) },
+            { id: 'dn3', title: 'Welcome to the Startup Portal', body: 'Your meetings, events and updates from AIC Techno will appear here.', createdAt: ago(12 * 864e5) }
+          ]
+        };
+      }
+
+      /* ---------- auth gate ---------- */
+      if (DEMO) {
+        const demo = demoData();
+        me = demo.me;
+        meetings = demo.meetings;
+        events = demo.events;
+        notes = demo.notes;
+        start();
+      } else auth.onAuthStateChanged(async function (user) {
+        if (!user) { location.replace('startup-login.html'); return; }
+        const email = (user.email || '').toLowerCase();
+        let snap = null;
+        try { snap = await db.collection('startups').doc(email).get(); } catch (e) {}
+        if (!snap || !snap.exists || snap.data().active === false || !user.emailVerified) {
+          await auth.signOut();
+          location.replace('startup-login.html');
+          return;
+        }
+        me = Object.assign({ email: email }, snap.data());
+        start();
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', function () {
+        if (DEMO) { location.href = 'startup-login.html'; return; }
+        unsubs.forEach(function (u) { u(); });
+        auth.signOut();
+      });
+
+      function start() {
+        document.getElementById('boot').hidden = true;
+        document.getElementById('who').textContent = me.name ? me.name + ' · ' + me.email : me.email;
+        const first = (me.founderName || '').trim().split(/\s+/)[0];
+        document.getElementById('welcomeTitle').textContent = first ? 'Welcome, ' + first : 'Welcome, ' + (me.name || 'founder');
+        document.getElementById('todayLabel').textContent = new Date().toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+
+        if (DEMO) {
+          document.getElementById('demoBar').hidden = false;
+          renderTimeline();
+          renderNotes();
+          return;
+        }
+
+        const onErr = function () { showError("Some of your portal data couldn't load. Please refresh, or contact AIC Techno if this keeps happening."); };
+
+        // Personal meetings — rules only allow reading your own, so the query must filter by email.
+        unsubs.push(db.collection('meetings').where('startupEmail', '==', me.email).onSnapshot(function (s) {
+          meetings = s.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); });
+          renderTimeline();
+        }, onErr));
+
+        unsubs.push(db.collection('portalEvents').onSnapshot(function (s) {
+          events = s.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); })
+            .filter(function (e) { return e.active !== false; });
+          renderTimeline();
+        }, onErr));
+
+        unsubs.push(db.collection('portalNotifications').onSnapshot(function (s) {
+          notes = s.docs.map(function (d) { return Object.assign({ id: d.id }, d.data()); })
+            .filter(function (n) { return n.active !== false; });
+          renderNotes();
+        }, onErr));
+      }
+
+      /* ---------- timeline ---------- */
+      function timelineItems() {
+        const m = meetings.map(function (x) {
+          const start = toDate(x.startAt);
+          return start && {
+            kind: 'meeting', id: x.id, title: x.title || 'Meeting with AIC Techno', start: start,
+            end: x.durationMins ? new Date(start.getTime() + x.durationMins * 60000) : null,
+            desc: x.agenda || '', location: x.mode === 'Online' ? 'Online' : (x.location || ''),
+            mode: x.mode || '', link: safeUrl(x.meetingLink), status: x.status || 'scheduled', host: x.host || ''
+          };
+        });
+        const e = events.map(function (x) {
+          const start = toDate(x.startAt);
+          return start && {
+            kind: 'event', id: x.id, title: x.title || 'Event', start: start, end: toDate(x.endAt),
+            desc: x.description || '', location: x.location || '', link: safeUrl(x.link),
+            linkLabel: x.linkLabel || 'Details', status: 'scheduled'
+          };
+        });
+        return m.concat(e).filter(Boolean);
+      }
+
+      function isPast(it) { return (it.end || it.start) < new Date(); }
+
+      function renderNextUp(items) {
+        const box = document.getElementById('nextUp');
+        const upcoming = items.filter(function (i) { return !isPast(i) && i.status !== 'cancelled'; })
+          .sort(function (a, b) { return a.start - b.start; });
+        const next = upcoming.find(function (i) { return i.kind === 'meeting'; }) || upcoming[0];
+        box.innerHTML = '';
+        if (!next) { box.hidden = true; return; }
+        box.hidden = false;
+        const cal = el('div', 'cal');
+        cal.appendChild(el('b', null, String(next.start.getDate())));
+        cal.appendChild(el('span', null, next.start.toLocaleDateString('en-IN', { month: 'short' })));
+        const body = el('div');
+        body.appendChild(el('div', 'lbl', next.kind === 'meeting' ? 'Your next meeting' : 'Next event'));
+        body.appendChild(el('h3', null, next.title));
+        body.appendChild(el('div', 'meta', [fmtDay(next.start) + ', ' + fmtTime(next.start), next.location].filter(Boolean).join(' · ')));
+        box.appendChild(cal);
+        box.appendChild(body);
+        if (next.link) {
+          const a = el('a', 'go', next.kind === 'meeting' ? 'Join meeting' : next.linkLabel);
+          a.href = next.link; a.target = '_blank'; a.rel = 'noopener';
+          box.appendChild(a);
+        }
+      }
+
+      function renderTimeline() {
+        const all = timelineItems();
+        renderNextUp(all);
+
+        const items = all.filter(function (i) {
+          if (filterType !== 'all' && i.kind !== filterType) return false;
+          return filterWhen === 'past' ? isPast(i) : !isPast(i);
+        }).sort(function (a, b) { return filterWhen === 'past' ? b.start - a.start : a.start - b.start; });
+
+        const wrap = document.getElementById('timeline');
+        wrap.innerHTML = '';
+        if (!items.length) {
+          const what = filterType === 'meeting' ? 'meetings' : filterType === 'event' ? 'events' : 'meetings or events';
+          wrap.appendChild(el('div', 'empty', filterWhen === 'past'
+            ? 'No past ' + what + ' yet.'
+            : 'No upcoming ' + what + ' right now. New ones from AIC Techno will appear here automatically.'));
+          return;
+        }
+
+        let lastDay = '';
+        items.forEach(function (it) {
+          const day = fmtDay(it.start);
+          if (day !== lastDay) { wrap.appendChild(el('div', 'tl-day', day)); lastDay = day; }
+
+          const row = el('div', 'tl-item' + (it.status === 'cancelled' ? ' is-cancelled' : ''));
+          const time = el('div', 'tl-time', fmtTime(it.start));
+          if (it.end) time.appendChild(el('span', null, 'to ' + fmtTime(it.end)));
+          row.appendChild(time);
+
+          const body = el('div');
+          const badges = el('div', 'badges');
+          badges.appendChild(el('span', 'badge ' + it.kind, it.kind === 'meeting' ? 'Your meeting' : 'Event'));
+          if (it.kind === 'meeting' && it.mode) badges.appendChild(el('span', 'badge muted', it.mode));
+          if (it.status === 'cancelled') badges.appendChild(el('span', 'badge cancelled', 'Cancelled'));
+          if (it.status === 'completed') badges.appendChild(el('span', 'badge muted', 'Completed'));
+          body.appendChild(badges);
+          body.appendChild(el('h3', null, it.title));
+
+          const meta = el('div', 'tl-meta');
+          if (it.location && it.location !== it.mode) meta.appendChild(el('span', null, it.location));
+          if (it.host) meta.appendChild(el('span', null, 'With ' + it.host));
+          if (meta.childNodes.length) body.appendChild(meta);
+          if (it.desc) body.appendChild(el('div', 'tl-desc', it.desc));
+
+          if (it.status !== 'cancelled' && !isPast(it)) {
+            const acts = el('div', 'tl-actions');
+            if (it.link) {
+              const a = el('a', 'act primary', it.kind === 'meeting' ? 'Join meeting' : it.linkLabel);
+              a.href = it.link; a.target = '_blank'; a.rel = 'noopener';
+              acts.appendChild(a);
+            }
+            const cal = el('button', 'act', 'Add to calendar');
+            cal.type = 'button';
+            cal.addEventListener('click', function () { downloadIcs(it); });
+            acts.appendChild(cal);
+            body.appendChild(acts);
+          }
+          row.appendChild(body);
+          wrap.appendChild(row);
+        });
+      }
+
+      document.querySelectorAll('.chip[data-type]').forEach(function (c) {
+        c.addEventListener('click', function () {
+          filterType = c.dataset.type;
+          document.querySelectorAll('.chip[data-type]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === c)); });
+          renderTimeline();
+        });
+      });
+      document.querySelectorAll('.chip[data-when]').forEach(function (c) {
+        c.addEventListener('click', function () {
+          filterWhen = c.dataset.when;
+          document.querySelectorAll('.chip[data-when]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === c)); });
+          renderTimeline();
+        });
+      });
+
+      /* ---------- notifications ---------- */
+      // "Read" state is a per-browser convenience, kept in localStorage.
+      function seenKey() { return 'aicPortalNotesSeen:' + (me ? me.email : ''); }
+      function getSeen() { try { return Number(localStorage.getItem(seenKey())) || 0; } catch (e) { return 0; } }
+      function setSeen(t) { try { localStorage.setItem(seenKey(), String(t)); } catch (e) {} }
+
+      function renderNotes() {
+        const seen = getSeen();
+        const sorted = notes.map(function (n) { return Object.assign({ _date: toDate(n.createdAt) || new Date() }, n); })
+          .sort(function (a, b) { return (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0) || b._date - a._date; });
+        const unread = sorted.filter(function (n) { return n._date.getTime() > seen; }).length;
+        document.getElementById('unreadCount').textContent = unread ? String(unread) : '';
+        document.getElementById('markReadBtn').hidden = !unread;
+
+        const wrap = document.getElementById('notes');
+        wrap.innerHTML = '';
+        if (!sorted.length) { wrap.appendChild(el('div', 'empty', 'No updates yet.')); return; }
+        sorted.forEach(function (n) {
+          const box = el('div', 'note' + (n._date.getTime() > seen ? ' unread' : ''));
+          box.appendChild(el('span', 'dot'));
+          const h = el('h3', null, n.title || 'Update');
+          if (n.pinned) h.appendChild(el('span', 'pin', 'Pinned'));
+          box.appendChild(h);
+          box.appendChild(el('div', 'when', relTime(n._date)));
+          if (n.body) box.appendChild(el('p', null, n.body));
+          const link = safeUrl(n.link);
+          if (link) {
+            const a = el('a', 'more', n.linkLabel || 'Learn more');
+            a.href = link; a.target = '_blank'; a.rel = 'noopener';
+            box.appendChild(a);
+          }
+          wrap.appendChild(box);
+        });
+      }
+
+      document.getElementById('markReadBtn').addEventListener('click', function () {
+        setSeen(Date.now());
+        renderNotes();
+      });
+
+      // Keep "Today / Tomorrow" labels and past/upcoming split fresh if the tab stays open.
+      setInterval(function () { if (me) { renderTimeline(); renderNotes(); } }, 60000);
+    })();
+  </script>
+</body>
+</html>

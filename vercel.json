@@ -2,6 +2,8 @@
   "rewrites": [
     { "source": "/booking", "destination": "/workspace-booking.html" },
     { "source": "/dashboard", "destination": "/booking-dashboard.html" },
-    { "source": "/contact", "destination": "/contact.html" }
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/startup-login", "destination": "/startup-login.html" },
+    { "source": "/startup", "destination": "/startup-dashboard.html" }
   ]
 }
